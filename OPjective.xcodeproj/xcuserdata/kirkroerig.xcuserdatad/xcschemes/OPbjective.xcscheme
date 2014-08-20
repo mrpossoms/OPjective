@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "06ADC21A19A55D5300E9DD50"
-               BuildableName = "libOPbjective.a"
-               BlueprintName = "OPbjective"
-               ReferencedContainer = "container:OPbjective.xcodeproj">
+               BuildableName = "libOPjective.a"
+               BlueprintName = "OPjective"
+               ReferencedContainer = "container:OPjective.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "06ADC22A19A55D5300E9DD50"
-               BuildableName = "OPbjectiveTests.xctest"
-               BlueprintName = "OPbjectiveTests"
-               ReferencedContainer = "container:OPbjective.xcodeproj">
+               BuildableName = "OPjectiveTests.xctest"
+               BlueprintName = "OPjectiveTests"
+               ReferencedContainer = "container:OPjective.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
