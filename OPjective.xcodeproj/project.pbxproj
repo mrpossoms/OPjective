@@ -7,15 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0608106E19A6BD5A0005BC51 /* OPjective.m in Sources */ = {isa = PBXBuildFile; fileRef = 0608106819A6BD5A0005BC51 /* OPjective.m */; };
+		0608106F19A6BD5A0005BC51 /* Mesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 0608106B19A6BD5A0005BC51 /* Mesh.m */; };
+		0608107019A6BD5A0005BC51 /* Shader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0608106D19A6BD5A0005BC51 /* Shader.m */; };
+		06467FBF19A70DD0009E628E /* Sound.m in Sources */ = {isa = PBXBuildFile; fileRef = 06467FBE19A70DD0009E628E /* Sound.m */; };
+		065074C619A6CCF500741471 /* Texture.m in Sources */ = {isa = PBXBuildFile; fileRef = 065074C519A6CCF500741471 /* Texture.m */; };
 		06ADC21F19A55D5300E9DD50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06ADC21E19A55D5300E9DD50 /* Foundation.framework */; };
-		06ADC22419A55D5300E9DD50 /* OPbjective.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 06ADC22319A55D5300E9DD50 /* OPbjective.h */; };
-		06ADC22619A55D5300E9DD50 /* OPbjective.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ADC22519A55D5300E9DD50 /* OPbjective.m */; };
 		06ADC22D19A55D5300E9DD50 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06ADC22C19A55D5300E9DD50 /* XCTest.framework */; };
 		06ADC22E19A55D5300E9DD50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06ADC21E19A55D5300E9DD50 /* Foundation.framework */; };
-		06ADC23019A55D5300E9DD50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06ADC22F19A55D5300E9DD50 /* UIKit.framework */; };
-		06ADC23319A55D5300E9DD50 /* libOPjective.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06ADC21B19A55D5300E9DD50 /* libOPjective.a */; };
-		06ADC23919A55D5300E9DD50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 06ADC23719A55D5300E9DD50 /* InfoPlist.strings */; };
-		06ADC23B19A55D5300E9DD50 /* OPbjectiveTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ADC23A19A55D5300E9DD50 /* OPbjectiveTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,7 +23,7 @@
 			containerPortal = 06ADC21319A55D5300E9DD50 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 06ADC21A19A55D5300E9DD50;
-			remoteInfo = OPbjective;
+			remoteInfo = OPjective;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -35,24 +34,27 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				06ADC22419A55D5300E9DD50 /* OPbjective.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0608106619A6BD5A0005BC51 /* OPjective-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OPjective-Prefix.pch"; sourceTree = "<group>"; };
+		0608106719A6BD5A0005BC51 /* OPjective.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPjective.h; sourceTree = "<group>"; };
+		0608106819A6BD5A0005BC51 /* OPjective.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPjective.m; sourceTree = "<group>"; };
+		0608106A19A6BD5A0005BC51 /* Mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mesh.h; sourceTree = "<group>"; };
+		0608106B19A6BD5A0005BC51 /* Mesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mesh.m; sourceTree = "<group>"; };
+		0608106C19A6BD5A0005BC51 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
+		0608106D19A6BD5A0005BC51 /* Shader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shader.m; sourceTree = "<group>"; };
+		06467FBD19A70DD0009E628E /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sound.h; path = Sound/Sound.h; sourceTree = "<group>"; };
+		06467FBE19A70DD0009E628E /* Sound.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sound.m; path = Sound/Sound.m; sourceTree = "<group>"; };
+		065074C419A6CCF500741471 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
+		065074C519A6CCF500741471 /* Texture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Texture.m; sourceTree = "<group>"; };
 		06ADC21B19A55D5300E9DD50 /* libOPjective.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOPjective.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		06ADC21E19A55D5300E9DD50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		06ADC22219A55D5300E9DD50 /* OPjective-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OPjective-Prefix.pch"; sourceTree = "<group>"; };
-		06ADC22319A55D5300E9DD50 /* OPbjective.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OPbjective.h; sourceTree = "<group>"; };
-		06ADC22519A55D5300E9DD50 /* OPbjective.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OPbjective.m; sourceTree = "<group>"; };
 		06ADC22B19A55D5300E9DD50 /* OPjectiveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OPjectiveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		06ADC22C19A55D5300E9DD50 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		06ADC22F19A55D5300E9DD50 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		06ADC23619A55D5300E9DD50 /* OPjectiveTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OPjectiveTests-Info.plist"; sourceTree = "<group>"; };
-		06ADC23819A55D5300E9DD50 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		06ADC23A19A55D5300E9DD50 /* OPbjectiveTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OPbjectiveTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,9 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06ADC23319A55D5300E9DD50 /* libOPjective.a in Frameworks */,
 				06ADC22D19A55D5300E9DD50 /* XCTest.framework in Frameworks */,
-				06ADC23019A55D5300E9DD50 /* UIKit.framework in Frameworks */,
 				06ADC22E19A55D5300E9DD50 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,11 +78,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0608106519A6BD5A0005BC51 /* OPjective */ = {
+			isa = PBXGroup;
+			children = (
+				0608106619A6BD5A0005BC51 /* OPjective-Prefix.pch */,
+				0608106719A6BD5A0005BC51 /* OPjective.h */,
+				0608106819A6BD5A0005BC51 /* OPjective.m */,
+				06467FBC19A70DB6009E628E /* Audio */,
+				0608106919A6BD5A0005BC51 /* Rendering */,
+			);
+			path = OPjective;
+			sourceTree = "<group>";
+		};
+		0608106919A6BD5A0005BC51 /* Rendering */ = {
+			isa = PBXGroup;
+			children = (
+				0608106A19A6BD5A0005BC51 /* Mesh.h */,
+				0608106B19A6BD5A0005BC51 /* Mesh.m */,
+				0608106C19A6BD5A0005BC51 /* Shader.h */,
+				0608106D19A6BD5A0005BC51 /* Shader.m */,
+				065074C419A6CCF500741471 /* Texture.h */,
+				065074C519A6CCF500741471 /* Texture.m */,
+			);
+			path = Rendering;
+			sourceTree = "<group>";
+		};
+		06467FBC19A70DB6009E628E /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				06467FBD19A70DD0009E628E /* Sound.h */,
+				06467FBE19A70DD0009E628E /* Sound.m */,
+			);
+			name = Audio;
+			sourceTree = "<group>";
+		};
 		06ADC21219A55D5300E9DD50 = {
 			isa = PBXGroup;
 			children = (
-				06ADC22019A55D5300E9DD50 /* OPjective */,
-				06ADC23419A55D5300E9DD50 /* OPjectiveTests */,
+				0608106519A6BD5A0005BC51 /* OPjective */,
 				06ADC21D19A55D5300E9DD50 /* Frameworks */,
 				06ADC21C19A55D5300E9DD50 /* Products */,
 			);
@@ -102,47 +135,8 @@
 			children = (
 				06ADC21E19A55D5300E9DD50 /* Foundation.framework */,
 				06ADC22C19A55D5300E9DD50 /* XCTest.framework */,
-				06ADC22F19A55D5300E9DD50 /* UIKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		06ADC22019A55D5300E9DD50 /* OPjective */ = {
-			isa = PBXGroup;
-			children = (
-				06ADC22319A55D5300E9DD50 /* OPbjective.h */,
-				06ADC22519A55D5300E9DD50 /* OPbjective.m */,
-				06ADC22119A55D5300E9DD50 /* Supporting Files */,
-			);
-			name = OPjective;
-			path = OPbjective;
-			sourceTree = "<group>";
-		};
-		06ADC22119A55D5300E9DD50 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				06ADC22219A55D5300E9DD50 /* OPjective-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		06ADC23419A55D5300E9DD50 /* OPjectiveTests */ = {
-			isa = PBXGroup;
-			children = (
-				06ADC23A19A55D5300E9DD50 /* OPbjectiveTests.m */,
-				06ADC23519A55D5300E9DD50 /* Supporting Files */,
-			);
-			name = OPjectiveTests;
-			path = OPbjectiveTests;
-			sourceTree = "<group>";
-		};
-		06ADC23519A55D5300E9DD50 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				06ADC23619A55D5300E9DD50 /* OPjectiveTests-Info.plist */,
-				06ADC23719A55D5300E9DD50 /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,7 +155,7 @@
 			dependencies = (
 			);
 			name = OPjective;
-			productName = OPbjective;
+			productName = OPjective;
 			productReference = 06ADC21B19A55D5300E9DD50 /* libOPjective.a */;
 			productType = "com.apple.product-type.library.static";
 		};
@@ -179,7 +173,7 @@
 				06ADC23219A55D5300E9DD50 /* PBXTargetDependency */,
 			);
 			name = OPjectiveTests;
-			productName = OPbjectiveTests;
+			productName = OPjectiveTests;
 			productReference = 06ADC22B19A55D5300E9DD50 /* OPjectiveTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -215,7 +209,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06ADC23919A55D5300E9DD50 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,7 +219,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06ADC22619A55D5300E9DD50 /* OPbjective.m in Sources */,
+				0608106F19A6BD5A0005BC51 /* Mesh.m in Sources */,
+				065074C619A6CCF500741471 /* Texture.m in Sources */,
+				0608107019A6BD5A0005BC51 /* Shader.m in Sources */,
+				06467FBF19A70DD0009E628E /* Sound.m in Sources */,
+				0608106E19A6BD5A0005BC51 /* OPjective.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,7 +231,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06ADC23B19A55D5300E9DD50 /* OPbjectiveTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,17 +243,6 @@
 			targetProxy = 06ADC23119A55D5300E9DD50 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		06ADC23719A55D5300E9DD50 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				06ADC23819A55D5300E9DD50 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		06ADC23C19A55D5300E9DD50 /* Debug */ = {
@@ -331,24 +316,34 @@
 		06ADC23F19A55D5300E9DD50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DSTROOT = /tmp/OPbjective.dst;
+				DSTROOT = /tmp/OPjective.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OPbjective/OPjective-Prefix.pch";
+				GCC_PREFIX_HEADER = "OPjective/OPjective-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OPjective;
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "/Users/kirkroerig/Code/OPjective/**";
 			};
 			name = Debug;
 		};
 		06ADC24019A55D5300E9DD50 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DSTROOT = /tmp/OPbjective.dst;
+				DSTROOT = /tmp/OPjective.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OPbjective/OPjective-Prefix.pch";
+				GCC_PREFIX_HEADER = "OPjective/OPjective-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OPjective;
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "/Users/kirkroerig/Code/OPjective/**";
 			};
 			name = Release;
 		};
@@ -361,12 +356,12 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OPbjective/OPbjective-Prefix.pch";
+				GCC_PREFIX_HEADER = "OPjective/OPjective-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "OPbjectiveTests/OPjectiveTests-Info.plist";
+				INFOPLIST_FILE = "OPjectiveTests/OPjectiveTests-Info.plist";
 				PRODUCT_NAME = OPjectiveTests;
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -381,8 +376,8 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OPbjective/OPbjective-Prefix.pch";
-				INFOPLIST_FILE = "OPbjectiveTests/OPjectiveTests-Info.plist";
+				GCC_PREFIX_HEADER = "OPjective/OPjective-Prefix.pch";
+				INFOPLIST_FILE = "OPjectiveTests/OPjectiveTests-Info.plist";
 				PRODUCT_NAME = OPjectiveTests;
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -407,6 +402,7 @@
 				06ADC24019A55D5300E9DD50 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		06ADC24119A55D5300E9DD50 /* Build configuration list for PBXNativeTarget "OPjectiveTests" */ = {
 			isa = XCConfigurationList;
@@ -415,6 +411,7 @@
 				06ADC24319A55D5300E9DD50 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -4,12 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>OPjective.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>0</integer>
-		</dict>
-		<key>OPjective.xcscheme</key>
+		<key>OPjectiveExample.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>1</integer>
@@ -17,12 +12,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>06ADC21A19A55D5300E9DD50</key>
+		<key>064FDC9B19A598E600A4FE0E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>06ADC22A19A55D5300E9DD50</key>
+		<key>064FDCC719A598E600A4FE0E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
