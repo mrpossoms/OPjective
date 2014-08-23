@@ -12,6 +12,9 @@
 		0608107019A6BD5A0005BC51 /* Shader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0608106D19A6BD5A0005BC51 /* Shader.m */; };
 		06467FBF19A70DD0009E628E /* Sound.m in Sources */ = {isa = PBXBuildFile; fileRef = 06467FBE19A70DD0009E628E /* Sound.m */; };
 		065074C619A6CCF500741471 /* Texture.m in Sources */ = {isa = PBXBuildFile; fileRef = 065074C519A6CCF500741471 /* Texture.m */; };
+		0666B85A19A7DE8A00760006 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0666B85919A7DE8A00760006 /* GLKit.framework */; };
+		0666B85C19A7DEB400760006 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0666B85B19A7DEB400760006 /* OpenAL.framework */; };
+		0666B86119A7DF0500760006 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0666B86019A7DF0500760006 /* AudioToolbox.framework */; };
 		06ADC21F19A55D5300E9DD50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06ADC21E19A55D5300E9DD50 /* Foundation.framework */; };
 		06ADC22D19A55D5300E9DD50 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06ADC22C19A55D5300E9DD50 /* XCTest.framework */; };
 		06ADC22E19A55D5300E9DD50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06ADC21E19A55D5300E9DD50 /* Foundation.framework */; };
@@ -51,6 +54,10 @@
 		06467FBE19A70DD0009E628E /* Sound.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sound.m; path = Sound/Sound.m; sourceTree = "<group>"; };
 		065074C419A6CCF500741471 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
 		065074C519A6CCF500741471 /* Texture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Texture.m; sourceTree = "<group>"; };
+		0666B85919A7DE8A00760006 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		0666B85B19A7DEB400760006 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		0666B86019A7DF0500760006 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0666B86419A8041300760006 /* linearAlgebra.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = linearAlgebra.h; path = Math/linearAlgebra.h; sourceTree = "<group>"; };
 		06ADC21B19A55D5300E9DD50 /* libOPjective.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOPjective.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		06ADC21E19A55D5300E9DD50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		06ADC22B19A55D5300E9DD50 /* OPjectiveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OPjectiveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +69,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0666B86119A7DF0500760006 /* AudioToolbox.framework in Frameworks */,
+				0666B85C19A7DEB400760006 /* OpenAL.framework in Frameworks */,
+				0666B85A19A7DE8A00760006 /* GLKit.framework in Frameworks */,
 				06ADC21F19A55D5300E9DD50 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,6 +91,7 @@
 		0608106519A6BD5A0005BC51 /* OPjective */ = {
 			isa = PBXGroup;
 			children = (
+				0666B86219A803BD00760006 /* Math */,
 				0608106619A6BD5A0005BC51 /* OPjective-Prefix.pch */,
 				0608106719A6BD5A0005BC51 /* OPjective.h */,
 				0608106819A6BD5A0005BC51 /* OPjective.m */,
@@ -112,6 +123,14 @@
 			name = Audio;
 			sourceTree = "<group>";
 		};
+		0666B86219A803BD00760006 /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				0666B86419A8041300760006 /* linearAlgebra.h */,
+			);
+			name = Math;
+			sourceTree = "<group>";
+		};
 		06ADC21219A55D5300E9DD50 = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +152,9 @@
 		06ADC21D19A55D5300E9DD50 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0666B86019A7DF0500760006 /* AudioToolbox.framework */,
+				0666B85B19A7DEB400760006 /* OpenAL.framework */,
+				0666B85919A7DE8A00760006 /* GLKit.framework */,
 				06ADC21E19A55D5300E9DD50 /* Foundation.framework */,
 				06ADC22C19A55D5300E9DD50 /* XCTest.framework */,
 			);

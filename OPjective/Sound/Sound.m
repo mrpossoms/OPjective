@@ -8,6 +8,7 @@
 
 #import "Sound.h"
 #import <OpenAL/alc.h>
+#include <AudioToolbox/AudioToolbox.h>
 
 @interface Sound()
 
@@ -20,7 +21,6 @@
 
 static ALCdevice*  ALC_DEV = nil;
 static ALCcontext* ALC_CTX = nil;
-
 
 - (ALCdevice*) device
 {
@@ -46,7 +46,7 @@ static ALCcontext* ALC_CTX = nil;
                  isStereo ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16,
                  data,
                  length,
-                 44100
+                 22100
     );
     
     alSourcef(_source, AL_PITCH, 1.0f);

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "linearAlgebra.h"
 #import "Mesh.h"
 #import "Shader.h"
 #import "Sound.h"
