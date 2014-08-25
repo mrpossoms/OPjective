@@ -115,6 +115,8 @@ static Shader* currentShader = nil;
     GLuint vertShader, fragShader;
     NSString *vertShaderPathname, *fragShaderPathname;
     
+    [self checkError];
+    
     // Create shader program.
     _programId = glCreateProgram();
     
@@ -176,6 +178,14 @@ static Shader* currentShader = nil;
     }
     
     return self;
+}
+
+- (void) dealloc
+{
+    if(currentShader == self)
+        currentShader = nil;
+    
+    glDeleteProgram(_programId);
 }
 
 - (BOOL) bind

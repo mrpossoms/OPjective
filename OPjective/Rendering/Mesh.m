@@ -11,7 +11,7 @@
 @interface Mesh()
 
 @property (nonatomic) GLuint buffer;
-@property (nonatomic) GLint* attributeSizes;
+@property (nonatomic) struct vertexAttribute* attributes;
 @property (nonatomic) GLuint attributeCount;
 @property (nonatomic) GLuint nextOffset;
 @property (nonatomic) GLuint vertices;
@@ -25,8 +25,8 @@ static Shader* lastShader = nil;
 -(void)checkError{
     GLenum err = glGetError();
     if(err != GL_NO_ERROR)
-        NSLog(@"Error: %dx", err);
-    assert(err == GL_NO_ERROR);
+        NSLog(@"Error: %x", err);
+    //assert(err == GL_NO_ERROR);
 }
 
 - (id) init
@@ -44,44 +44,26 @@ static Shader* lastShader = nil;
     return self;
 }
 
-- (id) initWithVertexDescription: (struct vertexAttribute*)description withAttributeCount:(int)count
-             usingData:(void*)data
-            withLength:(GLsizeiptr)len
+- (void) dealloc
 {
-    self = [super init];
-    
-    // generate buffers allocate space for the attribute counts
-    glGenBuffers(1, &_buffer);
-    _attributeSizes = malloc(sizeof(GLint) * (_attributeCount = count));
-    
-    // copy data to the buffer
-    glBindBuffer(GL_ARRAY_BUFFER, _buffer);
-    glBufferData(GL_ARRAY_BUFFER, len, data, GL_DYNAMIC_DRAW);
-    
-    // enable and bind the vertex attributes
-    // keep attribute counts
-    for(int i = 0; i < count; i++){
-        glEnableVertexAttribArray(i);
-        glVertexAttribPointer(
-            i,
-            description[i].elements,
-            GL_FLOAT,
-            GL_FALSE,
-            description[i].offset,
-            NULL
-        );
-        _attributeSizes[i] = description[i].elements;
-    }
-    
-    return self;
+    glDeleteBuffers(1, &_buffer);
+    free(_attributes);
 }
 
 - (id) withAttributeName:(const char*)name andElements:(int)elements
 {
-    _attributeSizes = (GLint*)realloc(_attributeSizes, sizeof(GLint) * (_attributeCount + 1));
-    _attributeSizes[_attributeCount] = elements;
+    [self checkError];
+    
+    _attributes = (struct vertexAttribute*)realloc(
+                                                   _attributes,
+                                                   sizeof(struct vertexAttribute) * (_attributeCount + 1)
+    );
+    
+    _attributes[_attributeCount].elements = elements;
+    _attributes[_attributeCount].offset   = _nextOffset;
+    memcpy(_attributes[_attributeCount].name, name, strlen(name));
+    
     ++_attributeCount;
- 
     _nextOffset += elements * sizeof(GLfloat);
     
     [self checkError];
@@ -93,21 +75,11 @@ static Shader* lastShader = nil;
     glBindBuffer(GL_ARRAY_BUFFER, _buffer);
     glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
     
-    int offset = 0;
-    for(int i = 0; i < _attributeCount; ++i){
-        glEnableVertexAttribArray(i);
-        glVertexAttribPointer(
-                              i,
-                              _attributeSizes[i],
-                              GL_FLOAT,
-                              GL_FALSE,
-                              _nextOffset,
-                              (const void*)offset
-                              );
-        offset += sizeof(GLfloat) * _attributeSizes[i];;
-    }
+    [self checkError];
     
-    _vertices = size / _nextOffset;
+    _vertices = (GLuint)size / _nextOffset;
+    
+    [self checkError];
 }
 
 - (void) bindWithShader:(Shader *)shader{
@@ -117,14 +89,29 @@ static Shader* lastShader = nil;
     lastShader = shader;
     
     glBindBuffer(GL_ARRAY_BUFFER, _buffer);
-    for(;i--;){
-        glEnableVertexAttribArray(i);
+    
+    long offset = 0;
+    for(int i = 0; i < _attributeCount; ++i){
+        GLint loc = glGetAttribLocation(shader.programId, _attributes[i].name);
+        glEnableVertexAttribArray(loc);
+        glVertexAttribPointer(
+                              loc,
+                              _attributes[i].elements,
+                              GL_FLOAT,
+                              GL_FALSE,
+                              _nextOffset,
+                              (void*)offset
+        );
+        offset += sizeof(GLfloat) * _attributes[i].elements;
     }
+    
 }
 
 - (void) drawAs:(GLenum)type{
+    [self checkError];
     glDrawArrays(type, 0, _vertices);
     lastShader.drawn = YES;
+    [self checkError];
 }
 
 @end

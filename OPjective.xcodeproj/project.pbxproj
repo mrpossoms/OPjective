@@ -10,6 +10,7 @@
 		0608106E19A6BD5A0005BC51 /* OPjective.m in Sources */ = {isa = PBXBuildFile; fileRef = 0608106819A6BD5A0005BC51 /* OPjective.m */; };
 		0608106F19A6BD5A0005BC51 /* Mesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 0608106B19A6BD5A0005BC51 /* Mesh.m */; };
 		0608107019A6BD5A0005BC51 /* Shader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0608106D19A6BD5A0005BC51 /* Shader.m */; };
+		0628186D19A9546A00703ACF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0628186C19A9546A00703ACF /* AVFoundation.framework */; };
 		06467FBF19A70DD0009E628E /* Sound.m in Sources */ = {isa = PBXBuildFile; fileRef = 06467FBE19A70DD0009E628E /* Sound.m */; };
 		065074C619A6CCF500741471 /* Texture.m in Sources */ = {isa = PBXBuildFile; fileRef = 065074C519A6CCF500741471 /* Texture.m */; };
 		0666B85A19A7DE8A00760006 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0666B85919A7DE8A00760006 /* GLKit.framework */; };
@@ -50,8 +51,9 @@
 		0608106B19A6BD5A0005BC51 /* Mesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mesh.m; sourceTree = "<group>"; };
 		0608106C19A6BD5A0005BC51 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		0608106D19A6BD5A0005BC51 /* Shader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shader.m; sourceTree = "<group>"; };
-		06467FBD19A70DD0009E628E /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sound.h; path = Sound/Sound.h; sourceTree = "<group>"; };
-		06467FBE19A70DD0009E628E /* Sound.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sound.m; path = Sound/Sound.m; sourceTree = "<group>"; };
+		0628186C19A9546A00703ACF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		06467FBD19A70DD0009E628E /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sound.h; path = Audio/Sound.h; sourceTree = "<group>"; };
+		06467FBE19A70DD0009E628E /* Sound.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sound.m; path = Audio/Sound.m; sourceTree = "<group>"; };
 		065074C419A6CCF500741471 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
 		065074C519A6CCF500741471 /* Texture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Texture.m; sourceTree = "<group>"; };
 		0666B85919A7DE8A00760006 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -69,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0628186D19A9546A00703ACF /* AVFoundation.framework in Frameworks */,
 				0666B86119A7DF0500760006 /* AudioToolbox.framework in Frameworks */,
 				0666B85C19A7DEB400760006 /* OpenAL.framework in Frameworks */,
 				0666B85A19A7DE8A00760006 /* GLKit.framework in Frameworks */,
@@ -152,6 +155,7 @@
 		06ADC21D19A55D5300E9DD50 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0628186C19A9546A00703ACF /* AVFoundation.framework */,
 				0666B86019A7DF0500760006 /* AudioToolbox.framework */,
 				0666B85B19A7DEB400760006 /* OpenAL.framework */,
 				0666B85919A7DE8A00760006 /* GLKit.framework */,

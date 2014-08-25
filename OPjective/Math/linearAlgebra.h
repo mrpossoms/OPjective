@@ -64,6 +64,8 @@ static inline int vec2_ray_line(vec2 itrsec, ray2 ray, vec2 v1, vec2 v2){
 }
 
 typedef float vec3[3];
+static const vec3 VEC3_ZERO = {0};
+static const vec3 VEC3_ONE = {1,1,1};
 static inline void vec3_add(vec3 r, vec3 a, vec3 b)
 {
 	int i;
@@ -82,6 +84,12 @@ static inline void vec3_scale(vec3 r, vec3 v, float s)
 	for(i=0; i<3; ++i)
 		r[i] = v[i] * s;
 }
+static inline void vec3_mul(vec3 r, vec3 a, vec3 b)
+{
+    r[0] = a[0] * b[0];
+    r[1] = a[1] * b[1];
+    r[2] = a[2] * b[2];
+}
 static inline float vec3_mul_inner(vec3 a, vec3 b)
 {
 	float p = 0.f;
@@ -99,6 +107,11 @@ static inline void vec3_mul_cross(vec3 r, vec3 a, vec3 b)
 static inline float vec3_len(vec3 v)
 {
 	return sqrtf(vec3_mul_inner(v, v));
+}
+static inline float vec3_dist(vec3 v1, vec3 v2){
+    vec3 temp = {0};
+    vec3_sub(temp, v1, v2);
+    return vec3_len(temp);
 }
 static inline void vec3_norm(vec3 r, vec3 v)
 {
@@ -124,28 +137,46 @@ typedef struct {
 
 static inline int vec3_ray_sphere(vec3 itrsec, ray3 ray, vec3 spherePos, float r){
     //
-    vec3 posMcenter = {0};
-    
-    vec3_sub(posMcenter, ray.p, spherePos);
+    vec3 o = {0};
+    vec3_sub(o, ray.p, spherePos);
     float A = vec3_dot(ray.n, ray.n);
-    float B = 2 * vec3_dot(ray.n, posMcenter);
-    float C = vec3_dot(posMcenter, posMcenter) - r * r;
+    float B = 2 * vec3_dot(ray.n, o);
+    float C = vec3_dot(o, o) - r * r;
     
-    float t0 = (-B - sqrtf(B * B - 4 * A * C)) / 2 * A;
-    float t1 = (-B + sqrtf(B * B - 4 * A * C)) / 2 * A;
+    float disc = B * B - 4 * A * C;
     
-    if(t0 < t1){
-        vec3_scale(itrsec, itrsec, t0);
-        vec3_add(itrsec, itrsec, ray.p);
-        return 1;
+    if(disc < 0) return 0;
+    
+    float distSqrt = sqrtf(disc);
+    float q;
+    
+    if(B < 0)
+        q = (-B - distSqrt) / 2;
+    else
+        q = (-B + distSqrt) / 2;
+    
+    float t0 = q / A;
+    float t1 = C / q;
+    
+    if(t0 > t1){
+        float temp = t0;
+        t0 = t1;
+        t1 = temp;
+    }
+    
+    if(t1 < 0)
+        return 0;
+    
+    if(t0 < 0){
+        vec3_scale(itrsec, ray.n, t1);
     }
     else{
-        vec3_scale(itrsec, itrsec, t1);
-        vec3_add(itrsec, itrsec, ray.p);
-        return 1;
+        vec3_scale(itrsec, ray.n, t0);
     }
+
+    vec3_add(itrsec, itrsec, ray.p);
     
-    return 0;
+    return 1;
 }
 
 typedef float vec4[4];

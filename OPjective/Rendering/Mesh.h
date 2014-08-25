@@ -11,14 +11,13 @@
 #import "Shader.h"
 
 struct vertexAttribute{
-    const char* name;
-    int         elements;
-    int         offset;
+    char name[32];
+    int  elements;
+    int  offset;
 };
 
 @interface Mesh : NSObject
 
-- (id) initWithVertexDescription:(struct vertexAttribute*)description withAttributeCount:(int)count usingData:(void*)data withLength:(GLsizeiptr)len;
 - (id) withAttributeName:(const char*)name andElements:(int)elements;
 - (void) updateData:(void*)data ofSize:(GLsizeiptr)size;
 - (void) bindWithShader:(Shader *)shader;
