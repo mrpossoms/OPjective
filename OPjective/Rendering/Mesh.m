@@ -61,7 +61,7 @@ static Shader* lastShader = nil;
     
     _attributes[_attributeCount].elements = elements;
     _attributes[_attributeCount].offset   = _nextOffset;
-    memcpy(_attributes[_attributeCount].name, name, strlen(name));
+    memcpy(_attributes[_attributeCount].name, name, strlen(name) + 1);
     
     ++_attributeCount;
     _nextOffset += elements * sizeof(GLfloat);
@@ -83,16 +83,18 @@ static Shader* lastShader = nil;
 }
 
 - (void) bindWithShader:(Shader *)shader{
-    int i = _attributeCount;
-    
     [shader bind];
     lastShader = shader;
     
     glBindBuffer(GL_ARRAY_BUFFER, _buffer);
+    [self checkError];
     
     long offset = 0;
     for(int i = 0; i < _attributeCount; ++i){
         GLint loc = glGetAttribLocation(shader.programId, _attributes[i].name);
+        
+        assert(loc <= GL_MAX_VERTEX_ATTRIBS);
+        
         glEnableVertexAttribArray(loc);
         glVertexAttribPointer(
                               loc,
@@ -103,6 +105,7 @@ static Shader* lastShader = nil;
                               (void*)offset
         );
         offset += sizeof(GLfloat) * _attributes[i].elements;
+        [self checkError];
     }
     
 }
