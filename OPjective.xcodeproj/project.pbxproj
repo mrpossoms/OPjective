@@ -16,6 +16,8 @@
 		0666B85A19A7DE8A00760006 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0666B85919A7DE8A00760006 /* GLKit.framework */; };
 		0666B85C19A7DEB400760006 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0666B85B19A7DEB400760006 /* OpenAL.framework */; };
 		0666B86119A7DF0500760006 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0666B86019A7DF0500760006 /* AudioToolbox.framework */; };
+		066FDF4E19AEB07000C4B3C9 /* ReoccuringEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 066FDF4D19AEB07000C4B3C9 /* ReoccuringEvent.m */; };
+		066FDF5219AEB4B700C4B3C9 /* OrderedScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 066FDF5119AEB4B700C4B3C9 /* OrderedScene.m */; };
 		06ADC21F19A55D5300E9DD50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06ADC21E19A55D5300E9DD50 /* Foundation.framework */; };
 		06ADC22D19A55D5300E9DD50 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06ADC22C19A55D5300E9DD50 /* XCTest.framework */; };
 		06ADC22E19A55D5300E9DD50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06ADC21E19A55D5300E9DD50 /* Foundation.framework */; };
@@ -34,7 +36,7 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		06ADC21919A55D5300E9DD50 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
@@ -60,6 +62,13 @@
 		0666B85B19A7DEB400760006 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		0666B86019A7DF0500760006 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		0666B86419A8041300760006 /* linearAlgebra.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = linearAlgebra.h; path = Math/linearAlgebra.h; sourceTree = "<group>"; };
+		066FDF4A19AEADA300C4B3C9 /* Drawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Drawable.h; path = Protocols/Drawable.h; sourceTree = "<group>"; };
+		066FDF4B19AEADA300C4B3C9 /* Updateable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Updateable.h; path = Protocols/Updateable.h; sourceTree = "<group>"; };
+		066FDF4C19AEB07000C4B3C9 /* ReoccuringEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReoccuringEvent.h; sourceTree = "<group>"; };
+		066FDF4D19AEB07000C4B3C9 /* ReoccuringEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReoccuringEvent.m; sourceTree = "<group>"; };
+		066FDF5019AEB4B700C4B3C9 /* OrderedScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrderedScene.h; path = Space/OrderedScene.h; sourceTree = "<group>"; };
+		066FDF5119AEB4B700C4B3C9 /* OrderedScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrderedScene.m; path = Space/OrderedScene.m; sourceTree = "<group>"; };
+		066FDF5319AEB6BC00C4B3C9 /* Ranked.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ranked.h; sourceTree = "<group>"; };
 		06ADC21B19A55D5300E9DD50 /* libOPjective.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOPjective.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		06ADC21E19A55D5300E9DD50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		06ADC22B19A55D5300E9DD50 /* OPjectiveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OPjectiveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,12 +103,16 @@
 		0608106519A6BD5A0005BC51 /* OPjective */ = {
 			isa = PBXGroup;
 			children = (
+				066FDF4F19AEB49F00C4B3C9 /* Space */,
+				066FDF4919AEAD7300C4B3C9 /* Protocols */,
 				0666B86219A803BD00760006 /* Math */,
 				0608106619A6BD5A0005BC51 /* OPjective-Prefix.pch */,
 				0608106719A6BD5A0005BC51 /* OPjective.h */,
 				0608106819A6BD5A0005BC51 /* OPjective.m */,
 				06467FBC19A70DB6009E628E /* Audio */,
 				0608106919A6BD5A0005BC51 /* Rendering */,
+				066FDF4C19AEB07000C4B3C9 /* ReoccuringEvent.h */,
+				066FDF4D19AEB07000C4B3C9 /* ReoccuringEvent.m */,
 			);
 			path = OPjective;
 			sourceTree = "<group>";
@@ -132,6 +145,25 @@
 				0666B86419A8041300760006 /* linearAlgebra.h */,
 			);
 			name = Math;
+			sourceTree = "<group>";
+		};
+		066FDF4919AEAD7300C4B3C9 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				066FDF4A19AEADA300C4B3C9 /* Drawable.h */,
+				066FDF4B19AEADA300C4B3C9 /* Updateable.h */,
+				066FDF5319AEB6BC00C4B3C9 /* Ranked.h */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
+		066FDF4F19AEB49F00C4B3C9 /* Space */ = {
+			isa = PBXGroup;
+			children = (
+				066FDF5019AEB4B700C4B3C9 /* OrderedScene.h */,
+				066FDF5119AEB4B700C4B3C9 /* OrderedScene.m */,
+			);
+			name = Space;
 			sourceTree = "<group>";
 		};
 		06ADC21219A55D5300E9DD50 = {
@@ -245,7 +277,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				066FDF5219AEB4B700C4B3C9 /* OrderedScene.m in Sources */,
 				0608106F19A6BD5A0005BC51 /* Mesh.m in Sources */,
+				066FDF4E19AEB07000C4B3C9 /* ReoccuringEvent.m in Sources */,
 				065074C619A6CCF500741471 /* Texture.m in Sources */,
 				0608107019A6BD5A0005BC51 /* Shader.m in Sources */,
 				06467FBF19A70DD0009E628E /* Sound.m in Sources */,

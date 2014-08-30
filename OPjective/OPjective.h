@@ -7,11 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OPjective.h"
 #import "Math/linearAlgebra.h"
+
 #import "Rendering/Mesh.h"
 #import "Rendering/Shader.h"
 #import "Rendering/Texture.h"
+#import "Rendering/ShadedMesh.h"
+
 #import "Audio/Sound.h"
+
+#import "ReoccuringEvent.h"
+
+#import "Space/OrderedScene.h"
+#import "Protocols/Updateable.h"
+#import "Protocols/Drawable.h"
 
 #define RAND_F_NORM (((rand() % 2048) / 1024.0f) - 1.0f)
 #define RAND_F ((rand() % 1024) / 1024.0f)
