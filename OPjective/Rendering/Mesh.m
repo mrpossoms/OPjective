@@ -11,10 +11,12 @@
 @interface Mesh()
 
 @property (nonatomic) GLuint buffer;
+@property (nonatomic) GLuint indexBuffer;
 @property (nonatomic) struct vertexAttribute* attributes;
 @property (nonatomic) GLuint attributeCount;
 @property (nonatomic) GLuint nextOffset;
 @property (nonatomic) GLuint vertices;
+@property (nonatomic) BOOL usingIndexBuffer;
 
 @end
 
@@ -37,6 +39,7 @@ static Shader* lastShader = nil;
     
     _attributeCount = 0;
     _nextOffset = 0;
+    _usingIndexBuffer = NO;
     
     // generate buffers allocate space for the attribute counts
     glGenBuffers(1, &_buffer);
@@ -82,11 +85,38 @@ static Shader* lastShader = nil;
     [self checkError];
 }
 
+- (void) updateData:(void*)data ofSize:(GLsizeiptr)dsize andIndicies:(GLshort*)indices ofSize:(GLsizeiptr)isize
+{
+    if(!_usingIndexBuffer){
+        glGenBuffers(1, &_indexBuffer);
+        _usingIndexBuffer = YES;
+    }
+    
+    glBindBuffer(GL_ARRAY_BUFFER, _buffer);
+    glBufferData(GL_ARRAY_BUFFER, dsize, data, GL_DYNAMIC_DRAW);
+    
+    [self checkError];
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, isize, indices, GL_DYNAMIC_DRAW);
+    
+    [self checkError];
+    
+    _vertices = (GLuint)isize / sizeof(GLshort);
+    
+    [self checkError];
+}
+
 - (void) bindWithShader:(Shader *)shader{
     [shader bind];
     lastShader = shader;
     
     glBindBuffer(GL_ARRAY_BUFFER, _buffer);
+    
+    if(_usingIndexBuffer){
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+    }
+    
     [self checkError];
     
     long offset = 0;
@@ -112,7 +142,13 @@ static Shader* lastShader = nil;
 
 - (void) drawAs:(GLenum)type{
     [self checkError];
-    glDrawArrays(type, 0, _vertices);
+    
+    if(_usingIndexBuffer){
+        glDrawElements(type, _vertices, GL_UNSIGNED_SHORT, (void*)0);
+    }
+    else{
+        glDrawArrays(type, 0, _vertices);
+    }
     lastShader.drawn = YES;
     [self checkError];
 }

@@ -20,6 +20,7 @@ struct vertexAttribute{
 
 - (id) withAttributeName:(const char*)name andElements:(int)elements;
 - (void) updateData:(void*)data ofSize:(GLsizeiptr)size;
+- (void) updateData:(void*)data ofSize:(GLsizeiptr)dsize andIndicies:(GLshort*)indices ofSize:(GLsizeiptr)isize;
 - (void) bindWithShader:(Shader *)shader;
 - (void) drawAs:(GLenum)type;
 
