@@ -7,18 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Rendering/RenderGroup.h"
 #import "Protocols/Drawable.h"
 #import "Protocols/Updateable.h"
-#import "Ranked.h"
+#import "Protocols/Ranked.h"
 
 @interface OrderedScene : NSObject <Updateable, Drawable>
 
 @property NSMutableArray* updatableObjects;
 @property NSMutableArray* drawableObjects;
 
-- (id) init;
-- (void) addObject:(id <Ranked>) obj;
-- (void) removeObject:(id)obj;
-- (void) removeObjects:(NSMutableArray*)objs;
+- (id)init;
+- (void)addRenderGroup:(RenderGroup*)group withName:(NSString*)name;
+- (void)addObject:(id <Ranked>)obj;
+- (void)addObject:(id <Ranked>)obj toGroup:(NSString*)groupName;
+- (void)removeObject:(id)obj;
+- (void)removeObjects:(NSMutableArray*)objs;
 
 @end

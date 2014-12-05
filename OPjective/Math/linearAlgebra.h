@@ -12,7 +12,7 @@
 #include <math.h>
 
 static inline int bet(float a, float m, float b){
-	return abs(a - m) + abs(m - b) == abs(a - b);
+	return fabs(a - m) + fabs(m - b) == fabs(a - b);
 }
 
 typedef float vec2[2];
@@ -53,9 +53,9 @@ static inline int vec2_ray_line(vec2 itrsec, ray2 ray, vec2 v1, vec2 v2){
 	itrsec[0] = x;
 	itrsec[1] = x * m_ray + yint_ray;
     
-	dy1  = abs(v1[1] - itrsec[1]);
-	dy2  = abs(itrsec[1] - v2[1]);
-	dv12 = abs(v1[1] - v2[1]);
+	dy1  = fabs(v1[1] - itrsec[1]);
+	dy2  = fabs(itrsec[1] - v2[1]);
+	dv12 = fabs(v1[1] - v2[1]);
     
 	sx = (itrsec[0] - ray.p[0]) / ray.n[0];
 	sy = (itrsec[1] - ray.p[1]) / ray.n[1];
@@ -66,6 +66,9 @@ static inline int vec2_ray_line(vec2 itrsec, ray2 ray, vec2 v1, vec2 v2){
 typedef float vec3[3];
 static const vec3 VEC3_ZERO = {0};
 static const vec3 VEC3_ONE = {1,1,1};
+static const vec3 VEC3_FORWARD = { 0, 0, 1 };
+static const vec3 VEC3_UP      = { 0, 1, 0 };
+static const vec3 VEC3_LEFT    = { 1, 0, 0 };
 static inline void vec3_add(vec3 r, vec3 a, vec3 b)
 {
 	int i;
@@ -135,7 +138,23 @@ typedef struct {
     vec3 n;
 } ray3;
 
-static inline int vec3_ray_sphere(vec3 itrsec, ray3 ray, vec3 spherePos, float r){
+static inline void vec3_proj_point_vec3(vec3 p, vec3 v, vec3 s)
+{
+    float n = vec3_dot(v, s);
+    float d = vec3_dot(s, s);
+    
+    vec3_scale(p, s, n / d);
+}
+
+static inline float vec3_angle_between_vec3(vec3 v1, vec3 v2)
+{
+    float n = vec3_dot(v1, v2);
+    float d = vec3_len(v1) * vec3_len(v2);
+    return acosf(n / d);
+}
+
+static inline int vec3_ray_sphere(vec3 itrsec, ray3 ray, vec3 spherePos, float r)
+{
     //
     vec3 o = {0};
     vec3_sub(o, ray.p, spherePos);

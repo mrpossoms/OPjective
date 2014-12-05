@@ -6,10 +6,13 @@
 //  Copyright (c) 2014 OPifex. All rights reserved.
 //
 
+#import "RenderGroup.h"
 #import "OrderedScene.h"
 #import <GLKit/GLKit.h>
 
 @interface OrderedScene()
+
+@property (nonatomic) NSMutableDictionary* renderGroups;
 
 @end
 
@@ -19,12 +22,23 @@
 {
     self = [super init];
     
-    self.updatableObjects = [[NSMutableArray alloc] init];
-    self.drawableObjects  = [[NSMutableArray alloc] init];
-
+    _updatableObjects = [[NSMutableArray alloc] init];
+    _drawableObjects  = [[NSMutableArray alloc] init];
+    _renderGroups     = [[NSMutableDictionary alloc] init];
+    
+    // create the default render group that non-specific objects
+    // will be added to and rendered from
+    _renderGroups[@"default"] = [[RenderGroup alloc] init];
+    [_drawableObjects addObject:_renderGroups[@"default"]];
+    
     return self;
 }
 
+- (void)addRenderGroup:(RenderGroup *)group withName:(NSString *)name
+{
+    self.renderGroups[name] = group;
+    [self addObject:group];
+}
 
 - (void) addObject:(id)obj
 {
@@ -46,20 +60,42 @@
     
     if([obj conformsToProtocol:@protocol(Drawable)]){
         // add the object to the updatable collection
-        [_drawableObjects addObject:obj];
+        RenderGroup* rg = self.renderGroups[@"default"];
+        [rg addObject:obj];
+    }
+}
+
+- (void) addObject:(id)obj toGroup:(NSString*)groupName
+{
+    if([obj conformsToProtocol:@protocol(Updateable)]){
+        // add the object to the updatable collection
+        [_updatableObjects addObject:obj];
         
-        [_drawableObjects sortUsingComparator:^NSComparisonResult(id <Ranked> a, id <Ranked> b) {
-            if([a drawRank] < [b drawRank]){
+        [_updatableObjects sortUsingComparator:^NSComparisonResult(id <Ranked> a, id <Ranked> b) {
+            if([a updateRank] < [b updateRank]){
                 return NSOrderedAscending;
             }
-            else if([a drawRank] > [b drawRank]){
+            else if([a updateRank] > [b updateRank]){
                 return NSOrderedDescending;
             }
             
             return NSOrderedSame;
         }];
     }
+    
+    if([obj conformsToProtocol:@protocol(Drawable)]){
+        if(!self.renderGroups[groupName]){
+            NSLog(@"Could not add %@ to renderGroup '%@' it was not found!", obj, groupName);
+            return;
+        }
+        
+        // add the object to the updatable collection
+        RenderGroup* rg = self.renderGroups[groupName];
+        [rg addObject:obj];
+    }
 }
+
+
 
 - (void) removeObject:(id)obj
 {
@@ -67,8 +103,11 @@
         [_updatableObjects removeObject:obj];
     }
     
+    // remove the object from all the render groups
     if([obj conformsToProtocol:@protocol(Drawable)]){
-        [_drawableObjects removeObject:obj];
+        for(RenderGroup* rg in self.renderGroups){
+            [rg removeObject:obj];
+        }
     }
 }
 

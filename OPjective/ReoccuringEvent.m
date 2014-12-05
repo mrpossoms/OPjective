@@ -33,21 +33,26 @@ static NSMutableArray* events;
     }
 }
 
-- (id) initWithCallback:(id)callback andInterval:(float)seconds
++ (ReoccuringEvent*)addWithCallback:(id)callback andInterval:(float)seconds
 {
-    self = [super init];
+    ReoccuringEvent* newEvent = [[ReoccuringEvent alloc] init];
     
-    _interval = seconds;
-    _callback = callback;
-    _elapsed  = 0;
+    newEvent.interval = seconds;
+    newEvent.callback = callback;
+    newEvent.elapsed  = 0;
     
     if(!events){
         events = [[NSMutableArray alloc] init];
     }
     
-    [events addObject:self];
+    [events addObject:newEvent];
     
-    return self;
+    return newEvent;
+}
+
+- (void)unregisterEvent:(ReoccuringEvent *)event
+{
+    [events removeObject:event];
 }
 
 - (void) unregister

@@ -28,7 +28,7 @@ static Shader* lastShader = nil;
     GLenum err = glGetError();
     if(err != GL_NO_ERROR)
         NSLog(@"Error: %x", err);
-    //assert(err == GL_NO_ERROR);
+    assert(err == GL_NO_ERROR);
 }
 
 - (id) init
@@ -85,7 +85,7 @@ static Shader* lastShader = nil;
     [self checkError];
 }
 
-- (void) updateData:(void*)data ofSize:(GLsizeiptr)dsize andIndicies:(GLshort*)indices ofSize:(GLsizeiptr)isize
+- (void) updateData:(void*)data ofSize:(GLsizeiptr)dsize andIndicies:(GLuint*)indices ofSize:(GLsizeiptr)isize
 {
     if(!_usingIndexBuffer){
         glGenBuffers(1, &_indexBuffer);
@@ -102,7 +102,7 @@ static Shader* lastShader = nil;
     
     [self checkError];
     
-    _vertices = (GLuint)isize / sizeof(GLshort);
+    _vertices = (GLuint)isize / sizeof(GLuint);
     
     [self checkError];
 }
@@ -122,10 +122,17 @@ static Shader* lastShader = nil;
     long offset = 0;
     for(int i = 0; i < _attributeCount; ++i){
         GLint loc = glGetAttribLocation(shader.programId, _attributes[i].name);
+        [self checkError];
         
+        if(loc < 0){
+            NSString* msg = [NSString stringWithFormat:@"Attribute '%s' couldn't be found for current shader", _attributes[i].name];
+            NSAssert(NO, msg);
+        }
+            
         assert(loc <= GL_MAX_VERTEX_ATTRIBS);
         
         glEnableVertexAttribArray(loc);
+        [self checkError];
         glVertexAttribPointer(
                               loc,
                               _attributes[i].elements,
@@ -144,7 +151,7 @@ static Shader* lastShader = nil;
     [self checkError];
     
     if(_usingIndexBuffer){
-        glDrawElements(type, _vertices, GL_UNSIGNED_SHORT, (void*)0);
+        glDrawElements(type, _vertices, GL_UNSIGNED_INT, (void*)0);
     }
     else{
         glDrawArrays(type, 0, _vertices);

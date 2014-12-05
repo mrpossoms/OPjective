@@ -10,6 +10,14 @@
 #import <GLKit/GLKit.h>
 #import "Texture.h"
 
+enum ShaderArrayType{
+    floatArray,
+    vec2Array,
+    vec3Array,
+    vec4Array,
+    mat3Array,
+};
+
 @interface Shader : NSObject
 
 @property GLint programId;
@@ -22,6 +30,7 @@
 
 - (void) usingTexture:(Texture *)texture withName:(const char*)name;
 - (void) usingFloat:(GLfloat*)vector ofLength:(int)length withName:(const char*)name;
+- (void) usingArray:(GLvoid*)array ofLength:(int)length andType:(enum ShaderArrayType)type withName:(const char*)name;
 - (void) usingMat4x4:(GLKMatrix4*)matrix withName:(const char*)name;
 
 

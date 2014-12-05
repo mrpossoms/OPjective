@@ -13,7 +13,9 @@
 
 + (void) updateWithTimeElapsed:(double)dt;
 
-- (id) initWithCallback:(id)callback andInterval:(float)seconds;
++ (id)addWithCallback:(id)callback andInterval:(float)seconds;
+- (void)unregisterEvent:(ReoccuringEvent*)event;
+
 - (void) unregister;
 
 @end

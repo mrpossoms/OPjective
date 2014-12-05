@@ -124,7 +124,7 @@ static Shader* currentShader = nil;
     vertShaderPathname = [[NSBundle mainBundle] pathForResource:vertex ofType:@"vsh"];
     if (![self compileShader:&vertShader type:GL_VERTEX_SHADER file:vertShaderPathname]) {
         NSLog(@"Failed to compile vertex shader");
-        return NO;
+        return nil;
     }
     
     // Create and compile fragment shader.
@@ -251,12 +251,46 @@ static Shader* currentShader = nil;
     }
 }
 
+- (void) usingArray:(GLvoid*)array ofLength:(int)length andType:(enum ShaderArrayType)type withName:(const char*)name
+{
+    // find out where the uniform lives in the shader program
+    GLint loc = glGetUniformLocation(_programId, name);
+    GLfloat* data = (GLfloat*)array;
+    if(loc < 0){
+        NSLog(@"usingArray: Shader is missing uniform '%s'!", name);
+        return;
+    }
+    
+    [self checkError];
+    switch (type) {
+        case floatArray:
+            glUniform1fv(loc, length, data);
+            break;
+        case vec2Array:
+            glUniform2fv(loc, length, data);
+            break;
+        case vec3Array:
+            glUniform3fv(loc, length, data);
+            break;
+        case vec4Array:
+            glUniform4fv(loc, length, data);
+            break;
+        case mat3Array:
+            glUniformMatrix3fv(loc, length, GL_FALSE, data);
+            break;
+        default:
+            NSLog(@"usingArray: Unrecognized array type!");
+            break;
+    }
+    [self checkError];
+}
+
 - (void) usingMat4x4:(GLKMatrix4*)matrix withName:(const char*)name
 {
     // find out where the uniform lives in the shader program
     GLint loc = glGetUniformLocation(_programId, name);
     if(loc < 0){
-        NSLog(@"Shader is missing uniform '%s'!", name);
+        NSLog(@"usingMat4x4: Shader is missing uniform '%s'!", name);
         return;
     }
 
