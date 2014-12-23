@@ -16,6 +16,7 @@
 
 static GLint textureCounter = 0;
 static Shader* currentShader = nil;
+static NSMutableDictionary* compiledShaders;
 
 #pragma mark - Private helper methods
 - (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file
@@ -23,7 +24,7 @@ static Shader* currentShader = nil;
     GLint status;
     const GLchar *source;
     
-    source = (GLchar *)[[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:nil] UTF8String];
+    source = [Shader sourceFromFile:file];
     if (!source) {
         NSLog(@"Failed to load vertex shader");
         return NO;
@@ -101,7 +102,7 @@ static Shader* currentShader = nil;
 -(void)checkError{
     GLenum err = glGetError();
     if(err != GL_NO_ERROR)
-        NSLog(@"Error: %dx", err);
+        NSLog(@"Error: %x", err);
     assert(err == GL_NO_ERROR);
 }
 
@@ -114,6 +115,18 @@ static Shader* currentShader = nil;
     
     GLuint vertShader, fragShader;
     NSString *vertShaderPathname, *fragShaderPathname;
+  
+    // allocate the compiled shaders dictionary if it hasn't been
+    if(!compiledShaders){
+        compiledShaders = [[NSMutableDictionary alloc] init];
+    }
+    
+    // check to see if the this shader combination has been compiled and store yet
+    // if so return the existing one instead
+    Shader* existingShader = compiledShaders[[NSString stringWithFormat:@"%@%@", vertex, fragment]];
+    if(existingShader){
+        return existingShader;
+    }
     
     [self checkError];
     
@@ -176,6 +189,9 @@ static Shader* currentShader = nil;
         glDetachShader(_programId, fragShader);
         glDeleteShader(fragShader);
     }
+    
+    // Store the program into the dictionary
+    compiledShaders[[NSString stringWithFormat:@"%@%@", vertex, fragment]] = self;
     
     return self;
 }
@@ -296,5 +312,11 @@ static Shader* currentShader = nil;
 
     glUniformMatrix4fv(loc, 1, GL_FALSE, matrix->m);
 }
+
++ (GLchar*)sourceFromFile:(NSString*)path
+{
+    return (GLchar *)[[NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil] UTF8String];
+}
+
 @end
 

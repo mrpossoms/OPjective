@@ -29,8 +29,14 @@
     
     _mesh = [[Mesh alloc] init];
     _attribs = [[NSMutableArray alloc] init];
+    _shaders = [[NSMutableArray alloc] init];
     
     return self;
+}
+
+- (void)withExplicitStride:(unsigned int)stride
+{
+    [_mesh withExplicitStride:stride];
 }
 
 - (void) withAttributeName:(const char*)name andElements:(int)elements
@@ -39,16 +45,22 @@
     [_attribs addObject:[NSString stringWithUTF8String:name]];
 }
 
-- (void) buildWithVertexProg:(NSString*)vertex andFragmentProg:(NSString*)frag
+- (unsigned int) buildWithVertexProg:(NSString*)vertex andFragmentProg:(NSString*)frag
 {
-    _shader = [[Shader alloc] initShaderWithVertex:vertex withFragment:frag withAttributes:_attribs];
-    [_shader bind];
+    Shader* shader = [[Shader alloc] initShaderWithVertex:vertex withFragment:frag withAttributes:_attribs];
+    
+    if(!shader) return 1;
+    
+    [self.shaders addObject:shader];
+    [shader bind];
+    
+    return 0;
 }
 
 - (void) drawAs:(GLenum)drawType
 {
     [self checkError];
-    [self.mesh bindWithShader:self.shader];
+    [self.mesh bindWithShader:[self.shaders firstObject]];
     [self checkError];
     [self.mesh drawAs:drawType];
 }

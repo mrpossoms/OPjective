@@ -6,4 +6,12 @@
 
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
+    #import <GLKit/GLKit.h>
+
+    static inline void GLcheckError(){
+        GLenum err = glGetError();
+        if(err != GL_NO_ERROR)
+            NSLog(@"Error: %x", err);
+        assert(err == GL_NO_ERROR);
+    }
 #endif

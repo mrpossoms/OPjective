@@ -8,6 +8,13 @@
 
 #import "RenderTarget.h"
 
+@interface RenderTarget(){
+    GLint lastViewport[4];
+    GLsizei rtWidth, rtHeight;
+}
+
+@end
+
 @implementation RenderTarget
 
 - (instancetype)initWithWidth:(GLsizei)width andHeight:(GLsizei)height andFlags:(unsigned int)flags
@@ -18,8 +25,12 @@
         glGenFramebuffers(1, &_fboId);
         glBindFramebuffer(GL_FRAMEBUFFER, _fboId);
         
+        rtWidth = width;
+        rtHeight = height;
+        
         if(flags & RENDER_TARGET_COLOR){
             _color = [Texture create2DWithWidth:width andHeight:height usingData:NULL];
+            [_color shouldWrap:NO];
             glFramebufferTexture2D(
                                    GL_FRAMEBUFFER,
                                    GL_COLOR_ATTACHMENT0,
@@ -31,6 +42,7 @@
         
         if(flags & RENDER_TARGET_DEPTH){
             _depth = [Texture create2DWithWidth:width andHeight:height usingData:NULL];
+            [_color shouldWrap:NO];
             glFramebufferTexture2D(
                                    GL_FRAMEBUFFER,
                                    GL_DEPTH_ATTACHMENT,
@@ -39,9 +51,32 @@
                                    0
             );
         }
+        
+        assert(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
     }
     
     return self;
+}
+
+- (void)bind
+{
+    glGetIntegerv(GL_VIEWPORT, lastViewport);
+    glViewport(0, 0, rtWidth, rtHeight);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, _fboId);
+    GLcheckError();
+}
+
+- (void)unbind
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport(
+               lastViewport[0],
+               lastViewport[1],
+               lastViewport[2],
+               lastViewport[3]
+    );
+    GLcheckError();
 }
 
 - (void)dealloc

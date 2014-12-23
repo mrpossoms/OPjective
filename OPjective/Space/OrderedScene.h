@@ -11,6 +11,7 @@
 #import "Protocols/Drawable.h"
 #import "Protocols/Updateable.h"
 #import "Protocols/Ranked.h"
+#import "Protocols/Perishable.h"
 
 @interface OrderedScene : NSObject <Updateable, Drawable>
 

@@ -17,6 +17,7 @@
 @property (nonatomic) GLuint nextOffset;
 @property (nonatomic) GLuint vertices;
 @property (nonatomic) BOOL usingIndexBuffer;
+@property (nonatomic) unsigned int explicitStride;
 
 @end
 
@@ -72,6 +73,11 @@ static Shader* lastShader = nil;
     [self checkError];
     
     return self;
+}
+
+- (void)withExplicitStride:(unsigned int)stride
+{
+    _explicitStride = stride;
 }
 
 - (void) updateData:(void *)data ofSize:(GLsizeiptr)size{
@@ -138,7 +144,7 @@ static Shader* lastShader = nil;
                               _attributes[i].elements,
                               GL_FLOAT,
                               GL_FALSE,
-                              _nextOffset,
+                              _explicitStride ? _explicitStride : _nextOffset,
                               (void*)offset
         );
         offset += sizeof(GLfloat) * _attributes[i].elements;

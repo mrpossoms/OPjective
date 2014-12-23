@@ -20,5 +20,7 @@
 @property (nonatomic) Texture* depth;
 
 - (instancetype)initWithWidth:(GLsizei)width andHeight:(GLsizei)height andFlags:(unsigned int)flags;
+- (void)bind;
+- (void)unbind;
 
 @end

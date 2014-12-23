@@ -14,6 +14,8 @@
 #import "Rendering/Shader.h"
 #import "Rendering/Texture.h"
 #import "Rendering/ShadedMesh.h"
+#import "Rendering/PostEffect.h"
+#import "Rendering/RenderTarget.h"
 
 #import "Audio/Sound.h"
 
@@ -22,6 +24,11 @@
 #import "Space/OrderedScene.h"
 #import "Protocols/Updateable.h"
 #import "Protocols/Drawable.h"
+#import "Protocols/Perishable.h"
+
+#import "State/GameState.h"
+
+#import "Datastructures/Graph.h"
 
 #define RAND_F_NORM (((rand() % 2048) / 1024.0f) - 1.0f)
 #define RAND_F ((rand() % 1024) / 1024.0f)

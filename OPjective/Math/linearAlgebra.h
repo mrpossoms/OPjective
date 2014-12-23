@@ -10,12 +10,13 @@
 #define OPjective_linearAlgebra_h
 
 #include <math.h>
+#include <GLKit/GLKit.h>
 
-static inline int bet(float a, float m, float b){
+static inline int bet(GLfloat a, GLfloat m, GLfloat b){
 	return fabs(a - m) + fabs(m - b) == fabs(a - b);
 }
 
-typedef float vec2[2];
+typedef GLfloat vec2[2];
 typedef struct{
 	vec2 p;
 	vec2 n;
@@ -42,13 +43,13 @@ static inline void vec2_sub(vec2 r, vec2 a, vec2 b){
  x = (b2 - b1) / (m1 - m2)
  */
 static inline int vec2_ray_line(vec2 itrsec, ray2 ray, vec2 v1, vec2 v2){
-	float m_ray  = ray.n[1] / ray.n[0];
-	float m_line_rise = v2[1] - v1[1], m_line_run = v2[0] - v1[0];
-	float m_line = (m_line_rise) / (m_line_run == 0 ? 0.1f : m_line_run);
-	float yint_ray = (-ray.p[0] * m_ray) + ray.p[1], yint_line = (-v1[0] * m_line) + v1[1];
-	float x = (yint_line - yint_ray) / (m_ray - m_line);
-	float dy1, dy2, dv12;
-	float sx, sy;
+	GLfloat m_ray  = ray.n[1] / ray.n[0];
+	GLfloat m_line_rise = v2[1] - v1[1], m_line_run = v2[0] - v1[0];
+	GLfloat m_line = (m_line_rise) / (m_line_run == 0 ? 0.1f : m_line_run);
+	GLfloat yint_ray = (-ray.p[0] * m_ray) + ray.p[1], yint_line = (-v1[0] * m_line) + v1[1];
+	GLfloat x = (yint_line - yint_ray) / (m_ray - m_line);
+	GLfloat dy1, dy2, dv12;
+	GLfloat sx, sy;
     
 	itrsec[0] = x;
 	itrsec[1] = x * m_ray + yint_ray;
@@ -63,7 +64,7 @@ static inline int vec2_ray_line(vec2 itrsec, ray2 ray, vec2 v1, vec2 v2){
 	return (bet(v1[0], itrsec[0], v2[0]) || bet(v1[1], itrsec[1], v2[1])) && (sx >= 0 || sy >= 0);
 }
 
-typedef float vec3[3];
+typedef GLfloat vec3[3];
 static const vec3 VEC3_ZERO = {0};
 static const vec3 VEC3_ONE = {1,1,1};
 static const vec3 VEC3_FORWARD = { 0, 0, 1 };
@@ -81,7 +82,7 @@ static inline void vec3_sub(vec3 r, vec3 a, vec3 b)
 	for(i=0; i<3; ++i)
 		r[i] = a[i] - b[i];
 }
-static inline void vec3_scale(vec3 r, vec3 v, float s)
+static inline void vec3_scale(vec3 r, vec3 v, GLfloat s)
 {
 	int i;
 	for(i=0; i<3; ++i)
@@ -93,9 +94,9 @@ static inline void vec3_mul(vec3 r, vec3 a, vec3 b)
     r[1] = a[1] * b[1];
     r[2] = a[2] * b[2];
 }
-static inline float vec3_mul_inner(vec3 a, vec3 b)
+static inline GLfloat vec3_mul_inner(vec3 a, vec3 b)
 {
-	float p = 0.f;
+	GLfloat p = 0.f;
 	int i;
 	for(i=0; i<3; ++i)
 		p += b[i]*a[i];
@@ -107,29 +108,29 @@ static inline void vec3_mul_cross(vec3 r, vec3 a, vec3 b)
 	r[1] = a[2]*b[0] - a[0]*b[2];
 	r[2] = a[0]*b[1] - a[1]*b[0];
 }
-static inline float vec3_len(vec3 v)
+static inline GLfloat vec3_len(vec3 v)
 {
 	return sqrtf(vec3_mul_inner(v, v));
 }
-static inline float vec3_dist(vec3 v1, vec3 v2){
+static inline GLfloat vec3_dist(vec3 v1, vec3 v2){
     vec3 temp = {0};
     vec3_sub(temp, v1, v2);
     return vec3_len(temp);
 }
 static inline void vec3_norm(vec3 r, vec3 v)
 {
-	float k = 1.f / vec3_len(v);
+	GLfloat k = 1.f / vec3_len(v);
 	vec3_scale(r, v, k);
 }
 static inline void vec3_reflect(vec3 r, vec3 v, vec3 n)
 {
-	float p  = 2.f*vec3_mul_inner(v, n);
+	GLfloat p  = 2.f*vec3_mul_inner(v, n);
 	int i;
 	for(i=0;i<3;++i)
 		r[i] = v[i] - p*n[i];
 }
 
-static inline float vec3_dot(vec3 v1, vec3 v2){
+static inline GLfloat vec3_dot(vec3 v1, vec3 v2){
     return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
 }
 
@@ -140,45 +141,45 @@ typedef struct {
 
 static inline void vec3_proj_point_vec3(vec3 p, vec3 v, vec3 s)
 {
-    float n = vec3_dot(v, s);
-    float d = vec3_dot(s, s);
+    GLfloat n = vec3_dot(v, s);
+    GLfloat d = vec3_dot(s, s);
     
     vec3_scale(p, s, n / d);
 }
 
-static inline float vec3_angle_between_vec3(vec3 v1, vec3 v2)
+static inline GLfloat vec3_angle_between_vec3(vec3 v1, vec3 v2)
 {
-    float n = vec3_dot(v1, v2);
-    float d = vec3_len(v1) * vec3_len(v2);
+    GLfloat n = vec3_dot(v1, v2);
+    GLfloat d = vec3_len(v1) * vec3_len(v2);
     return acosf(n / d);
 }
 
-static inline int vec3_ray_sphere(vec3 itrsec, ray3 ray, vec3 spherePos, float r)
+static inline int vec3_ray_sphere(vec3 itrsec, ray3 ray, vec3 spherePos, GLfloat r)
 {
     //
     vec3 o = {0};
     vec3_sub(o, ray.p, spherePos);
-    float A = vec3_dot(ray.n, ray.n);
-    float B = 2 * vec3_dot(ray.n, o);
-    float C = vec3_dot(o, o) - r * r;
+    GLfloat A = vec3_dot(ray.n, ray.n);
+    GLfloat B = 2 * vec3_dot(ray.n, o);
+    GLfloat C = vec3_dot(o, o) - r * r;
     
-    float disc = B * B - 4 * A * C;
+    GLfloat disc = B * B - 4 * A * C;
     
     if(disc < 0) return 0;
     
-    float distSqrt = sqrtf(disc);
-    float q;
+    GLfloat distSqrt = sqrtf(disc);
+    GLfloat q;
     
     if(B < 0)
         q = (-B - distSqrt) / 2;
     else
         q = (-B + distSqrt) / 2;
     
-    float t0 = q / A;
-    float t1 = C / q;
+    GLfloat t0 = q / A;
+    GLfloat t1 = C / q;
     
     if(t0 > t1){
-        float temp = t0;
+        GLfloat temp = t0;
         t0 = t1;
         t1 = temp;
     }
@@ -198,7 +199,13 @@ static inline int vec3_ray_sphere(vec3 itrsec, ray3 ray, vec3 spherePos, float r
     return 1;
 }
 
-typedef float vec4[4];
+typedef GLfloat vec4[4];
+static const vec4 VEC4_ZERO = { 0, 0, 0, 0 };
+static const vec4 VEC4_ONE = { 1, 1, 1, 1 };
+static const vec4 VEC4_FORWARD = { 0, 0, 1, 1 };
+static const vec4 VEC4_UP      = { 0, 1, 0, 1 };
+static const vec4 VEC4_LEFT    = { 1, 0, 0, 1 };
+
 static inline void vec4_add(vec4 r, vec4 a, vec4 b)
 {
 	int i;
@@ -211,15 +218,15 @@ static inline void vec4_sub(vec4 r, vec4 a, vec4 b)
 	for(i=0; i<4; ++i)
 		r[i] = a[i] - b[i];
 }
-static inline void vec4_scale(vec4 r, vec4 v, float s)
+static inline void vec4_scale(vec4 r, vec4 v, GLfloat s)
 {
 	int i;
 	for(i=0; i<4; ++i)
 		r[i] = v[i] * s;
 }
-static inline float vec4_mul_inner(vec4 a, vec4 b)
+static inline GLfloat vec4_mul_inner(vec4 a, vec4 b)
 {
-	float p = 0.f;
+	GLfloat p = 0.f;
 	int i;
 	for(i=0; i<4; ++i)
 		p += b[i]*a[i];
@@ -232,18 +239,18 @@ static inline void vec4_mul_cross(vec4 r, vec4 a, vec4 b)
 	r[2] = a[0]*b[1] - a[1]*b[0];
 	r[3] = 1.f;
 }
-static inline float vec4_len(vec4 v)
+static inline GLfloat vec4_len(vec4 v)
 {
 	return sqrtf(vec4_mul_inner(v, v));
 }
 static inline void vec4_norm(vec4 r, vec4 v)
 {
-	float k = 1.f / vec4_len(v);
+	GLfloat k = 1.f / vec4_len(v);
 	vec4_scale(r, v, k);
 }
 static inline void vec4_reflect(vec4 r, vec4 v, vec4 n)
 {
-	float p  = 2.f*vec4_mul_inner(v, n);
+	GLfloat p  = 2.f*vec4_mul_inner(v, n);
 	int i;
 	for(i=0;i<4;++i)
 		r[i] = v[i] - p*n[i];
@@ -295,13 +302,13 @@ static inline void mat4x4_sub(mat4x4 M, mat4x4 a, mat4x4 b)
 	for(i=0; i<4; ++i)
 		vec4_sub(M[i], a[i], b[i]);
 }
-static inline void mat4x4_scale(mat4x4 M, mat4x4 a, float k)
+static inline void mat4x4_scale(mat4x4 M, mat4x4 a, GLfloat k)
 {
 	int i;
 	for(i=0; i<4; ++i)
 		vec4_scale(M[i], a[i], k);
 }
-static inline void mat4x4_scale_aniso(mat4x4 M, mat4x4 a, float x, float y, float z)
+static inline void mat4x4_scale_aniso(mat4x4 M, mat4x4 a, GLfloat x, GLfloat y, GLfloat z)
 {
 	vec4_scale(M[0], a[0], x);
 	vec4_scale(M[1], a[1], y);
@@ -325,14 +332,14 @@ static inline void mat4x4_mul_vec4(vec4 r, mat4x4 M, vec4 v)
 			r[j] += M[i][j] * v[i];
 	}
 }
-static inline void mat4x4_translate(mat4x4 T, float x, float y, float z)
+static inline void mat4x4_translate(mat4x4 T, GLfloat x, GLfloat y, GLfloat z)
 {
 	mat4x4_identity(T);
 	T[3][0] = x;
 	T[3][1] = y;
 	T[3][2] = z;
 }
-static inline void mat4x4_translate_in_place(mat4x4 M, float x, float y, float z)
+static inline void mat4x4_translate_in_place(mat4x4 M, GLfloat x, GLfloat y, GLfloat z)
 {
 	vec4 t = {x, y, z, 0};
 	vec4 r;
@@ -348,10 +355,10 @@ static inline void mat4x4_from_vec3_mul_outer(mat4x4 M, vec3 a, vec3 b)
 	for(i=0; i<4; ++i) for(j=0; j<4; ++j)
 		M[i][j] = i<3 && j<3 ? a[i] * b[j] : 0.f;
 }
-static inline void mat4x4_rotate(mat4x4 R, mat4x4 M, float x, float y, float z, float angle)
+static inline void mat4x4_rotate(mat4x4 R, mat4x4 M, GLfloat x, GLfloat y, GLfloat z, GLfloat angle)
 {
-	float s = sinf(angle);
-	float c = cosf(angle);
+	GLfloat s = sinf(angle);
+	GLfloat c = cosf(angle);
 	vec3 u = {x, y, z};
 	vec3_norm(u, u);
     
@@ -380,10 +387,10 @@ static inline void mat4x4_rotate(mat4x4 R, mat4x4 M, float x, float y, float z, 
 		mat4x4_mul(R, M, T);
 	}
 }
-static inline void mat4x4_rotate_X(mat4x4 Q, mat4x4 M, float angle)
+static inline void mat4x4_rotate_X(mat4x4 Q, mat4x4 M, GLfloat angle)
 {
-	float s = sinf(angle);
-	float c = cosf(angle);
+	GLfloat s = sinf(angle);
+	GLfloat c = cosf(angle);
 	mat4x4 R = {
 		{1.f, 0.f, 0.f, 0.f},
 		{0.f,   c,   s, 0.f},
@@ -392,10 +399,10 @@ static inline void mat4x4_rotate_X(mat4x4 Q, mat4x4 M, float angle)
 	};
 	mat4x4_mul(Q, M, R);
 }
-static inline void mat4x4_rotate_Y(mat4x4 Q, mat4x4 M, float angle)
+static inline void mat4x4_rotate_Y(mat4x4 Q, mat4x4 M, GLfloat angle)
 {
-	float s = sinf(angle);
-	float c = cosf(angle);
+	GLfloat s = sinf(angle);
+	GLfloat c = cosf(angle);
 	mat4x4 R = {
 		{   c, 0.f,   s, 0.f},
 		{ 0.f, 1.f, 0.f, 0.f},
@@ -404,10 +411,10 @@ static inline void mat4x4_rotate_Y(mat4x4 Q, mat4x4 M, float angle)
 	};
 	mat4x4_mul(Q, M, R);
 }
-static inline void mat4x4_rotate_Z(mat4x4 Q, mat4x4 M, float angle)
+static inline void mat4x4_rotate_Z(mat4x4 Q, mat4x4 M, GLfloat angle)
 {
-	float s = sinf(angle);
-	float c = cosf(angle);
+	GLfloat s = sinf(angle);
+	GLfloat c = cosf(angle);
 	mat4x4 R = {
 		{   c,   s, 0.f, 0.f},
 		{  -s,   c, 0.f, 0.f},
@@ -418,8 +425,8 @@ static inline void mat4x4_rotate_Z(mat4x4 Q, mat4x4 M, float angle)
 }
 static inline void mat4x4_invert(mat4x4 T, mat4x4 M)
 {
-	float s[6];
-	float c[6];
+	GLfloat s[6];
+	GLfloat c[6];
 	s[0] = M[0][0]*M[1][1] - M[1][0]*M[0][1];
 	s[1] = M[0][0]*M[1][2] - M[1][0]*M[0][2];
 	s[2] = M[0][0]*M[1][3] - M[1][0]*M[0][3];
@@ -435,7 +442,7 @@ static inline void mat4x4_invert(mat4x4 T, mat4x4 M)
 	c[5] = M[2][2]*M[3][3] - M[3][2]*M[2][3];
 	
 	/* Assumes it is invertible */
-	float idet = 1.0f/( s[0]*c[5]-s[1]*c[4]+s[2]*c[3]+s[3]*c[2]-s[4]*c[1]+s[5]*c[0] );
+	GLfloat idet = 1.0f/( s[0]*c[5]-s[1]*c[4]+s[2]*c[3]+s[3]*c[2]-s[4]*c[1]+s[5]*c[0] );
 	
 	T[0][0] = ( M[1][1] * c[5] - M[1][2] * c[4] + M[1][3] * c[3]) * idet;
 	T[0][1] = (-M[0][1] * c[5] + M[0][2] * c[4] - M[0][3] * c[3]) * idet;
@@ -457,7 +464,7 @@ static inline void mat4x4_invert(mat4x4 T, mat4x4 M)
 	T[3][2] = (-M[3][0] * s[3] + M[3][1] * s[1] - M[3][2] * s[0]) * idet;
 	T[3][3] = ( M[2][0] * s[3] - M[2][1] * s[1] + M[2][2] * s[0]) * idet;
 }
-static inline void mat4x4_frustum(mat4x4 M, float l, float r, float b, float t, float n, float f)
+static inline void mat4x4_frustum(mat4x4 M, GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f)
 {
 	M[0][0] = 2.f*n/(r-l);
 	M[0][1] = M[0][2] = M[0][3] = 0.f;
@@ -473,7 +480,7 @@ static inline void mat4x4_frustum(mat4x4 M, float l, float r, float b, float t, 
 	M[3][2] = -2.f*(f*n)/(f-n);
 	M[3][0] = M[3][1] = M[3][3] = 0.f;
 }
-static inline void mat4x4_ortho(mat4x4 M, float l, float r, float b, float t, float n, float f)
+static inline void mat4x4_ortho(mat4x4 M, GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f)
 {
 	M[0][0] = 2.f/(r-l);
 	M[0][1] = M[0][2] = M[0][3] = 0.f;
@@ -489,11 +496,11 @@ static inline void mat4x4_ortho(mat4x4 M, float l, float r, float b, float t, fl
 	M[3][2] = -(f+n)/(f-n);
 	M[3][3] = 1.f;
 }
-static inline void mat4x4_perspective(mat4x4 m, float y_fov, float aspect, float n, float f)
+static inline void mat4x4_perspective(mat4x4 m, GLfloat y_fov, GLfloat aspect, GLfloat n, GLfloat f)
 {
 	/* NOTE: Degrees are an unhandy unit to work with.
 	 * linmath.h uses radians for everything! */
-	float const a = 1.f / tan(y_fov / 2.f);
+	GLfloat const a = 1.f / tan(y_fov / 2.f);
     
 	m[0][0] = a / aspect;
 	m[0][1] = 0.f;
@@ -557,7 +564,7 @@ static inline void mat4x4_look_at(mat4x4 m, vec3 eye, vec3 center, vec3 up)
 	mat4x4_translate_in_place(m, -eye[0], -eye[1], -eye[2]);
 }
 
-typedef float quat[4];
+typedef GLfloat quat[4];
 static inline void quat_identity(quat q)
 {
 	q[0] = q[1] = q[2] = 0.f;
@@ -585,15 +592,15 @@ static inline void quat_mul(quat r, quat p, quat q)
 	vec3_add(r, r, w);
 	r[3] = p[3]*q[3] - vec3_mul_inner(p, q);
 }
-static inline void quat_scale(quat r, quat v, float s)
+static inline void quat_scale(quat r, quat v, GLfloat s)
 {
 	int i;
 	for(i=0; i<4; ++i)
 		r[i] = v[i] * s;
 }
-static inline float quat_inner_product(quat a, quat b)
+static inline GLfloat quat_inner_product(quat a, quat b)
 {
-	float p = 0.f;
+	GLfloat p = 0.f;
 	int i;
 	for(i=0; i<4; ++i)
 		p += b[i]*a[i];
@@ -618,14 +625,14 @@ static inline void quat_mul_vec3(vec3 r, quat q, vec3 v)
 }
 static inline void mat4x4_from_quat(mat4x4 M, quat q)
 {
-	float a = q[3];
-	float b = q[0];
-	float c = q[1];
-	float d = q[2];
-	float a2 = a*a;
-	float b2 = b*b;
-	float c2 = c*c;
-	float d2 = d*d;
+	GLfloat a = q[3];
+	GLfloat b = q[0];
+	GLfloat c = q[1];
+	GLfloat d = q[2];
+	GLfloat a2 = a*a;
+	GLfloat b2 = b*b;
+	GLfloat c2 = c*c;
+	GLfloat d2 = d*d;
 	
 	M[0][0] = a2 + b2 - c2 - d2;
 	M[0][1] = 2.f*(b*c + a*d);
@@ -656,14 +663,14 @@ static inline void mat4x4_mul_quat(mat4x4 R, mat4x4 M, quat q)
 }
 static inline void quat_from_mat4x4(quat q, mat4x4 M)
 {
-	float r=0.f;
+	GLfloat r=0.f;
 	int i;
     
 	int perm[] = { 0, 1, 2, 0, 1 };
 	int *p = perm;
     
 	for(i = 0; i<3; i++) {
-		float m = M[i][i];
+		GLfloat m = M[i][i];
 		if( m < r )
 			continue;
 		m = r;

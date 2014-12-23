@@ -50,7 +50,7 @@ static NSMutableArray* events;
     return newEvent;
 }
 
-- (void)unregisterEvent:(ReoccuringEvent *)event
++ (void)unregisterEvent:(ReoccuringEvent *)event
 {
     [events removeObject:event];
 }

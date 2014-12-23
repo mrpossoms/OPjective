@@ -14,7 +14,7 @@
 + (void) updateWithTimeElapsed:(double)dt;
 
 + (id)addWithCallback:(id)callback andInterval:(float)seconds;
-- (void)unregisterEvent:(ReoccuringEvent*)event;
++ (void)unregisterEvent:(ReoccuringEvent*)event;
 
 - (void) unregister;
 

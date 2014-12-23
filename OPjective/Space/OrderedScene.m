@@ -121,6 +121,11 @@
 {
     for (id object in _updatableObjects) {
         [(id <Updateable>)object updateWithTimeElapsed:dt];
+        if([object conformsToProtocol:@protocol(Perishable)]){
+            if([(id <Perishable>)object perished]){
+                [self removeObject:object];
+            }
+        }
     }
 }
 

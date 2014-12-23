@@ -12,10 +12,11 @@
 @interface ShadedMesh : NSObject
 
 @property (strong, nonatomic) Mesh* mesh;
-@property (strong, nonatomic) Shader* shader;
+@property (strong, nonatomic) NSMutableArray* shaders;
 
+- (void)withExplicitStride:(unsigned int)stride;
 - (void) withAttributeName:(const char*)name andElements:(int)elements;
-- (void) buildWithVertexProg:(NSString*)vertex andFragmentProg:(NSString*)frag;
+- (unsigned int) buildWithVertexProg:(NSString*)vertex andFragmentProg:(NSString*)frag;
 - (void) drawAs:(GLenum) drawType;
 
 - (void) checkError;

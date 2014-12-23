@@ -19,6 +19,7 @@ struct vertexAttribute{
 @interface Mesh : NSObject
 
 - (id) withAttributeName:(const char*)name andElements:(int)elements;
+- (void) withExplicitStride:(unsigned int)stride;
 - (void) updateData:(void*)data ofSize:(GLsizeiptr)size;
 - (void) updateData:(void*)data ofSize:(GLsizeiptr)dsize andIndicies:(GLuint*)indices ofSize:(GLsizeiptr)isize;
 - (void) bindWithShader:(Shader *)shader;
