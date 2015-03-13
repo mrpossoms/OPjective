@@ -40,7 +40,7 @@ static NSMutableDictionary* compiledShaders;
     if (logLength > 0) {
         GLchar *log = (GLchar *)malloc(logLength);
         glGetShaderInfoLog(*shader, logLength, &logLength, log);
-        NSLog(@"Shader compile log:\n%s", log);
+        NSLog(@"Shader compile log for '%@':\n%s", file, log);
         free(log);
     }
 #endif

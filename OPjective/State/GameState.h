@@ -17,9 +17,13 @@
 - (void)exitToState:(GameState*)next;
 - (void)updateWithTimeElapsed:(double)dt;
 - (void)receiveTouches:(NSSet*)touches;
+- (void)receiveTouchesEnded:(NSSet*)touches;
+- (void)receiveGesture:(UIGestureRecognizer*)gesture;
 
 + (void)switchToState:(GameState*)state;
 + (void)sendTouches:(NSSet*)touches;
++ (void)sendTouchesEnded:(NSSet*)touches;
 + (void)updateActive;
++ (GameState*)getActive;
 
 @end

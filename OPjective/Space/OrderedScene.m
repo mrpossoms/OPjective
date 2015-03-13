@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 OPifex. All rights reserved.
 //
 
-#import "RenderGroup.h"
+#import "ObjectGroup.h"
 #import "OrderedScene.h"
 #import <GLKit/GLKit.h>
 
@@ -28,13 +28,13 @@
     
     // create the default render group that non-specific objects
     // will be added to and rendered from
-    _renderGroups[@"default"] = [[RenderGroup alloc] init];
+    _renderGroups[@"default"] = [[ObjectGroup alloc] init];
     [_drawableObjects addObject:_renderGroups[@"default"]];
     
     return self;
 }
 
-- (void)addRenderGroup:(RenderGroup *)group withName:(NSString *)name
+- (void)addRenderGroup:(ObjectGroup *)group withName:(NSString *)name
 {
     self.renderGroups[name] = group;
     [self addObject:group];
@@ -60,7 +60,7 @@
     
     if([obj conformsToProtocol:@protocol(Drawable)]){
         // add the object to the updatable collection
-        RenderGroup* rg = self.renderGroups[@"default"];
+        ObjectGroup* rg = self.renderGroups[@"default"];
         [rg addObject:obj];
     }
 }
@@ -90,12 +90,29 @@
         }
         
         // add the object to the updatable collection
-        RenderGroup* rg = self.renderGroups[groupName];
+        ObjectGroup* rg = self.renderGroups[groupName];
         [rg addObject:obj];
     }
 }
 
+- (void)addObjects:(NSArray*)objs
+{
+    for(id obj in objs){
+        [self addObject:obj];
+    }
+}
 
+- (void)addObjects:(NSArray *)objs toGroup:(NSString*)groupName
+{
+    for(id<Ranked> obj in objs){
+        [self addObject:obj toGroup:groupName];
+    }
+}
+
+- (NSMutableArray*)objectsFromGroup:(NSString*)groupName
+{
+    return ((ObjectGroup*)self.renderGroups[groupName]).drawableObjects;
+}
 
 - (void) removeObject:(id)obj
 {
@@ -105,7 +122,7 @@
     
     // remove the object from all the render groups
     if([obj conformsToProtocol:@protocol(Drawable)]){
-        for(RenderGroup* rg in self.renderGroups){
+        for(ObjectGroup* rg in self.renderGroups){
             [rg removeObject:obj];
         }
     }

@@ -75,6 +75,11 @@ static Shader* lastShader = nil;
     return self;
 }
 
+- (unsigned int)stride
+{
+    return _explicitStride ? _explicitStride : _nextOffset;
+}
+
 - (void)withExplicitStride:(unsigned int)stride
 {
     _explicitStride = stride;
@@ -86,7 +91,7 @@ static Shader* lastShader = nil;
     
     [self checkError];
     
-    _vertices = (GLuint)size / _nextOffset;
+    _vertices = (GLuint)size / [self stride];
     
     [self checkError];
 }
@@ -144,7 +149,7 @@ static Shader* lastShader = nil;
                               _attributes[i].elements,
                               GL_FLOAT,
                               GL_FALSE,
-                              _explicitStride ? _explicitStride : _nextOffset,
+                              [self stride],
                               (void*)offset
         );
         offset += sizeof(GLfloat) * _attributes[i].elements;

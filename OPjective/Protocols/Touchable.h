@@ -10,4 +10,6 @@
 
 @protocol Touchable <NSObject>
 
+- (BOOL)isTouchedBy:(UITouch*)touch;
+
 @end

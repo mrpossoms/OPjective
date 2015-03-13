@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Rendering/RenderGroup.h"
+#import "Rendering/ObjectGroup.h"
 #import "Protocols/Drawable.h"
 #import "Protocols/Updateable.h"
 #import "Protocols/Ranked.h"
@@ -19,9 +19,12 @@
 @property NSMutableArray* drawableObjects;
 
 - (id)init;
-- (void)addRenderGroup:(RenderGroup*)group withName:(NSString*)name;
+- (void)addRenderGroup:(ObjectGroup*)group withName:(NSString*)name;
 - (void)addObject:(id <Ranked>)obj;
 - (void)addObject:(id <Ranked>)obj toGroup:(NSString*)groupName;
+- (NSMutableArray*)objectsFromGroup:(NSString*)groupName;
+- (void)addObjects:(NSArray*)objs;
+- (void)addObjects:(NSArray*)objs toGroup:(NSString*)groupName;
 - (void)removeObject:(id)obj;
 - (void)removeObjects:(NSMutableArray*)objs;
 

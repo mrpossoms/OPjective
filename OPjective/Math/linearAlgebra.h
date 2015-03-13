@@ -11,6 +11,7 @@
 
 #include <math.h>
 #include <GLKit/GLKit.h>
+#include <Accelerate/Accelerate.h>
 
 static inline int bet(GLfloat a, GLfloat m, GLfloat b){
 	return fabs(a - m) + fabs(m - b) == fabs(a - b);
@@ -72,34 +73,24 @@ static const vec3 VEC3_UP      = { 0, 1, 0 };
 static const vec3 VEC3_LEFT    = { 1, 0, 0 };
 static inline void vec3_add(vec3 r, vec3 a, vec3 b)
 {
-	int i;
-	for(i=0; i<3; ++i)
-		r[i] = a[i] + b[i];
+    vDSP_vadd((float*)a, 1, (float*)b, 1, (float*)r, 1, 3);
 }
 static inline void vec3_sub(vec3 r, vec3 a, vec3 b)
 {
-	int i;
-	for(i=0; i<3; ++i)
-		r[i] = a[i] - b[i];
+    vDSP_vsub((float*)a, 1, (float*)b, 1, (float*)r, 1, 3);
 }
 static inline void vec3_scale(vec3 r, vec3 v, GLfloat s)
 {
-	int i;
-	for(i=0; i<3; ++i)
-		r[i] = v[i] * s;
+    vDSP_vsmul(v, 1, &s, r, 1, 3);
 }
 static inline void vec3_mul(vec3 r, vec3 a, vec3 b)
 {
-    r[0] = a[0] * b[0];
-    r[1] = a[1] * b[1];
-    r[2] = a[2] * b[2];
+    vDSP_vmul(a, 1, b, 1, r, 1, 3);
 }
 static inline GLfloat vec3_mul_inner(vec3 a, vec3 b)
 {
-	GLfloat p = 0.f;
-	int i;
-	for(i=0; i<3; ++i)
-		p += b[i]*a[i];
+    float p = 0;
+    vDSP_dotpr(a, 1, b, 1, &p, 3);
 	return p;
 }
 static inline void vec3_mul_cross(vec3 r, vec3 a, vec3 b)
@@ -110,12 +101,14 @@ static inline void vec3_mul_cross(vec3 r, vec3 a, vec3 b)
 }
 static inline GLfloat vec3_len(vec3 v)
 {
-	return sqrtf(vec3_mul_inner(v, v));
+    float len = 0;
+    vDSP_vdist(v, 1, (float*)VEC3_ZERO, 1, &len, 1, 3);
+    return len;
 }
 static inline GLfloat vec3_dist(vec3 v1, vec3 v2){
-    vec3 temp = {0};
-    vec3_sub(temp, v1, v2);
-    return vec3_len(temp);
+    float dist = 0;
+    vDSP_vdist(v1, 1, v2, 1, &dist, 1, 3);
+    return dist;
 }
 static inline void vec3_norm(vec3 r, vec3 v)
 {
@@ -131,7 +124,9 @@ static inline void vec3_reflect(vec3 r, vec3 v, vec3 n)
 }
 
 static inline GLfloat vec3_dot(vec3 v1, vec3 v2){
-    return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
+    float dot = 0;
+    vDSP_dotpr(v1, 1, v2, 1, &dot, 3);
+    return dot;
 }
 
 typedef struct {
@@ -154,7 +149,7 @@ static inline GLfloat vec3_angle_between_vec3(vec3 v1, vec3 v2)
     return acosf(n / d);
 }
 
-static inline int vec3_ray_sphere(vec3 itrsec, ray3 ray, vec3 spherePos, GLfloat r)
+static inline int vec3_ray_sphere(vec3 itrsec, ray3 ray, vec3 spherePos, GLfloat r, GLfloat* t)
 {
     //
     vec3 o = {0};
@@ -189,9 +184,11 @@ static inline int vec3_ray_sphere(vec3 itrsec, ray3 ray, vec3 spherePos, GLfloat
     
     if(t0 < 0){
         vec3_scale(itrsec, ray.n, t1);
+        *t = t1;
     }
     else{
         vec3_scale(itrsec, ray.n, t0);
+        *t = t0;
     }
 
     vec3_add(itrsec, itrsec, ray.p);
@@ -254,6 +251,14 @@ static inline void vec4_reflect(vec4 r, vec4 v, vec4 n)
 	int i;
 	for(i=0;i<4;++i)
 		r[i] = v[i] - p*n[i];
+}
+
+static inline void vec4_lerp(vec4 r, vec4 a, vec4 b, float p)
+{
+    vec4 temp;
+    vec4_scale(temp, b, p);
+    vec4_scale(r, a, 1.0f - p);
+    vec4_add(r, r, temp);
 }
 
 typedef vec4 mat4x4[4];

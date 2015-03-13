@@ -12,6 +12,7 @@
 		0608107019A6BD5A0005BC51 /* Shader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0608106D19A6BD5A0005BC51 /* Shader.m */; };
 		0612C8D31A3ABACC00212C29 /* Graph.m in Sources */ = {isa = PBXBuildFile; fileRef = 0612C8D21A3ABACC00212C29 /* Graph.m */; };
 		0628186D19A9546A00703ACF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0628186C19A9546A00703ACF /* AVFoundation.framework */; };
+		062FD0E41A4E4FB800F9A61A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 062FD0E31A4E4FB800F9A61A /* UIKit.framework */; };
 		06467FBF19A70DD0009E628E /* Sound.m in Sources */ = {isa = PBXBuildFile; fileRef = 06467FBE19A70DD0009E628E /* Sound.m */; };
 		065074C619A6CCF500741471 /* Texture.m in Sources */ = {isa = PBXBuildFile; fileRef = 065074C519A6CCF500741471 /* Texture.m */; };
 		0666B85A19A7DE8A00760006 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0666B85919A7DE8A00760006 /* GLKit.framework */; };
@@ -25,7 +26,7 @@
 		06ADC22D19A55D5300E9DD50 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06ADC22C19A55D5300E9DD50 /* XCTest.framework */; };
 		06ADC22E19A55D5300E9DD50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06ADC21E19A55D5300E9DD50 /* Foundation.framework */; };
 		06B0441F1A44D42500C5604E /* PostEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B0441E1A44D42500C5604E /* PostEffect.m */; };
-		06C5C08B1A316B7A007ADE08 /* RenderGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C5C08A1A316B7A007ADE08 /* RenderGroup.m */; };
+		06C5C08B1A316B7A007ADE08 /* ObjectGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C5C08A1A316B7A007ADE08 /* ObjectGroup.m */; };
 		06C5C0911A317927007ADE08 /* RenderTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C5C0901A317927007ADE08 /* RenderTarget.m */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,8 @@
 		0612C8D11A3ABACC00212C29 /* Graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Graph.h; path = Datastructures/Graph.h; sourceTree = "<group>"; };
 		0612C8D21A3ABACC00212C29 /* Graph.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Graph.m; path = Datastructures/Graph.m; sourceTree = "<group>"; };
 		0628186C19A9546A00703ACF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		062FD0E31A4E4FB800F9A61A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		062FD0E51A4F3B3F00F9A61A /* Touchable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Touchable.h; path = Protocols/Touchable.h; sourceTree = "<group>"; };
 		06467FBD19A70DD0009E628E /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sound.h; path = Audio/Sound.h; sourceTree = "<group>"; };
 		06467FBE19A70DD0009E628E /* Sound.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sound.m; path = Audio/Sound.m; sourceTree = "<group>"; };
 		065074C419A6CCF500741471 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
@@ -87,8 +90,8 @@
 		06ADC22C19A55D5300E9DD50 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		06B0441D1A44D42500C5604E /* PostEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostEffect.h; sourceTree = "<group>"; };
 		06B0441E1A44D42500C5604E /* PostEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostEffect.m; sourceTree = "<group>"; };
-		06C5C0891A316B7A007ADE08 /* RenderGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderGroup.h; sourceTree = "<group>"; };
-		06C5C08A1A316B7A007ADE08 /* RenderGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderGroup.m; sourceTree = "<group>"; };
+		06C5C0891A316B7A007ADE08 /* ObjectGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectGroup.h; sourceTree = "<group>"; };
+		06C5C08A1A316B7A007ADE08 /* ObjectGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectGroup.m; sourceTree = "<group>"; };
 		06C5C08F1A317927007ADE08 /* RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderTarget.h; sourceTree = "<group>"; };
 		06C5C0901A317927007ADE08 /* RenderTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderTarget.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -98,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				062FD0E41A4E4FB800F9A61A /* UIKit.framework in Frameworks */,
 				0628186D19A9546A00703ACF /* AVFoundation.framework in Frameworks */,
 				0666B86119A7DF0500760006 /* AudioToolbox.framework in Frameworks */,
 				0666B85C19A7DEB400760006 /* OpenAL.framework in Frameworks */,
@@ -147,8 +151,8 @@
 				0608106D19A6BD5A0005BC51 /* Shader.m */,
 				065074C419A6CCF500741471 /* Texture.h */,
 				065074C519A6CCF500741471 /* Texture.m */,
-				06C5C0891A316B7A007ADE08 /* RenderGroup.h */,
-				06C5C08A1A316B7A007ADE08 /* RenderGroup.m */,
+				06C5C0891A316B7A007ADE08 /* ObjectGroup.h */,
+				06C5C08A1A316B7A007ADE08 /* ObjectGroup.m */,
 				06C5C08F1A317927007ADE08 /* RenderTarget.h */,
 				06C5C0901A317927007ADE08 /* RenderTarget.m */,
 				06B0441D1A44D42500C5604E /* PostEffect.h */,
@@ -199,6 +203,7 @@
 				066FDF4B19AEADA300C4B3C9 /* Updateable.h */,
 				066FDF5319AEB6BC00C4B3C9 /* Ranked.h */,
 				0600705E1A42F9360003DC0D /* Perishable.h */,
+				062FD0E51A4F3B3F00F9A61A /* Touchable.h */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -233,6 +238,7 @@
 		06ADC21D19A55D5300E9DD50 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				062FD0E31A4E4FB800F9A61A /* UIKit.framework */,
 				0628186C19A9546A00703ACF /* AVFoundation.framework */,
 				0666B86019A7DF0500760006 /* AudioToolbox.framework */,
 				0666B85B19A7DEB400760006 /* OpenAL.framework */,
@@ -335,7 +341,7 @@
 				0612C8D31A3ABACC00212C29 /* Graph.m in Sources */,
 				06467FBF19A70DD0009E628E /* Sound.m in Sources */,
 				0608106E19A6BD5A0005BC51 /* OPjective.m in Sources */,
-				06C5C08B1A316B7A007ADE08 /* RenderGroup.m in Sources */,
+				06C5C08B1A316B7A007ADE08 /* ObjectGroup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

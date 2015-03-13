@@ -14,7 +14,6 @@
 
 @property float interval;
 @property float elapsed;
-@property id callback;
 
 @end
 

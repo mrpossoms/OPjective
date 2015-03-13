@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "OPjective.h"
 #import "Math/linearAlgebra.h"
 
@@ -25,6 +26,7 @@
 #import "Protocols/Updateable.h"
 #import "Protocols/Drawable.h"
 #import "Protocols/Perishable.h"
+#import "Protocols/Touchable.h"
 
 #import "State/GameState.h"
 
@@ -41,5 +43,7 @@ static inline void vec3_rand_norm(vec3 result){
 }
 
 @interface OPjective : NSObject
+
++ (GLKVector2)cannonicalFromTouch:(UITouch*)touch;
 
 @end

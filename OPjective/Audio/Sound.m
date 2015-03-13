@@ -58,7 +58,7 @@ static ALCcontext* ALC_CTX = nil;
 - (id) initWithData:(ALshort*)data ofLength:(ALsizei)length asStereo:(BOOL)isStereo withSoundCount:(int)sounds
 {
     self = [super init];
-    [self device];
+//    [self device];
     
     bzero(&_sources, sizeof(struct AudioSources));
     _sources.count = sounds;

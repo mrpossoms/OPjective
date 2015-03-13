@@ -11,6 +11,8 @@
 
 @interface ReoccuringEvent : NSObject <Updateable>
 
+@property id callback;
+
 + (void) updateWithTimeElapsed:(double)dt;
 
 + (id)addWithCallback:(id)callback andInterval:(float)seconds;
