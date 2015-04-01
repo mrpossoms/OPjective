@@ -14,4 +14,7 @@
             NSLog(@"Error: %x", err);
         assert(err == GL_NO_ERROR);
     }
+
+    //#define GL_CHECK_ERR GLcheckError();
+    #define GL_CHECK_ERR
 #endif

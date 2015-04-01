@@ -16,7 +16,7 @@
 @property (nonatomic) GLuint attributeCount;
 @property (nonatomic) GLuint nextOffset;
 @property (nonatomic) GLuint vertices;
-@property (nonatomic) BOOL usingIndexBuffer;
+@property (nonatomic) BOOL usingIndexBuffer, boundOnce;
 @property (nonatomic) unsigned int explicitStride;
 
 @end
@@ -24,13 +24,6 @@
 @implementation Mesh
 
 static Shader* lastShader = nil;
-
--(void)checkError{
-    GLenum err = glGetError();
-    if(err != GL_NO_ERROR)
-        NSLog(@"Error: %x", err);
-    assert(err == GL_NO_ERROR);
-}
 
 - (id) init
 {
@@ -41,6 +34,7 @@ static Shader* lastShader = nil;
     _attributeCount = 0;
     _nextOffset = 0;
     _usingIndexBuffer = NO;
+    _boundOnce = NO;
     
     // generate buffers allocate space for the attribute counts
     glGenBuffers(1, &_buffer);
@@ -56,7 +50,7 @@ static Shader* lastShader = nil;
 
 - (id) withAttributeName:(const char*)name andElements:(int)elements
 {
-    [self checkError];
+    GL_CHECK_ERR
     
     _attributes = (struct vertexAttribute*)realloc(
                                                    _attributes,
@@ -70,7 +64,7 @@ static Shader* lastShader = nil;
     ++_attributeCount;
     _nextOffset += elements * sizeof(GLfloat);
     
-    [self checkError];
+    GL_CHECK_ERR
     
     return self;
 }
@@ -89,11 +83,11 @@ static Shader* lastShader = nil;
     glBindBuffer(GL_ARRAY_BUFFER, _buffer);
     glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
     
-    [self checkError];
+    GL_CHECK_ERR
     
     _vertices = (GLuint)size / [self stride];
     
-    [self checkError];
+    GL_CHECK_ERR
 }
 
 - (void) updateData:(void*)data ofSize:(GLsizeiptr)dsize andIndicies:(GLuint*)indices ofSize:(GLsizeiptr)isize
@@ -106,16 +100,16 @@ static Shader* lastShader = nil;
     glBindBuffer(GL_ARRAY_BUFFER, _buffer);
     glBufferData(GL_ARRAY_BUFFER, dsize, data, GL_DYNAMIC_DRAW);
     
-    [self checkError];
+    GL_CHECK_ERR
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, isize, indices, GL_DYNAMIC_DRAW);
     
-    [self checkError];
+    GL_CHECK_ERR
     
     _vertices = (GLuint)isize / sizeof(GLuint);
     
-    [self checkError];
+    GL_CHECK_ERR
 }
 
 - (void) bindWithShader:(Shader *)shader{
@@ -128,12 +122,12 @@ static Shader* lastShader = nil;
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
     }
     
-    [self checkError];
+    GL_CHECK_ERR
     
     long offset = 0;
     for(int i = 0; i < _attributeCount; ++i){
         GLint loc = glGetAttribLocation(shader.programId, _attributes[i].name);
-        [self checkError];
+        GL_CHECK_ERR
         
         if(loc < 0){
             NSString* msg = [NSString stringWithFormat:@"Attribute '%s' couldn't be found for current shader", _attributes[i].name];
@@ -142,8 +136,11 @@ static Shader* lastShader = nil;
             
         assert(loc <= GL_MAX_VERTEX_ATTRIBS);
         
-        glEnableVertexAttribArray(loc);
-        [self checkError];
+        if(!_boundOnce){
+            glEnableVertexAttribArray(loc);
+        }
+        
+        GL_CHECK_ERR
         glVertexAttribPointer(
                               loc,
                               _attributes[i].elements,
@@ -153,13 +150,17 @@ static Shader* lastShader = nil;
                               (void*)offset
         );
         offset += sizeof(GLfloat) * _attributes[i].elements;
-        [self checkError];
+        GL_CHECK_ERR
     }
+    
+    if(!_boundOnce) _boundOnce = YES;
     
 }
 
 - (void) drawAs:(GLenum)type{
-    [self checkError];
+    if(!_vertices) return;
+    
+    GL_CHECK_ERR
     
     if(_usingIndexBuffer){
         glDrawElements(type, _vertices, GL_UNSIGNED_INT, (void*)0);
@@ -168,7 +169,7 @@ static Shader* lastShader = nil;
         glDrawArrays(type, 0, _vertices);
     }
     lastShader.drawn = YES;
-    [self checkError];
+    GL_CHECK_ERR
 }
 
 @end

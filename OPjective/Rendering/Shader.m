@@ -99,13 +99,6 @@ static NSMutableDictionary* compiledShaders;
     return YES;
 }
 
--(void)checkError{
-    GLenum err = glGetError();
-    if(err != GL_NO_ERROR)
-        NSLog(@"Error: %x", err);
-    assert(err == GL_NO_ERROR);
-}
-
 #pragma mark - Class methods
 
 - (id) initShaderWithVertex:(NSString*) vertex
@@ -128,7 +121,7 @@ static NSMutableDictionary* compiledShaders;
         return existingShader;
     }
     
-    [self checkError];
+    GL_CHECK_ERR
     
     // Create shader program.
     _programId = glCreateProgram();
@@ -158,7 +151,7 @@ static NSMutableDictionary* compiledShaders;
         glBindAttribLocation(_programId, i++, [attrib UTF8String]);
     }
     
-    [self checkError];
+    GL_CHECK_ERR
     
     // Link program.
     if (![self linkProgram:_programId]) {
@@ -277,7 +270,7 @@ static NSMutableDictionary* compiledShaders;
         return;
     }
     
-    [self checkError];
+    GL_CHECK_ERR
     switch (type) {
         case floatArray:
             glUniform1fv(loc, length, data);
@@ -298,10 +291,10 @@ static NSMutableDictionary* compiledShaders;
             NSLog(@"usingArray: Unrecognized array type!");
             break;
     }
-    [self checkError];
+    GL_CHECK_ERR
 }
 
-- (void) usingMat4x4:(GLKMatrix4*)matrix withName:(const char*)name
+- (void) usingMat4x4:(const GLKMatrix4*)matrix withName:(const char*)name
 {
     // find out where the uniform lives in the shader program
     GLint loc = glGetUniformLocation(_programId, name);

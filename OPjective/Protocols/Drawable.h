@@ -11,6 +11,6 @@
 
 @protocol Drawable <NSObject>
 
-- (void) drawWithViewProjection:(GLKMatrix4*)viewProjection;
+- (void) drawWithViewProjection:(const GLKMatrix4*)viewProjection;
 
 @end

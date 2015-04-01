@@ -32,6 +32,13 @@
 
 #import "Datastructures/Graph.h"
 
+enum MachineSpec{
+    UNKNOWN_SPEC,
+    LOW_SPEC,
+    MED_SPEC,
+    HIGH_SPEC,
+};
+
 #define RAND_F_NORM (((rand() % 2048) / 1024.0f) - 1.0f)
 #define RAND_F ((rand() % 1024) / 1024.0f)
 
@@ -45,5 +52,7 @@ static inline void vec3_rand_norm(vec3 result){
 @interface OPjective : NSObject
 
 + (GLKVector2)cannonicalFromTouch:(UITouch*)touch;
++ (enum MachineSpec)machinePerformance;
+
 
 @end

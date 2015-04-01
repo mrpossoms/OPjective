@@ -77,7 +77,7 @@
     }
 }
 
-- (void)drawWithViewProjection:(GLKMatrix4 *)viewProjection
+- (void)drawWithViewProjection:(const GLKMatrix4 *)viewProjection
 {
     for(int i = 0; i < _drawableObjects.count; ++i){
         id<Drawable> drawable = _drawableObjects[i];

@@ -19,6 +19,4 @@
 - (unsigned int) buildWithVertexProg:(NSString*)vertex andFragmentProg:(NSString*)frag;
 - (void) drawAs:(GLenum) drawType;
 
-- (void) checkError;
-
 @end

@@ -16,13 +16,6 @@
 
 @implementation ShadedMesh
 
--(void)checkError{
-    GLenum err = glGetError();
-    if(err != GL_NO_ERROR)
-        NSLog(@"Error: %x", err);
-    assert(err == GL_NO_ERROR);
-}
-
 - (id) init
 {
     self = [super init];
@@ -59,9 +52,9 @@
 
 - (void) drawAs:(GLenum)drawType
 {
-    [self checkError];
+    GL_CHECK_ERR
     [self.mesh bindWithShader:[self.shaders firstObject]];
-    [self checkError];
+    GL_CHECK_ERR
     [self.mesh drawAs:drawType];
 }
 

@@ -49,15 +49,10 @@ static inline int vec2_ray_line(vec2 itrsec, ray2 ray, vec2 v1, vec2 v2){
 	GLfloat m_line = (m_line_rise) / (m_line_run == 0 ? 0.1f : m_line_run);
 	GLfloat yint_ray = (-ray.p[0] * m_ray) + ray.p[1], yint_line = (-v1[0] * m_line) + v1[1];
 	GLfloat x = (yint_line - yint_ray) / (m_ray - m_line);
-	GLfloat dy1, dy2, dv12;
 	GLfloat sx, sy;
     
 	itrsec[0] = x;
 	itrsec[1] = x * m_ray + yint_ray;
-    
-	dy1  = fabs(v1[1] - itrsec[1]);
-	dy2  = fabs(itrsec[1] - v2[1]);
-	dv12 = fabs(v1[1] - v2[1]);
     
 	sx = (itrsec[0] - ray.p[0]) / ray.n[0];
 	sy = (itrsec[1] - ray.p[1]) / ray.n[1];
@@ -71,27 +66,48 @@ static const vec3 VEC3_ONE = {1,1,1};
 static const vec3 VEC3_FORWARD = { 0, 0, 1 };
 static const vec3 VEC3_UP      = { 0, 1, 0 };
 static const vec3 VEC3_LEFT    = { 1, 0, 0 };
+
+static inline void vec3_set(vec3 r, vec3 v)
+{
+    r[0] = v[0];
+    r[1] = v[1];
+    r[2] = v[2];
+}
+
 static inline void vec3_add(vec3 r, vec3 a, vec3 b)
 {
-    vDSP_vadd((float*)a, 1, (float*)b, 1, (float*)r, 1, 3);
+//    vDSP_vadd((float*)a, 1, (float*)b, 1, (float*)r, 1, 3);
+    r[0] = a[0] + b[0];
+    r[1] = a[1] + b[1];
+    r[2] = a[2] + b[2];
 }
 static inline void vec3_sub(vec3 r, vec3 a, vec3 b)
 {
-    vDSP_vsub((float*)a, 1, (float*)b, 1, (float*)r, 1, 3);
+//    vDSP_vsub((float*)a, 1, (float*)b, 1, (float*)r, 1, 3);
+    r[0] = a[0] - b[0];
+    r[1] = a[1] - b[1];
+    r[2] = a[2] - b[2];
 }
 static inline void vec3_scale(vec3 r, vec3 v, GLfloat s)
 {
-    vDSP_vsmul(v, 1, &s, r, 1, 3);
+    //vDSP_vsmul(v, 1, &s, r, 1, 3);
+    r[0] = v[0] * s;
+    r[1] = v[1] * s;
+    r[2] = v[2] * s;
 }
 static inline void vec3_mul(vec3 r, vec3 a, vec3 b)
 {
-    vDSP_vmul(a, 1, b, 1, r, 1, 3);
+//    vDSP_vmul(a, 1, b, 1, r, 1, 3);
+    r[0] = a[0] * b[0];
+    r[1] = a[1] * b[1];
+    r[2] = a[2] * b[2];
 }
 static inline GLfloat vec3_mul_inner(vec3 a, vec3 b)
 {
-    float p = 0;
-    vDSP_dotpr(a, 1, b, 1, &p, 3);
-	return p;
+//    float p = 0;
+//    vDSP_dotpr(a, 1, b, 1, &p, 3);
+//	return p;
+    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 }
 static inline void vec3_mul_cross(vec3 r, vec3 a, vec3 b)
 {
@@ -99,10 +115,18 @@ static inline void vec3_mul_cross(vec3 r, vec3 a, vec3 b)
 	r[1] = a[2]*b[0] - a[0]*b[2];
 	r[2] = a[0]*b[1] - a[1]*b[0];
 }
+
+static inline GLfloat vec3_dot(vec3 v1, vec3 v2){
+    float dot = 0;
+    vDSP_dotpr(v1, 1, v2, 1, &dot, 3);
+    return dot;
+}
+
 static inline GLfloat vec3_len(vec3 v)
 {
     float len = 0;
-    vDSP_vdist(v, 1, (float*)VEC3_ZERO, 1, &len, 1, 3);
+//    vDSP_vdist(v, 1, (float*)VEC3_ZERO, 1, &len, 1, 3);
+    len = sqrtf(vec3_dot(v, v));
     return len;
 }
 static inline GLfloat vec3_dist(vec3 v1, vec3 v2){
@@ -121,12 +145,6 @@ static inline void vec3_reflect(vec3 r, vec3 v, vec3 n)
 	int i;
 	for(i=0;i<3;++i)
 		r[i] = v[i] - p*n[i];
-}
-
-static inline GLfloat vec3_dot(vec3 v1, vec3 v2){
-    float dot = 0;
-    vDSP_dotpr(v1, 1, v2, 1, &dot, 3);
-    return dot;
 }
 
 typedef struct {
@@ -202,6 +220,14 @@ static const vec4 VEC4_ONE = { 1, 1, 1, 1 };
 static const vec4 VEC4_FORWARD = { 0, 0, 1, 1 };
 static const vec4 VEC4_UP      = { 0, 1, 0, 1 };
 static const vec4 VEC4_LEFT    = { 1, 0, 0, 1 };
+
+static inline void vec4_set(vec4 r, vec4 v)
+{
+    r[0] = v[0];
+    r[1] = v[1];
+    r[2] = v[2];
+    r[3] = v[3];
+}
 
 static inline void vec4_add(vec4 r, vec4 a, vec4 b)
 {
@@ -678,7 +704,7 @@ static inline void quat_from_mat4x4(quat q, mat4x4 M)
 		GLfloat m = M[i][i];
 		if( m < r )
 			continue;
-		m = r;
+//		m = r;
 		p = &perm[i];
 	}
     

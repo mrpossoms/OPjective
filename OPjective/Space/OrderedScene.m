@@ -122,8 +122,9 @@
     
     // remove the object from all the render groups
     if([obj conformsToProtocol:@protocol(Drawable)]){
-        for(ObjectGroup* rg in self.renderGroups){
-            [rg removeObject:obj];
+        for(NSString* key in self.renderGroups){
+            ObjectGroup* group = self.renderGroups[key];
+            [group removeObject:obj];
         }
     }
 }
@@ -146,7 +147,7 @@
     }
 }
 
-- (void) drawWithViewProjection:(GLKMatrix4 *)viewProjection
+- (void) drawWithViewProjection:(const GLKMatrix4 *)viewProjection
 {
     for (id object in _drawableObjects) {
         [(id <Drawable>)object drawWithViewProjection:viewProjection];

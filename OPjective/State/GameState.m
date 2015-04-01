@@ -14,10 +14,11 @@ static GameState* GAMESTATE_ACTIVE;
 @implementation GameState
 
 - (void)updateWithTimeElapsed:(double)dt{}
-- (void)drawWithViewProjection:(GLKMatrix4 *)viewProjection{}
+- (void)drawWithViewProjection:(const GLKMatrix4 *)viewProjection{}
 - (void)receiveTouches:(NSSet*)touches{}
 - (void)receiveTouchesEnded:(NSSet *)touches{}
 - (void)receiveGesture:(UIGestureRecognizer *)gesture{}
+- (void)receiveCustomSwipe:(GLKVector2)swipeDirection{}
 - (void)enterFromState:(GameState *)last{}
 - (void)exitToState:(GameState *)next{}
 
@@ -42,8 +43,18 @@ static GameState* GAMESTATE_ACTIVE;
     [GAMESTATE_ACTIVE receiveTouchesEnded:touches];
 }
 
++ (void)sendGesture:(UIGestureRecognizer *)gesture
+{
+    [GAMESTATE_ACTIVE receiveGesture:gesture];
+}
+
++ (void)sendCustomSwipe:(GLKVector2)swipeDirection
+{
+    [GAMESTATE_ACTIVE receiveCustomSwipe:swipeDirection];
+}
+
 static CFAbsoluteTime GAMESTATE_LAST_TIME;
-+ (void)updateActive
++ (double)updateActive
 {
     if(!GAMESTATE_LAST_TIME){
         GAMESTATE_LAST_TIME = CFAbsoluteTimeGetCurrent();
@@ -53,10 +64,14 @@ static CFAbsoluteTime GAMESTATE_LAST_TIME;
     CFAbsoluteTime dt = now - GAMESTATE_LAST_TIME;
     
     if(GAMESTATE_ACTIVE){
-        [GAMESTATE_ACTIVE updateWithTimeElapsed:dt];
+        if(dt < 0.25){
+            [GAMESTATE_ACTIVE updateWithTimeElapsed:dt];
+        }
     }
     
     GAMESTATE_LAST_TIME = now;
+    
+    return dt;
 }
 
 + (GameState*)getActive

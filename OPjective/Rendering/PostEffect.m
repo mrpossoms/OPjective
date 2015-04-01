@@ -72,7 +72,7 @@ static struct PostVertex QUAD_VERTS[] = {
     return 0;
 }
 
-- (void)drawWithViewProjection:(GLKMatrix4 *)viewProjection
+- (void)drawWithViewProjection:(const GLKMatrix4 *)viewProjection
 {
     GLcheckError();
     glBindBuffer(GL_ARRAY_BUFFER, _vbo);
