@@ -21,13 +21,6 @@ struct Glyph{
     FT_Vector lastPosition;
 };
 
-struct Letter{
-    char character;
-    GLuint start, end;
-    GLuint length;
-    GLfloat advance;
-};
-
 @interface Font()
 
 @property struct Glyph glyph;
@@ -118,19 +111,24 @@ int secondOrder(const FT_Vector* control, const FT_Vector* to, void* user)
     };
     vec2 last = { glyph->lastPosition.x / SCALE_FACTOR, glyph->lastPosition.y / SCALE_FACTOR};
     
-    for(int j = 1; j <= 20; ++j){
-        float t = j / 20.0f;
+    for(int j = 0; j <= 10; ++j){
+        float t = j / 10.0f;
         vec2 p = { 0, 0 };
         bezier_2nd_order(p, points, t);
 
-        memcpy(&glyph->tempPositions[glyph->positionCount++], p, sizeof(vec2));
-        glyph->tempIndices[glyph->indexCount] = glyph->indexCount++;
+        memcpy(glyph->tempPositions + glyph->positionCount, last, sizeof(vec2));
+        glyph->tempIndices[glyph->indexCount++] = glyph->positionCount++;
+        
+        memcpy(glyph->tempPositions + glyph->positionCount, p, sizeof(vec2));
+        glyph->tempIndices[glyph->indexCount++] = glyph->positionCount++;
         
         last[0] = p[0];
         last[1] = p[1];
     }
-    
+
     glyph->lastPosition = *to;
+    last[0] = to->x / SCALE_FACTOR;
+    last[1] = to->y / SCALE_FACTOR;
     
     return 0;
 }

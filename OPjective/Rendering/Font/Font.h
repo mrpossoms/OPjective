@@ -8,6 +8,19 @@
 
 #import "ShadedMesh.h"
 
+enum FontJustification{
+    FONT_LEFT,
+    FONT_CENTER,
+    FONT_RIGHT
+};
+
+struct Letter{
+    char character;
+    GLuint start, end;
+    GLuint length;
+    GLfloat advance;
+};
+
 @interface Font : ShadedMesh
 
 @property vec2* positions;

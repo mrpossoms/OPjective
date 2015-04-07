@@ -38,6 +38,13 @@ static inline void vec2_scale(vec2 r, vec2 v, GLfloat s){
     r[1] = v[1] * s;
 }
 
+static inline void vec2_lerp(vec2 r, vec2 start, vec2 finish, GLfloat t)
+{
+    register GLfloat omt = 1 - t;
+    r[0] = omt * start[0] + t * finish[0];
+    r[1] = omt * start[1] + t * finish[1];
+}
+
 /*
  y = m1x + b1	y = m2x + b2
  
