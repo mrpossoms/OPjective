@@ -11,6 +11,8 @@
 		0608106F19A6BD5A0005BC51 /* Mesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 0608106B19A6BD5A0005BC51 /* Mesh.m */; };
 		0608107019A6BD5A0005BC51 /* Shader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0608106D19A6BD5A0005BC51 /* Shader.m */; };
 		0612C8D31A3ABACC00212C29 /* Graph.m in Sources */ = {isa = PBXBuildFile; fileRef = 0612C8D21A3ABACC00212C29 /* Graph.m */; };
+		061F1C181AD33285009F74AF /* Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F1C171AD33285009F74AF /* Font.m */; };
+		061F1C191AD332EB009F74AF /* libFreetype2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 061F1C141AD320BE009F74AF /* libFreetype2.a */; };
 		0628186D19A9546A00703ACF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0628186C19A9546A00703ACF /* AVFoundation.framework */; };
 		062FD0E41A4E4FB800F9A61A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 062FD0E31A4E4FB800F9A61A /* UIKit.framework */; };
 		06467FBF19A70DD0009E628E /* Sound.m in Sources */ = {isa = PBXBuildFile; fileRef = 06467FBE19A70DD0009E628E /* Sound.m */; };
@@ -31,6 +33,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		061F1C131AD320BE009F74AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 061F1C0F1AD320BE009F74AF /* freetype2.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6382B1B10FB0FC5100ECAC02;
+			remoteInfo = Freetype2;
+		};
 		06ADC23119A55D5300E9DD50 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 06ADC21319A55D5300E9DD50 /* Project object */;
@@ -62,6 +71,9 @@
 		0608106D19A6BD5A0005BC51 /* Shader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shader.m; sourceTree = "<group>"; };
 		0612C8D11A3ABACC00212C29 /* Graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Graph.h; path = Datastructures/Graph.h; sourceTree = "<group>"; };
 		0612C8D21A3ABACC00212C29 /* Graph.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Graph.m; path = Datastructures/Graph.m; sourceTree = "<group>"; };
+		061F1C0F1AD320BE009F74AF /* freetype2.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = freetype2.xcodeproj; path = "../freetype2-ios/freetype2.xcodeproj"; sourceTree = "<group>"; };
+		061F1C161AD33285009F74AF /* Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Font.h; path = Font/Font.h; sourceTree = "<group>"; };
+		061F1C171AD33285009F74AF /* Font.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Font.m; path = Font/Font.m; sourceTree = "<group>"; };
 		0628186C19A9546A00703ACF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		062FD0E31A4E4FB800F9A61A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		062FD0E51A4F3B3F00F9A61A /* Touchable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Touchable.h; path = Protocols/Touchable.h; sourceTree = "<group>"; };
@@ -101,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				061F1C191AD332EB009F74AF /* libFreetype2.a in Frameworks */,
 				062FD0E41A4E4FB800F9A61A /* UIKit.framework in Frameworks */,
 				0628186D19A9546A00703ACF /* AVFoundation.framework in Frameworks */,
 				0666B86119A7DF0500760006 /* AudioToolbox.framework in Frameworks */,
@@ -143,6 +156,7 @@
 		0608106919A6BD5A0005BC51 /* Rendering */ = {
 			isa = PBXGroup;
 			children = (
+				061F1C151AD33267009F74AF /* Font */,
 				066FDF7A19AEBF9500C4B3C9 /* ShadedMesh.h */,
 				066FDF7B19AEBF9500C4B3C9 /* ShadedMesh.m */,
 				0608106A19A6BD5A0005BC51 /* Mesh.h */,
@@ -168,6 +182,23 @@
 				0612C8D21A3ABACC00212C29 /* Graph.m */,
 			);
 			name = Datastructures;
+			sourceTree = "<group>";
+		};
+		061F1C101AD320BE009F74AF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				061F1C141AD320BE009F74AF /* libFreetype2.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		061F1C151AD33267009F74AF /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				061F1C161AD33285009F74AF /* Font.h */,
+				061F1C171AD33285009F74AF /* Font.m */,
+			);
+			name = Font;
 			sourceTree = "<group>";
 		};
 		06467FBC19A70DB6009E628E /* Audio */ = {
@@ -220,6 +251,7 @@
 		06ADC21219A55D5300E9DD50 = {
 			isa = PBXGroup;
 			children = (
+				061F1C0F1AD320BE009F74AF /* freetype2.xcodeproj */,
 				0608106519A6BD5A0005BC51 /* OPjective */,
 				06ADC21D19A55D5300E9DD50 /* Frameworks */,
 				06ADC21C19A55D5300E9DD50 /* Products */,
@@ -306,6 +338,12 @@
 			mainGroup = 06ADC21219A55D5300E9DD50;
 			productRefGroup = 06ADC21C19A55D5300E9DD50 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 061F1C101AD320BE009F74AF /* Products */;
+					ProjectRef = 061F1C0F1AD320BE009F74AF /* freetype2.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				06ADC21A19A55D5300E9DD50 /* OPjective */,
@@ -313,6 +351,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		061F1C141AD320BE009F74AF /* libFreetype2.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFreetype2.a;
+			remoteRef = 061F1C131AD320BE009F74AF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		06ADC22919A55D5300E9DD50 /* Resources */ = {
@@ -341,6 +389,7 @@
 				0612C8D31A3ABACC00212C29 /* Graph.m in Sources */,
 				06467FBF19A70DD0009E628E /* Sound.m in Sources */,
 				0608106E19A6BD5A0005BC51 /* OPjective.m in Sources */,
+				061F1C181AD33285009F74AF /* Font.m in Sources */,
 				06C5C08B1A316B7A007ADE08 /* ObjectGroup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -441,10 +490,14 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OPjective/OPjective-Prefix.pch";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OPjective/ThirdParty/freetype-2.5.5",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OPjective;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "/Users/kirkroerig/Code/OPjective/**";
+				USER_HEADER_SEARCH_PATHS = "/Users/kirkroerig/Code/OPjective/** /Users/kirkroerig/Code/freetype2-ios/include";
 			};
 			name = Debug;
 		};
@@ -458,10 +511,14 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OPjective/OPjective-Prefix.pch";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OPjective/ThirdParty/freetype-2.5.5",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OPjective;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "/Users/kirkroerig/Code/OPjective/**";
+				USER_HEADER_SEARCH_PATHS = "/Users/kirkroerig/Code/OPjective/** /Users/kirkroerig/Code/freetype2-ios/include";
 			};
 			name = Release;
 		};

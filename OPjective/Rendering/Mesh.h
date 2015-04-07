@@ -18,6 +18,8 @@ struct vertexAttribute{
 
 @interface Mesh : NSObject
 
+@property (nonatomic) GLuint vertices;
+
 - (id) withAttributeName:(const char*)name andElements:(int)elements;
 - (void) withExplicitStride:(unsigned int)stride;
 - (void) updateData:(void*)data ofSize:(GLsizeiptr)size;

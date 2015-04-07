@@ -69,6 +69,7 @@
     if ([platform isEqualToString:@"iPad3,4"])      return HIGH_SPEC;
     if ([platform isEqualToString:@"iPad3,5"])      return HIGH_SPEC;
     if ([platform isEqualToString:@"iPad3,6"])      return HIGH_SPEC;
+    if ([platform isEqualToString:@"iPad4,4"])      return HIGH_SPEC;
 
     return UNKNOWN_SPEC;
 }

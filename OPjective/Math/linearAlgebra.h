@@ -22,17 +22,20 @@ typedef struct{
 	vec2 p;
 	vec2 n;
 } ray2;
+
 static inline void vec2_add(vec2 r, vec2 a, vec2 b){
-	int i;
-	for(i=2;i--;){
-		r[i] = a[i] + b[i];
-	}
+    r[0] = a[0] + b[0];
+    r[1] = a[1] + b[1];
 }
+
 static inline void vec2_sub(vec2 r, vec2 a, vec2 b){
-	int i;
-	for(i=2;i--;){
-		r[i] = a[i] - b[i];
-	}
+    r[0] = a[0] - b[0];
+    r[1] = a[1] - b[1];
+}
+
+static inline void vec2_scale(vec2 r, vec2 v, GLfloat s){
+    r[0] = v[0] * s;
+    r[1] = v[1] * s;
 }
 
 /*
@@ -139,6 +142,7 @@ static inline void vec3_norm(vec3 r, vec3 v)
 	GLfloat k = 1.f / vec3_len(v);
 	vec3_scale(r, v, k);
 }
+
 static inline void vec3_reflect(vec3 r, vec3 v, vec3 n)
 {
 	GLfloat p  = 2.f*vec3_mul_inner(v, n);
@@ -147,12 +151,23 @@ static inline void vec3_reflect(vec3 r, vec3 v, vec3 n)
 		r[i] = v[i] - p*n[i];
 }
 
+static inline GLfloat vec3_colinear_solve_t(vec3 v0, vec3 v)
+{
+    for(int i = 3; i--;){
+        if(v0[i]){
+            return v[i] / v0[i];
+        }
+    }
+    
+    return NAN;
+}
+
 typedef struct {
     vec3 p;
     vec3 n;
 } ray3;
 
-static inline void vec3_proj_point_vec3(vec3 p, vec3 v, vec3 s)
+static inline void vec3_proj_point_onto_vec3(vec3 p, vec3 v, vec3 s)
 {
     GLfloat n = vec3_dot(v, s);
     GLfloat d = vec3_dot(s, s);

@@ -15,7 +15,6 @@
 @property (nonatomic) struct vertexAttribute* attributes;
 @property (nonatomic) GLuint attributeCount;
 @property (nonatomic) GLuint nextOffset;
-@property (nonatomic) GLuint vertices;
 @property (nonatomic) BOOL usingIndexBuffer, boundOnce;
 @property (nonatomic) unsigned int explicitStride;
 
