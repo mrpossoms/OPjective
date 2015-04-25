@@ -27,5 +27,6 @@
 - (void)addObjects:(NSArray*)objs toGroup:(NSString*)groupName;
 - (void)removeObject:(id)obj;
 - (void)removeObjects:(NSMutableArray*)objs;
+- (void)removeAllObjects;
 
 @end

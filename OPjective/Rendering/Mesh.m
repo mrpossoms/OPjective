@@ -49,21 +49,37 @@ static Shader* lastShader = nil;
 
 - (id) withAttributeName:(const char*)name andElements:(int)elements
 {
+    return [self withAttributeName:name andElements:elements ofDataType:GL_FLOAT];
+}
+
+- (id) withAttributeName:(const char*)name andElements:(int)elements ofDataType:(GLenum)type
+{
     GL_CHECK_ERR
     
     _attributes = (struct vertexAttribute*)realloc(
                                                    _attributes,
                                                    sizeof(struct vertexAttribute) * (_attributeCount + 1)
-    );
+                                                   );
     
     _attributes[_attributeCount].elements = elements;
     _attributes[_attributeCount].offset   = _nextOffset;
+    _attributes[_attributeCount].dataType = type;
     memcpy(_attributes[_attributeCount].name, name, strlen(name) + 1);
     
-    ++_attributeCount;
-    _nextOffset += elements * sizeof(GLfloat);
+    switch (type) {
+        case GL_UNSIGNED_BYTE:
+            _nextOffset += elements * sizeof(GLubyte);
+            _attributes[_attributeCount].elementSize = sizeof(GLubyte);
+            break;
+        case GL_FLOAT:
+        default:
+            _nextOffset += elements * sizeof(GLfloat);
+            _attributes[_attributeCount].elementSize = sizeof(GLfloat);
+            break;
+    }
     
     GL_CHECK_ERR
+    ++_attributeCount;
     
     return self;
 }
@@ -124,14 +140,18 @@ static Shader* lastShader = nil;
     GL_CHECK_ERR
     
     long offset = 0;
+    unsigned int stride = [self stride];
     for(int i = 0; i < _attributeCount; ++i){
         GLint loc = glGetAttribLocation(shader.programId, _attributes[i].name);
+        
         GL_CHECK_ERR
         
+#ifdef DEBUG
         if(loc < 0){
             NSString* msg = [NSString stringWithFormat:@"Attribute '%s' couldn't be found for current shader", _attributes[i].name];
             NSAssert(NO, msg);
         }
+#endif
             
         assert(loc <= GL_MAX_VERTEX_ATTRIBS);
         
@@ -143,12 +163,12 @@ static Shader* lastShader = nil;
         glVertexAttribPointer(
                               loc,
                               _attributes[i].elements,
-                              GL_FLOAT,
+                              _attributes[i].dataType,
                               GL_FALSE,
-                              [self stride],
+                              stride,
                               (void*)offset
         );
-        offset += sizeof(GLfloat) * _attributes[i].elements;
+        offset += _attributes[i].elementSize * _attributes[i].elements;
         GL_CHECK_ERR
     }
     

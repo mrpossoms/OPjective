@@ -38,6 +38,13 @@
     [_attribs addObject:[NSString stringWithUTF8String:name]];
 }
 
+- (void) withAttributeName:(const char*)name andElements:(int)elements ofDataType:(GLenum)type
+{
+    [_mesh withAttributeName:name andElements:elements ofDataType:type];
+    [_attribs addObject:[NSString stringWithUTF8String:name]];
+}
+
+
 - (unsigned int) buildWithVertexProg:(NSString*)vertex andFragmentProg:(NSString*)frag
 {
     Shader* shader = [[Shader alloc] initShaderWithVertex:vertex withFragment:frag withAttributes:_attribs];
@@ -46,6 +53,8 @@
     
     [self.shaders addObject:shader];
     [shader bind];
+    
+    GL_CHECK_ERR
     
     return 0;
 }

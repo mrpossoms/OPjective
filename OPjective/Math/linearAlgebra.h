@@ -127,9 +127,9 @@ static inline void vec3_mul_cross(vec3 r, vec3 a, vec3 b)
 }
 
 static inline GLfloat vec3_dot(vec3 v1, vec3 v2){
-    float dot = 0;
-    vDSP_dotpr(v1, 1, v2, 1, &dot, 3);
-    return dot;
+//    float dot = 0;
+    //vDSP_dotpr(v1, 1, v2, 1, &dot, 3);
+    return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
 }
 
 static inline GLfloat vec3_len(vec3 v)

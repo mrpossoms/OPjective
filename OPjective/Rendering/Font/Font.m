@@ -15,8 +15,8 @@
 #define SCALE_FACTOR 26.6
 
 struct Glyph{
-    vec2 tempPositions[500];
-    GLuint tempIndices[1000];
+    struct GlyphVertex tempPositions[2000];
+    GLuint tempIndices[2000];
     GLsizei positionCount, indexCount;
     FT_Vector lastPosition;
 };
@@ -90,11 +90,13 @@ int lineTo(const FT_Vector* to, void* user)
     vec2 v2 = { to->x / SCALE_FACTOR, to->y / SCALE_FACTOR};
     
     
-    memcpy(&glyph->tempPositions[glyph->positionCount++], v1, sizeof(vec2));
-    memcpy(&glyph->tempPositions[glyph->positionCount++], v2, sizeof(vec2));
-    
-    glyph->tempIndices[glyph->indexCount] = glyph->indexCount++;
-    glyph->tempIndices[glyph->indexCount] = glyph->indexCount++;
+    memcpy(glyph->tempPositions[glyph->positionCount].position, v1, sizeof(vec2));
+    glyph->tempPositions[glyph->positionCount].percent = 0;
+    glyph->tempIndices[glyph->indexCount++] = glyph->positionCount++;
+ 
+    memcpy(glyph->tempPositions[glyph->positionCount].position, v2, sizeof(vec2));
+    glyph->tempPositions[glyph->positionCount].percent = 1;
+    glyph->tempIndices[glyph->indexCount++] = glyph->positionCount++;
     
     glyph->lastPosition = *to;
     
@@ -110,20 +112,26 @@ int secondOrder(const FT_Vector* control, const FT_Vector* to, void* user)
         *to
     };
     vec2 last = { glyph->lastPosition.x / SCALE_FACTOR, glyph->lastPosition.y / SCALE_FACTOR};
+    GLfloat lastT = 0;
     
-    for(int j = 0; j <= 10; ++j){
-        float t = j / 10.0f;
+    assert(glyph->positionCount < 2000 && glyph->indexCount < 2000);
+    
+    for(int j = 0; j <= 3; ++j){
+        float t = j / 3.0f;
         vec2 p = { 0, 0 };
         bezier_2nd_order(p, points, t);
 
-        memcpy(glyph->tempPositions + glyph->positionCount, last, sizeof(vec2));
+        memcpy(glyph->tempPositions[glyph->positionCount].position, last, sizeof(vec2));
+        glyph->tempPositions[glyph->positionCount].percent = lastT;
         glyph->tempIndices[glyph->indexCount++] = glyph->positionCount++;
         
-        memcpy(glyph->tempPositions + glyph->positionCount, p, sizeof(vec2));
+        memcpy(glyph->tempPositions[glyph->positionCount].position, p, sizeof(vec2));
+        glyph->tempPositions[glyph->positionCount].percent = lastT;
         glyph->tempIndices[glyph->indexCount++] = glyph->positionCount++;
         
         last[0] = p[0];
         last[1] = p[1];
+        lastT = t;
     }
 
     glyph->lastPosition = *to;
@@ -149,8 +157,12 @@ int thirdOrder(const FT_Vector* control1, const FT_Vector* control2, const FT_Ve
         vec2 p;
         bezier_3rd_order(p, points, t);
 
-        memcpy(&glyph->tempPositions[glyph->positionCount++], p, sizeof(vec2));
-        glyph->tempIndices[glyph->indexCount] = glyph->indexCount++;
+        memcpy(glyph->tempPositions[glyph->positionCount].position, last, sizeof(vec2));
+        glyph->tempIndices[glyph->indexCount++] = glyph->positionCount++;
+        
+        memcpy(glyph->tempPositions[glyph->positionCount].position, p, sizeof(vec2));
+        glyph->tempIndices[glyph->indexCount++] = glyph->positionCount++;
+
         
         memcpy(last, p, sizeof(vec2));
     }
@@ -169,7 +181,7 @@ extractOutlines(
      GLsizei *_indexCount_p,
      GLuint **_indices_p,
      GLsizei *_positionCount_p,
-     vec2 **_positions_p)
+     struct GlyphVertex **_positions_p)
 {
     const FT_Outline_Funcs outlineFuncs = {
         .move_to = moveTo,
@@ -189,21 +201,30 @@ extractOutlines(
     FT_Set_Char_Size(face, size << 6, size << 6, 90, 90);
     
     
-    for(unsigned char c = 0; c < 0x7F; ++c){
+    for(unsigned char c = 0; c <= 0x7F; ++c){
         struct Glyph currentGlyph = {};
-        FT_Load_Char(face, c, FT_LOAD_NO_BITMAP);
+        
+        FT_UInt gindex = FT_Get_Char_Index(face, c);
+        
+        if(FT_Load_Glyph(face, gindex, FT_LOAD_NO_BITMAP)){
+            // an error occured
+            continue;
+        }
         
         if(face->glyph->format == FT_GLYPH_FORMAT_OUTLINE){
             FT_Glyph glyph;
-            FT_Get_Glyph(face->glyph, &glyph);
+            if(FT_Get_Glyph(face->glyph, &glyph)){
+                // an error occured
+                continue;
+            }
             
             FT_OutlineGlyph outlineGlyph = (FT_OutlineGlyph)glyph;
             FT_Outline outline = outlineGlyph->outline;
             
             FT_Outline_Decompose(&outline, &outlineFuncs, &currentGlyph);
             
-            *_positions_p = realloc(*_positions_p, (*_positionCount_p + currentGlyph.positionCount) * sizeof(vec2));
-            memcpy(*_positions_p + *_positionCount_p, currentGlyph.tempPositions, sizeof(vec2) * currentGlyph.positionCount);
+            *_positions_p = realloc(*_positions_p, (*_positionCount_p + currentGlyph.positionCount) * sizeof(struct GlyphVertex));
+            memcpy(*_positions_p + *_positionCount_p, currentGlyph.tempPositions, sizeof(struct GlyphVertex) * currentGlyph.positionCount);
             *_positionCount_p += currentGlyph.positionCount;
             
             _letters[c].character = c;
@@ -216,12 +237,9 @@ extractOutlines(
             
             _letters[c].end = *_indexCount_p;
             _letters[c].length = _letters[c].end - _letters[c].start;
-            
-            FT_Done_Glyph(glyph);
         }
     }
     
-    FT_Done_Face(face);
     FT_Done_FreeType(library);
 }
 

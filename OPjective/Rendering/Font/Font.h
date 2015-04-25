@@ -21,9 +21,14 @@ struct Letter{
     GLfloat advance;
 };
 
+struct GlyphVertex{
+    vec2    position;
+    GLfloat percent;
+};
+
 @interface Font : ShadedMesh
 
-@property vec2* positions;
+@property struct GlyphVertex* positions;
 @property GLuint* indices;
 @property GLsizei positionCount, indexCount;
 @property struct Letter* letters;

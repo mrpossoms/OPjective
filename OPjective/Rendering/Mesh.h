@@ -11,9 +11,11 @@
 #import "Shader.h"
 
 struct vertexAttribute{
-    char name[32];
-    int  elements;
-    int  offset;
+    char    name[32];
+    int     elements;
+    int     offset;
+    GLenum  dataType;
+    GLsizei elementSize;
 };
 
 @interface Mesh : NSObject
@@ -21,7 +23,9 @@ struct vertexAttribute{
 @property (nonatomic) GLuint vertices;
 
 - (id) withAttributeName:(const char*)name andElements:(int)elements;
+- (id) withAttributeName:(const char*)name andElements:(int)elements ofDataType:(GLenum)type;
 - (void) withExplicitStride:(unsigned int)stride;
+- (unsigned int)stride;
 - (void) updateData:(void*)data ofSize:(GLsizeiptr)size;
 - (void) updateData:(void*)data ofSize:(GLsizeiptr)dsize andIndicies:(GLuint*)indices ofSize:(GLsizeiptr)isize;
 - (void) bindWithShader:(Shader *)shader;

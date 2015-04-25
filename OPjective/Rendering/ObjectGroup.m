@@ -69,6 +69,12 @@
     [_updateableObjects removeObject:obj];
 }
 
+- (void)removeAllObjects
+{
+    [_drawableObjects removeAllObjects];
+    [_updateableObjects removeAllObjects];
+}
+
 - (void)updateWithTimeElapsed:(double)dt
 {
     for(int i = 0; i < _updateableObjects.count; ++i){

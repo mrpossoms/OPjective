@@ -135,6 +135,15 @@
     [_drawableObjects  removeObjectsInArray:objs];
 }
 
+- (void)removeAllObjects
+{
+    [_updatableObjects removeAllObjects];
+    [_drawableObjects removeAllObjects];
+    ObjectGroup* rg = _renderGroups[@"default"];
+    [rg removeAllObjects];
+    [_drawableObjects addObject:rg];
+}
+
 - (void) updateWithTimeElapsed:(double)dt
 {
     for (id object in _updatableObjects) {

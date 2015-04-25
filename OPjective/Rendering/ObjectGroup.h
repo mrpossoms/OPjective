@@ -19,5 +19,6 @@
 - (void)addObject:(id<Ranked>)object;
 - (void)removeObjects:(NSArray*)objects;
 - (void)removeObject:(id)object;
+- (void)removeAllObjects;
 
 @end

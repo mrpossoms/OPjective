@@ -16,6 +16,7 @@
 
 - (void)withExplicitStride:(unsigned int)stride;
 - (void) withAttributeName:(const char*)name andElements:(int)elements;
+- (void) withAttributeName:(const char*)name andElements:(int)elements ofDataType:(GLenum)type;
 - (unsigned int) buildWithVertexProg:(NSString*)vertex andFragmentProg:(NSString*)frag;
 - (void) drawAs:(GLenum) drawType;
 
