@@ -163,4 +163,10 @@
     }
 }
 
+- (void)batchDrawStartWithViewProjection:(const GLKMatrix4 *)vp
+{}
+
+- (void)batchDraw
+{}
+
 @end

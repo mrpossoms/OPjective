@@ -15,6 +15,8 @@ static GameState* GAMESTATE_ACTIVE;
 
 - (void)updateWithTimeElapsed:(double)dt{}
 - (void)drawWithViewProjection:(const GLKMatrix4 *)viewProjection{}
+- (void)batchDrawStartWithViewProjection:(const GLKMatrix4 *)vp{}
+- (void)batchDraw{}
 - (void)receiveTouches:(NSSet*)touches{}
 - (void)receiveTouchesEnded:(NSSet *)touches{}
 - (void)receiveGesture:(UIGestureRecognizer *)gesture{}

@@ -34,9 +34,9 @@ enum ShaderArrayType{
              withAttributes:(NSArray*) attributes;
 - (BOOL) bind;
 
-- (void) usingTexture:(Texture *)texture withName:(const char*)name;
-- (void) usingFloat:(GLfloat*)f ofLength:(int)length withName:(const char*)name;
-- (void) usingArray:(GLvoid*)array ofLength:(int)length andType:(enum ShaderArrayType)type withName:(const char*)name;
+- (void) usingTexture:(const Texture *)texture withName:(const char*)name;
+- (void) usingFloat:(const GLfloat*)f ofLength:(int)length withName:(const char*)name;
+- (void) usingArray:(const GLvoid*)array ofLength:(int)length andType:(enum ShaderArrayType)type withName:(const char*)name;
 - (void) usingMat4x4:(const GLKMatrix4*)matrix withName:(const char*)name;
 
 + (GLchar*)sourceFromFile:(NSString*)path;

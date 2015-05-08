@@ -12,16 +12,34 @@
 
 @implementation OPjective
 
-+ (GLKVector2)cannonicalFromTouch:(UITouch*)touch
++ (float)aspectRatio
 {
     CGSize dims = [UIScreen mainScreen].bounds.size;
-    float aspect = dims.height / dims.width;
-    CGPoint loc = [touch locationInView:touch.view];
+    
+    if(dims.height > dims.width){
+        return dims.height / dims.width;
+    }
+    
+    return dims.width / dims.height;
+}
 
-    return GLKVector2Make(
-          (loc.x * 2.0 / touch.window.frame.size.width) - 1.0f,
-          ((loc.y * -2.0 / touch.window.frame.size.height) + 1.0f) * aspect
-    );
++ (GLKVector2)cannonicalFromTouch:(UITouch*)touch
+{
+    float aspect = [self aspectRatio];
+    CGPoint loc = [touch locationInView:touch.view];
+    
+    float x,y;
+    
+    if(touch.window.frame.size.height > touch.window.frame.size.width){
+        x = (loc.x * 2.0 / touch.window.frame.size.height) - 1.0f;
+        y = ((loc.y * -2.0 / touch.window.frame.size.width) + 1.0f) * aspect;
+    }
+    else{
+        x = (loc.x * 2.0 / touch.window.frame.size.width) - 1.0f;
+        y = ((loc.y * -2.0 / touch.window.frame.size.height) + 1.0f) * aspect;
+    }
+    
+    return GLKVector2Make(x, y);
 }
 
 + (NSString *)platform{

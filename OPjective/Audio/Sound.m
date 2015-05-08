@@ -21,7 +21,6 @@ struct AudioSources{
 @interface Sound()
 
 @property (nonatomic) struct AudioSources sources;
-@property (nonatomic) ALuint buffer;
 
 @end
 
@@ -32,6 +31,7 @@ static ALCcontext* ALC_CTX = nil;
 
 - (ALCdevice*) device
 {
+//    return nil;
     if(!ALC_DEV){
         // setup audio session
         NSError *error = nil;
@@ -45,8 +45,6 @@ static ALCcontext* ALC_CTX = nil;
         propertySetError = AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof(doChangeDefaultRoute), &doChangeDefaultRoute);
         NSAssert(propertySetError == 0, @"Failed to set audio session property: OverrideCategoryDefaultToSpeaker");
         
-
-        
         ALC_DEV = alcOpenDevice(NULL);
         ALC_CTX = alcCreateContext(ALC_DEV, NULL);
         alcMakeContextCurrent(ALC_CTX);
@@ -55,32 +53,102 @@ static ALCcontext* ALC_CTX = nil;
     return ALC_DEV;
 }
 
-- (id) initWithData:(ALshort*)data ofLength:(ALsizei)length asStereo:(BOOL)isStereo withSoundCount:(int)sounds
+- (instancetype)init
 {
     self = [super init];
-//    [self device];
+    [self device];
+
+    bzero(&_sources, sizeof(struct AudioSources));
+    _sources.count = 1;
+    
+    alGenSources(_sources.count, _sources.sources);
+    alGenBuffers(3, buffers);
+    
+    availableBuffers = 3;
+    
+    return self;
+}
+
+- (id) initWithData:(ALshort*)data ofLength:(ALsizei)length asStereo:(BOOL)isStereo withSoundCount:(unsigned int)sounds
+{
+    self = [super init];
+    [self device];
     
     bzero(&_sources, sizeof(struct AudioSources));
-    _sources.count = sounds;
+    _sources.count = sounds > 16 ? 16 : sounds;
     
-    alGenSources(sounds, _sources.sources);
+    alGenSources(_sources.count, _sources.sources);
     
-    alGenBuffers(1, &_buffer);
+    alGenBuffers(1, buffers);
     alBufferData(
-                 _buffer,
+                 buffers[0],
                  isStereo ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16,
                  data,
                  length,
-                 22100
+                 SOUND_SAMPLES_PER_SEC
     );
+    
+//    streamBuffs[0] = streamBuffs[1] = NULL;
     
     for(;sounds--;){
         alSourcef(_sources.sources[sounds], AL_PITCH, 1.0f);
         alSourcef(_sources.sources[sounds], AL_GAIN, 1.0f);
-        alSourcei(_sources.sources[sounds], AL_BUFFER, _buffer);
+        alSourcei(_sources.sources[sounds], AL_BUFFER, buffers[0]);
     }
     
     return self;
+}
+
+- (BOOL) queueBuffer:(ALshort *)pcm
+{
+    ALint isStopped = 0, playedBuffers = 0;
+    ALint src = _sources.sources[0];
+    
+    alGetSourcei(src, AL_SOURCE_STATE, &isStopped);
+    
+    if(isStopped == AL_STOPPED)
+        NSLog(@"Stopped");
+    
+        ALuint nextBuffer = 0;
+        ALint i = -1;
+        
+        alGetSourcei(src, AL_BUFFERS_PROCESSED, &playedBuffers);
+        
+        if(playedBuffers > 0){
+            alSourceUnqueueBuffers(src, 1, &nextBuffer);
+
+            if(buffers[0] == nextBuffer)
+                i = 0;
+            if(buffers[1] == nextBuffer)
+                i = 1;
+            if(buffers[2] == nextBuffer)
+                i = 2;
+        }
+        else{
+            if(availableBuffers){
+                nextBuffer = buffers[i = (--availableBuffers)];
+            }
+            else{
+                return NO;
+            }
+        }
+    
+        assert(i >= 0);
+        assert(nextBuffer == buffers[i]);
+    
+        memcpy(streamBuffs[i], pcm, sizeof(ALshort) * SOUND_STREAM_BUFFER_SAMPLES);
+        alBufferData(buffers[i],
+                     AL_FORMAT_MONO16,
+                     streamBuffs[i],
+                     sizeof(ALshort) * SOUND_STREAM_BUFFER_SAMPLES,
+                     SOUND_SAMPLES_PER_SEC << 1
+                     );
+    
+        assert(buffers[i]);
+    
+        alSourceQueueBuffers(src, 1, buffers + i);
+
+    return YES;
 }
 
 - (void) play
@@ -98,6 +166,23 @@ static ALCcontext* ALC_CTX = nil;
 - (void) pause{
     int i = _sources.currentSource;
     alSourcePause(_sources.sources[i]);
+}
+
++ (void) setListenerLocation:(ALfloat*)location withForward:(ALfloat*)forward andUp:(ALfloat*)up
+{
+    ALfloat forwardUp[] = {
+        forward[0], forward[1], forward[2],
+        up[0], up[1], up[2]
+    };
+    
+    alListenerfv(AL_POSITION, location);
+    alListenerfv(AL_ORIENTATION, forwardUp);
+}
+
+- (void) setLocation:(ALfloat*)location
+{
+    int i = _sources.currentSource;
+    alSourcefv(_sources.sources[i], AL_POSITION, location);
 }
 
 - (void) setVolume:(float)volume

@@ -83,6 +83,12 @@
     }
 }
 
+- (void)batchDrawStartWithViewProjection:(const GLKMatrix4 *)vp
+{}
+
+- (void)batchDraw
+{}
+
 - (void)drawWithViewProjection:(const GLKMatrix4 *)viewProjection
 {
     for(int i = 0; i < _drawableObjects.count; ++i){

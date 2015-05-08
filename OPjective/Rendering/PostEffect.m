@@ -72,6 +72,12 @@ static struct PostVertex QUAD_VERTS[] = {
     return 0;
 }
 
+- (void)batchDrawStartWithViewProjection:(const GLKMatrix4 *)vp
+{}
+
+- (void)batchDraw
+{}
+
 - (void)drawWithViewProjection:(const GLKMatrix4 *)viewProjection
 {
     GLcheckError();

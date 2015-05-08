@@ -77,7 +77,7 @@ static const vec3 VEC3_FORWARD = { 0, 0, 1 };
 static const vec3 VEC3_UP      = { 0, 1, 0 };
 static const vec3 VEC3_LEFT    = { 1, 0, 0 };
 
-static inline void vec3_set(vec3 r, vec3 v)
+static inline void vec3_set(vec3 r, const vec3 v)
 {
     r[0] = v[0];
     r[1] = v[1];
@@ -243,7 +243,7 @@ static const vec4 VEC4_FORWARD = { 0, 0, 1, 1 };
 static const vec4 VEC4_UP      = { 0, 1, 0, 1 };
 static const vec4 VEC4_LEFT    = { 1, 0, 0, 1 };
 
-static inline void vec4_set(vec4 r, vec4 v)
+static inline void vec4_set(vec4 r, const vec4 v)
 {
     r[0] = v[0];
     r[1] = v[1];

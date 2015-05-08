@@ -9,14 +9,27 @@
 #import <Foundation/Foundation.h>
 #import <OpenAL/al.h>
 
-@interface Sound : NSObject
+#define SOUND_SAMPLES_PER_SEC 22050
+#define SOUND_STREAM_BUFFER_SAMPLES 22050
+//4096
 
-- (id) initWithData:(ALshort*)data ofLength:(ALsizei)length  asStereo:(BOOL)isStereo withSoundCount:(int)sounds;
+@interface Sound : NSObject{
+    @private
+    ALuint buffers[3];
+    ALshort streamBuffs[SOUND_STREAM_BUFFER_SAMPLES][3];
+    ALuint availableBuffers;
+}
+
+- (id) initWithData:(ALshort*)data ofLength:(ALsizei)length  asStereo:(BOOL)isStereo withSoundCount:(unsigned int)sounds;
 
 - (void) play;
 - (void) stop;
 - (void) pause;
+- (void) setLocation:(ALfloat*)location;
 - (void) setVolume:(float)volume;
 - (void) setPitch: (float)pitch;
+- (BOOL) queueBuffer:(ALshort*)pcm;
+
++ (void) setListenerLocation:(ALfloat*)location withForward:(ALfloat*)forward andUp:(ALfloat*)up;
 
 @end

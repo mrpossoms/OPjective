@@ -116,9 +116,13 @@ static NSMutableDictionary* compiledShaders;
     
     // check to see if the this shader combination has been compiled and store yet
     // if so return the existing one instead
-    Shader* existingShader = compiledShaders[[NSString stringWithFormat:@"%@%@", vertex, fragment]];
+    NSString* name = [NSString stringWithFormat:@"%@%@", vertex, fragment];
+    Shader* existingShader = compiledShaders[name];
     if(existingShader){
         return existingShader;
+    }
+    else{
+        NSLog(@"Compiled '%@' as the %luth shader", name, compiledShaders.count);
     }
     
     GL_CHECK_ERR
@@ -212,7 +216,7 @@ static NSMutableDictionary* compiledShaders;
 }
 
 #pragma mark - Uniform setters
-- (void) usingTexture:(Texture *)texture withName:(const char*)name
+- (void) usingTexture:(const Texture *)texture withName:(const char*)name
 {
     if(currentShader != self) [self bind];
     if(_drawn) return;
@@ -233,7 +237,7 @@ static NSMutableDictionary* compiledShaders;
 }
 
 
-- (void) usingFloat:(GLfloat*)vector ofLength:(int)length withName:(const char*)name
+- (void) usingFloat:(const GLfloat*)vector ofLength:(int)length withName:(const char*)name
 {
     // find out where the uniform lives in the shader program
     GLint loc = glGetUniformLocation(_programId, name);
@@ -260,7 +264,7 @@ static NSMutableDictionary* compiledShaders;
     }
 }
 
-- (void) usingArray:(GLvoid*)array ofLength:(int)length andType:(enum ShaderArrayType)type withName:(const char*)name
+- (void) usingArray:(const GLvoid*)array ofLength:(int)length andType:(enum ShaderArrayType)type withName:(const char*)name
 {
     // find out where the uniform lives in the shader program
     GLint loc = glGetUniformLocation(_programId, name);
