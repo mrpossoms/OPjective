@@ -84,9 +84,9 @@ static Shader* lastShader = nil;
     return self;
 }
 
-- (unsigned int)stride
+- (GLsizei)stride
 {
-    return _explicitStride ? _explicitStride : _nextOffset;
+    return (GLsizei)_explicitStride ? _explicitStride : _nextOffset;
 }
 
 - (void)withExplicitStride:(unsigned int)stride
@@ -174,6 +174,22 @@ static Shader* lastShader = nil;
     
     if(!_boundOnce) _boundOnce = YES;
     
+}
+
+- (void) drawAs:(GLenum)drawType withStart:(GLsizei)offset andLength:(GLsizei)len
+{
+    if(!_vertices) return;
+    
+    GL_CHECK_ERR
+    
+    if(_usingIndexBuffer){
+        glDrawElements(drawType, len, GL_UNSIGNED_INT, (GLvoid*)(NSUInteger)(self.stride * offset));
+    }
+    else{
+        glDrawArrays(drawType, offset, len);
+    }
+    lastShader.drawn = YES;
+    GL_CHECK_ERR
 }
 
 - (void) drawAs:(GLenum)type{

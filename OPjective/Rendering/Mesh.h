@@ -25,10 +25,11 @@ struct vertexAttribute{
 - (id) withAttributeName:(const char*)name andElements:(int)elements;
 - (id) withAttributeName:(const char*)name andElements:(int)elements ofDataType:(GLenum)type;
 - (void) withExplicitStride:(unsigned int)stride;
-- (unsigned int)stride;
+- (GLsizei)stride;
 - (void) updateData:(void*)data ofSize:(GLsizeiptr)size;
 - (void) updateData:(void*)data ofSize:(GLsizeiptr)dsize andIndicies:(GLuint*)indices ofSize:(GLsizeiptr)isize;
 - (void) bindWithShader:(Shader *)shader;
+- (void) drawAs:(GLenum)drawType withStart:(GLsizei)offset andLength:(GLsizei)len;
 - (void) drawAs:(GLenum)type;
 
 @end

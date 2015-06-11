@@ -59,6 +59,14 @@
     return 0;
 }
 
+- (void)drawAs:(GLenum)drawType withStart:(GLsizei)offset andLength:(GLsizei)len
+{
+    GL_CHECK_ERR
+    [self.mesh bindWithShader:[self.shaders firstObject]];
+    GL_CHECK_ERR
+    [self.mesh drawAs:drawType withStart:offset andLength:len];
+}
+
 - (void) drawAs:(GLenum)drawType
 {
     GL_CHECK_ERR

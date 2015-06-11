@@ -15,6 +15,8 @@
 
 @interface RenderTarget : NSObject
 
+extern BOOL RENDERING_TO_TEXTURE;
+
 @property (nonatomic) GLuint fboId;
 @property (nonatomic) Texture* color;
 @property (nonatomic) Texture* depth;

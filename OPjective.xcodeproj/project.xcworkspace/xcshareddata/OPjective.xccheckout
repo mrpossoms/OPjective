@@ -10,29 +10,41 @@
 	<string>OPjective</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>28FD22C4-2C94-49C0-A07C-D3C733250976</key>
+		<key>44DAC278A4991677914BA527409209A6B670564D</key>
 		<string>https://github.com/mrpossoms/OPjective.git</string>
+		<key>FA0D03541D75E05B348C14054FD897B577F8EE2A</key>
+		<string>https://github.com/cdave1/freetype2-ios.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>OPjective.xcodeproj/project.xcworkspace</string>
+	<string>OPjective.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>28FD22C4-2C94-49C0-A07C-D3C733250976</key>
+		<key>44DAC278A4991677914BA527409209A6B670564D</key>
 		<string>../..</string>
+		<key>FA0D03541D75E05B348C14054FD897B577F8EE2A</key>
+		<string>../../../freetype2-ios</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/mrpossoms/OPjective.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>28FD22C4-2C94-49C0-A07C-D3C733250976</string>
+	<string>44DAC278A4991677914BA527409209A6B670564D</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>28FD22C4-2C94-49C0-A07C-D3C733250976</string>
+			<string>FA0D03541D75E05B348C14054FD897B577F8EE2A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>freetype2-ios</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>44DAC278A4991677914BA527409209A6B670564D</string>
 			<key>IDESourceControlWCCName</key>
 			<string>OPjective</string>
 		</dict>

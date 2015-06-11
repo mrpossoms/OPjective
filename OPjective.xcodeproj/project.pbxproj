@@ -30,6 +30,10 @@
 		06B0441F1A44D42500C5604E /* PostEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B0441E1A44D42500C5604E /* PostEffect.m */; };
 		06C5C08B1A316B7A007ADE08 /* ObjectGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C5C08A1A316B7A007ADE08 /* ObjectGroup.m */; };
 		06C5C0911A317927007ADE08 /* RenderTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C5C0901A317927007ADE08 /* RenderTarget.m */; };
+		06CE4A691B250840004105E2 /* libfmodL_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06CE4A681B250840004105E2 /* libfmodL_iphoneos.a */; };
+		06DB0CA21B25E112007E8FD3 /* libfmod_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DB0C9F1B25E112007E8FD3 /* libfmod_iphoneos.a */; };
+		06DB0CA31B25E112007E8FD3 /* libfmod_iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DB0CA01B25E112007E8FD3 /* libfmod_iphonesimulator.a */; };
+		06DB0CA41B25E112007E8FD3 /* libfmodL_iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DB0CA11B25E112007E8FD3 /* libfmodL_iphonesimulator.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +110,10 @@
 		06C5C08A1A316B7A007ADE08 /* ObjectGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectGroup.m; sourceTree = "<group>"; };
 		06C5C08F1A317927007ADE08 /* RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderTarget.h; sourceTree = "<group>"; };
 		06C5C0901A317927007ADE08 /* RenderTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderTarget.m; sourceTree = "<group>"; };
+		06CE4A681B250840004105E2 /* libfmodL_iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmodL_iphoneos.a; path = OPjective/ThirdParty/fmod/lib/libfmodL_iphoneos.a; sourceTree = "<group>"; };
+		06DB0C9F1B25E112007E8FD3 /* libfmod_iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmod_iphoneos.a; path = OPjective/ThirdParty/fmod/lib/libfmod_iphoneos.a; sourceTree = "<group>"; };
+		06DB0CA01B25E112007E8FD3 /* libfmod_iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmod_iphonesimulator.a; path = OPjective/ThirdParty/fmod/lib/libfmod_iphonesimulator.a; sourceTree = "<group>"; };
+		06DB0CA11B25E112007E8FD3 /* libfmodL_iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmodL_iphonesimulator.a; path = OPjective/ThirdParty/fmod/lib/libfmodL_iphonesimulator.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +121,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06DB0CA21B25E112007E8FD3 /* libfmod_iphoneos.a in Frameworks */,
+				06DB0CA31B25E112007E8FD3 /* libfmod_iphonesimulator.a in Frameworks */,
+				06DB0CA41B25E112007E8FD3 /* libfmodL_iphonesimulator.a in Frameworks */,
+				06CE4A691B250840004105E2 /* libfmodL_iphoneos.a in Frameworks */,
 				061F1C191AD332EB009F74AF /* libFreetype2.a in Frameworks */,
 				062FD0E41A4E4FB800F9A61A /* UIKit.framework in Frameworks */,
 				0628186D19A9546A00703ACF /* AVFoundation.framework in Frameworks */,
@@ -270,6 +282,10 @@
 		06ADC21D19A55D5300E9DD50 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				06DB0C9F1B25E112007E8FD3 /* libfmod_iphoneos.a */,
+				06DB0CA01B25E112007E8FD3 /* libfmod_iphonesimulator.a */,
+				06DB0CA11B25E112007E8FD3 /* libfmodL_iphonesimulator.a */,
+				06CE4A681B250840004105E2 /* libfmodL_iphoneos.a */,
 				062FD0E31A4E4FB800F9A61A /* UIKit.framework */,
 				0628186C19A9546A00703ACF /* AVFoundation.framework */,
 				0666B86019A7DF0500760006 /* AudioToolbox.framework */,
@@ -490,14 +506,16 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OPjective/OPjective-Prefix.pch";
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OPjective/ThirdParty/freetype-2.5.5",
+					"$(PROJECT_DIR)/OPjective/ThirdParty/fmod/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OPjective;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "/Users/kirkroerig/Code/OPjective/** /Users/kirkroerig/Code/freetype2-ios/include";
+				USER_HEADER_SEARCH_PATHS = "/Users/kirkroerig/Code/OPjective/** /Users/kirkroerig/Code/freetype2-ios/include ./OPjective/ThirdParty/fmod/inc";
 			};
 			name = Debug;
 		};
@@ -511,14 +529,16 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OPjective/OPjective-Prefix.pch";
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OPjective/ThirdParty/freetype-2.5.5",
+					"$(PROJECT_DIR)/OPjective/ThirdParty/fmod/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OPjective;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "/Users/kirkroerig/Code/OPjective/** /Users/kirkroerig/Code/freetype2-ios/include";
+				USER_HEADER_SEARCH_PATHS = "/Users/kirkroerig/Code/OPjective/** /Users/kirkroerig/Code/freetype2-ios/include ./OPjective/ThirdParty/fmod/inc";
 			};
 			name = Release;
 		};

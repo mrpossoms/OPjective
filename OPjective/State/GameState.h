@@ -13,6 +13,8 @@
 
 @interface GameState : NSObject <Updateable, Drawable>
 
+@property NSMutableArray* subStates;
+
 - (void)enterFromState:(GameState*)last;
 - (void)exitToState:(GameState*)next;
 - (void)updateWithTimeElapsed:(double)dt;

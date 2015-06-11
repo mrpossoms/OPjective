@@ -122,7 +122,7 @@ static NSMutableDictionary* compiledShaders;
         return existingShader;
     }
     else{
-        NSLog(@"Compiled '%@' as the %luth shader", name, compiledShaders.count);
+        NSLog(@"Compiled '%@' as the %luth shader", name, (unsigned long)compiledShaders.count);
     }
     
     GL_CHECK_ERR

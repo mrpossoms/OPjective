@@ -20,7 +20,8 @@
     ALuint availableBuffers;
 }
 
-- (id) initWithData:(ALshort*)data ofLength:(ALsizei)length  asStereo:(BOOL)isStereo withSoundCount:(unsigned int)sounds;
+- (id) initWithData:(void*)data ofLength:(ALsizei)length  asStereo:(BOOL)isStereo withSoundCount:(unsigned int)sounds;
+- (instancetype)initWithFile:(const char*)path;
 
 - (void) play;
 - (void) stop;
@@ -29,7 +30,10 @@
 - (void) setVolume:(float)volume;
 - (void) setPitch: (float)pitch;
 - (BOOL) queueBuffer:(ALshort*)pcm;
+- (void) clearBuffers;
 
++ (void) updateWithTimeElapsed:(double)dt;
 + (void) setListenerLocation:(ALfloat*)location withForward:(ALfloat*)forward andUp:(ALfloat*)up;
++ (void) initialize;
 
 @end

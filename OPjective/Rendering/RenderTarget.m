@@ -8,6 +8,8 @@
 
 #import "RenderTarget.h"
 
+BOOL RENDERING_TO_TEXTURE = NO;
+
 @interface RenderTarget(){
     GLint lastViewport[4];
     GLsizei rtWidth, rtHeight;
@@ -60,6 +62,8 @@
 
 - (void)bind
 {
+    RENDERING_TO_TEXTURE = YES;
+    
     glGetIntegerv(GL_VIEWPORT, lastViewport);
     glViewport(0, 0, rtWidth, rtHeight);
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -77,6 +81,8 @@
                lastViewport[3]
     );
     GLcheckError();
+
+    RENDERING_TO_TEXTURE = NO;
 }
 
 - (void)dealloc

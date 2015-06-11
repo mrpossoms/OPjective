@@ -10,7 +10,10 @@
 #import <OpenAL/alc.h>
 #include <AudioToolbox/AudioToolbox.h>
 #include <AVFoundation/AVFoundation.h>
+#include "fmod.h"
 
+#define NUM_COLUMNS 50
+#define NUM_ROWS 25
 
 struct AudioSources{
     ALuint sources[16];
@@ -20,152 +23,116 @@ struct AudioSources{
 
 @interface Sound()
 
-@property (nonatomic) struct AudioSources sources;
+@property FMOD_SOUND*   sound;
+@property FMOD_CHANNEL* channel;
 
 @end
 
 @implementation Sound
 
+NSMutableString *gOutputBuffer;
+bool gSuspendState;
+
+FMOD_SYSTEM* FMOD_SYS;
+
 static ALCdevice*  ALC_DEV = nil;
 static ALCcontext* ALC_CTX = nil;
 
-- (ALCdevice*) device
+void interruptionListenerCallback(void *inUserData, UInt32 interruptionState)
 {
-//    return nil;
-    if(!ALC_DEV){
-        // setup audio session
-        NSError *error = nil;
-        AVAudioSession *session = [AVAudioSession sharedInstance];
-        [session setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
-        NSAssert(error == nil, @"Failed to set audio session category.");
-        
-        // Make sure the sounds don't play out the headphone jack
-        OSStatus propertySetError = 0;
-        UInt32 doChangeDefaultRoute = true;
-        propertySetError = AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof(doChangeDefaultRoute), &doChangeDefaultRoute);
-        NSAssert(propertySetError == 0, @"Failed to set audio session property: OverrideCategoryDefaultToSpeaker");
-        
-        ALC_DEV = alcOpenDevice(NULL);
-        ALC_CTX = alcCreateContext(ALC_DEV, NULL);
-        alcMakeContextCurrent(ALC_CTX);
+    if (interruptionState == kAudioSessionBeginInterruption)
+    {
+        gSuspendState = true;
     }
+    else if (interruptionState == kAudioSessionEndInterruption)
+    {
+        UInt32 sessionCategory = kAudioSessionCategory_PlayAndRecord;
+        AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(sessionCategory), &sessionCategory);
+        AudioSessionSetActive(true);
+        
+        gSuspendState = false;
+    }
+}
+
++ (void)initialize
+{
+    void* extradriverdata;
     
-    return ALC_DEV;
+    gSuspendState = false;
+    gOutputBuffer = [NSMutableString stringWithCapacity:(NUM_COLUMNS * NUM_ROWS)];
+    
+    AudioSessionInitialize(NULL, NULL, interruptionListenerCallback, NULL);
+    
+    // Default to 'play and record' so we have recording available for examples that use it
+    UInt32 sessionCategory = kAudioSessionCategory_PlayAndRecord;
+    AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(sessionCategory), &sessionCategory);
+    AudioSessionSetActive(true);
+    
+    FMOD_System_Create(&FMOD_SYS);
+    FMOD_System_Init(FMOD_SYS, 32, FMOD_INIT_NORMAL, extradriverdata);
 }
 
 - (instancetype)init
 {
     self = [super init];
-    [self device];
-
-    bzero(&_sources, sizeof(struct AudioSources));
-    _sources.count = 1;
-    
-    alGenSources(_sources.count, _sources.sources);
-    alGenBuffers(3, buffers);
-    
-    availableBuffers = 3;
     
     return self;
 }
 
-- (id) initWithData:(ALshort*)data ofLength:(ALsizei)length asStereo:(BOOL)isStereo withSoundCount:(unsigned int)sounds
+- (instancetype)initWithFile:(const char*)path
 {
     self = [super init];
-    [self device];
     
-    bzero(&_sources, sizeof(struct AudioSources));
-    _sources.count = sounds > 16 ? 16 : sounds;
-    
-    alGenSources(_sources.count, _sources.sources);
-    
-    alGenBuffers(1, buffers);
-    alBufferData(
-                 buffers[0],
-                 isStereo ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16,
-                 data,
-                 length,
-                 SOUND_SAMPLES_PER_SEC
-    );
-    
-//    streamBuffs[0] = streamBuffs[1] = NULL;
-    
-    for(;sounds--;){
-        alSourcef(_sources.sources[sounds], AL_PITCH, 1.0f);
-        alSourcef(_sources.sources[sounds], AL_GAIN, 1.0f);
-        alSourcei(_sources.sources[sounds], AL_BUFFER, buffers[0]);
-    }
+    const char* fullPath = [[NSString stringWithFormat:@"%@/media/%s", [[NSBundle mainBundle] resourcePath], path] UTF8String];
+    FMOD_System_CreateSound(FMOD_SYS, fullPath, FMOD_DEFAULT, 0, &_sound);
     
     return self;
+}
+
+- (id) initWithData:(void*)data ofLength:(ALsizei)length asStereo:(BOOL)isStereo withSoundCount:(unsigned int)sounds
+{
+    self = [super init];
+    
+    FMOD_CREATESOUNDEXINFO info = {
+        .cbsize = sizeof(FMOD_CREATESOUNDEXINFO),
+        .length = length,
+        .numchannels = 1,
+        .defaultfrequency = SOUND_STREAM_BUFFER_SAMPLES,
+        .format = FMOD_SOUND_FORMAT_PCM16
+    };
+    
+    if(FMOD_System_CreateSound(FMOD_SYS, data, FMOD_OPENRAW | FMOD_OPENMEMORY_POINT, &info, &_sound) != FMOD_OK){
+        return nil;
+    }
+    
+    
+    return self;
+}
+
+- (void) clearBuffers
+{
+
 }
 
 - (BOOL) queueBuffer:(ALshort *)pcm
 {
-    ALint isStopped = 0, playedBuffers = 0;
-    ALint src = _sources.sources[0];
-    
-    alGetSourcei(src, AL_SOURCE_STATE, &isStopped);
-    
-    if(isStopped == AL_STOPPED)
-        NSLog(@"Stopped");
-    
-        ALuint nextBuffer = 0;
-        ALint i = -1;
-        
-        alGetSourcei(src, AL_BUFFERS_PROCESSED, &playedBuffers);
-        
-        if(playedBuffers > 0){
-            alSourceUnqueueBuffers(src, 1, &nextBuffer);
-
-            if(buffers[0] == nextBuffer)
-                i = 0;
-            if(buffers[1] == nextBuffer)
-                i = 1;
-            if(buffers[2] == nextBuffer)
-                i = 2;
-        }
-        else{
-            if(availableBuffers){
-                nextBuffer = buffers[i = (--availableBuffers)];
-            }
-            else{
-                return NO;
-            }
-        }
-    
-        assert(i >= 0);
-        assert(nextBuffer == buffers[i]);
-    
-        memcpy(streamBuffs[i], pcm, sizeof(ALshort) * SOUND_STREAM_BUFFER_SAMPLES);
-        alBufferData(buffers[i],
-                     AL_FORMAT_MONO16,
-                     streamBuffs[i],
-                     sizeof(ALshort) * SOUND_STREAM_BUFFER_SAMPLES,
-                     SOUND_SAMPLES_PER_SEC << 1
-                     );
-    
-        assert(buffers[i]);
-    
-        alSourceQueueBuffers(src, 1, buffers + i);
-
     return YES;
 }
 
 - (void) play
 {
-    int i = _sources.currentSource;
-    alSourcePlay(_sources.sources[i]);
-    _sources.currentSource = (++_sources.currentSource % _sources.count);
+    FMOD_System_PlaySound(FMOD_SYS, _sound, NULL, false, &_channel);
 }
 
 - (void) stop{
-    int i = _sources.currentSource;
-    alSourceStop(_sources.sources[i]);
 }
 
 - (void) pause{
-    int i = _sources.currentSource;
-    alSourcePause(_sources.sources[i]);
+}
+
++ (void) updateWithTimeElapsed:(double)dt
+{
+    FMOD_System_Update(FMOD_SYS);
 }
 
 + (void) setListenerLocation:(ALfloat*)location withForward:(ALfloat*)forward andUp:(ALfloat*)up
@@ -181,20 +148,19 @@ static ALCcontext* ALC_CTX = nil;
 
 - (void) setLocation:(ALfloat*)location
 {
-    int i = _sources.currentSource;
-    alSourcefv(_sources.sources[i], AL_POSITION, location);
+    FMOD_VECTOR pos = { location[0], location[1], location[2] };
+    FMOD_VECTOR zero = {};
+    FMOD_Channel_Set3DAttributes(_channel, &pos, &zero, NULL);
 }
 
 - (void) setVolume:(float)volume
 {
-    int i = _sources.currentSource;
-    alSourcef(_sources.sources[i], AL_GAIN, volume);
+    FMOD_Channel_SetVolume(_channel, volume);
 }
 
 - (void) setPitch: (float)pitch
 {
-    int i = _sources.currentSource;
-    alSourcef(_sources.sources[i], AL_PITCH, pitch);
+    FMOD_Channel_SetPitch(_channel, pitch);
 }
 
 @end

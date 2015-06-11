@@ -10,18 +10,78 @@
 
 static GameState* GAMESTATE_ACTIVE;
 
+#define EACH_SUB_STATE for(GameState* state in _subStates)
 
 @implementation GameState
 
-- (void)updateWithTimeElapsed:(double)dt{}
-- (void)drawWithViewProjection:(const GLKMatrix4 *)viewProjection{}
-- (void)batchDrawStartWithViewProjection:(const GLKMatrix4 *)vp{}
-- (void)batchDraw{}
-- (void)receiveTouches:(NSSet*)touches{}
-- (void)receiveTouchesEnded:(NSSet *)touches{}
-- (void)receiveGesture:(UIGestureRecognizer *)gesture{}
-- (void)receiveCustomSwipe:(GLKVector2)swipeDirection{}
+- (instancetype)init
+{
+    self = [super init];
+    if(!self) return nil;
+    
+    _subStates = [NSMutableArray array];
+    
+    return self;
+}
+
+- (void)updateWithTimeElapsed:(double)dt
+{
+    EACH_SUB_STATE{
+        [state updateWithTimeElapsed:dt];
+    }
+}
+
+- (void)drawWithViewProjection:(const GLKMatrix4 *)viewProjection
+{
+    EACH_SUB_STATE{
+        [state drawWithViewProjection:viewProjection];
+    }
+}
+
+- (void)batchDrawStartWithViewProjection:(const GLKMatrix4 *)vp
+{
+    EACH_SUB_STATE{
+        [state batchDrawStartWithViewProjection:vp];
+    }
+}
+
+- (void)batchDraw
+{
+    EACH_SUB_STATE{
+        [state batchDraw];
+    }
+}
+
+- (void)receiveTouches:(NSSet*)touches
+{
+    EACH_SUB_STATE{
+        [state receiveTouches:touches];
+    }
+}
+
+- (void)receiveTouchesEnded:(NSSet *)touches
+{
+    EACH_SUB_STATE{
+        [state receiveTouchesEnded:touches];
+    }
+}
+
+- (void)receiveGesture:(UIGestureRecognizer *)gesture
+{
+    EACH_SUB_STATE{
+        [state receiveGesture:gesture];
+    }
+}
+
+- (void)receiveCustomSwipe:(GLKVector2)swipeDirection
+{
+    EACH_SUB_STATE{
+        [state receiveCustomSwipe:swipeDirection];
+    }
+}
+
 - (void)enterFromState:(GameState *)last{}
+
 - (void)exitToState:(GameState *)next{}
 
 + (void)switchToState:(GameState *)next

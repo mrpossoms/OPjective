@@ -15,9 +15,10 @@
 @property (strong, nonatomic) NSMutableArray* shaders;
 
 - (void)withExplicitStride:(unsigned int)stride;
-- (void) withAttributeName:(const char*)name andElements:(int)elements;
-- (void) withAttributeName:(const char*)name andElements:(int)elements ofDataType:(GLenum)type;
+- (void)withAttributeName:(const char*)name andElements:(int)elements;
+- (void)withAttributeName:(const char*)name andElements:(int)elements ofDataType:(GLenum)type;
 - (unsigned int) buildWithVertexProg:(NSString*)vertex andFragmentProg:(NSString*)frag;
-- (void) drawAs:(GLenum) drawType;
+- (void) drawAs:(GLenum)drawType withStart:(GLsizei)offset andLength:(GLsizei)len;
+- (void) drawAs:(GLenum)drawType;
 
 @end
