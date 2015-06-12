@@ -8,27 +8,26 @@
 
 #import <Foundation/Foundation.h>
 #import <OpenAL/al.h>
+#include "fmod.h"
 
 #define SOUND_SAMPLES_PER_SEC 22050
 #define SOUND_STREAM_BUFFER_SAMPLES 22050
 //4096
 
 @interface Sound : NSObject{
-    @private
-    ALuint buffers[3];
-    ALshort streamBuffs[SOUND_STREAM_BUFFER_SAMPLES][3];
-    ALuint availableBuffers;
+    @public
+    float volume, pitch;
 }
 
-- (id) initWithData:(void*)data ofLength:(ALsizei)length  asStereo:(BOOL)isStereo withSoundCount:(unsigned int)sounds;
-- (instancetype)initWithFile:(const char*)path;
+- (id) initWithData:(void*)data ofLength:(ALsizei)length asStereo:(BOOL)isStereo fmodFlags:(FMOD_MODE)flags;
+- (instancetype)initWithFile:(const char*)path fmodFlags:(FMOD_MODE)flags;
 
 - (void) play;
+- (void) playAtLocation:(ALfloat*)location;
 - (void) stop;
 - (void) pause;
 - (void) setLocation:(ALfloat*)location;
-- (void) setVolume:(float)volume;
-- (void) setPitch: (float)pitch;
+- (void) setLooping;
 - (BOOL) queueBuffer:(ALshort*)pcm;
 - (void) clearBuffers;
 
