@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "OPjective.h"
 #import "Math/linearAlgebra.h"
+#import "Math/DSP.h"
 
 #import "Rendering/Mesh.h"
 #import "Rendering/Shader.h"

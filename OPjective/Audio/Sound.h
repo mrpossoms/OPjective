@@ -10,8 +10,8 @@
 #import <OpenAL/al.h>
 #include "fmod.h"
 
-#define SOUND_SAMPLES_PER_SEC 22050
-#define SOUND_STREAM_BUFFER_SAMPLES 22050
+#define SOUND_SAMPLES_PER_SEC 44100
+#define SOUND_STREAM_BUFFER_SAMPLES 44100
 //4096
 
 @interface Sound : NSObject{

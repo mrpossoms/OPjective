@@ -81,6 +81,7 @@
 		0628186C19A9546A00703ACF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		062FD0E31A4E4FB800F9A61A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		062FD0E51A4F3B3F00F9A61A /* Touchable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Touchable.h; path = Protocols/Touchable.h; sourceTree = "<group>"; };
+		0639B2421B3336020000DCAD /* DSP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DSP.h; path = Math/DSP.h; sourceTree = "<group>"; };
 		06467FBD19A70DD0009E628E /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sound.h; path = Audio/Sound.h; sourceTree = "<group>"; };
 		06467FBE19A70DD0009E628E /* Sound.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sound.m; path = Audio/Sound.m; sourceTree = "<group>"; };
 		065074C419A6CCF500741471 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
@@ -226,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				0666B86419A8041300760006 /* linearAlgebra.h */,
+				0639B2421B3336020000DCAD /* DSP.h */,
 			);
 			name = Math;
 			sourceTree = "<group>";
