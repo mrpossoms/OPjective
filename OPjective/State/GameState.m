@@ -59,6 +59,13 @@ static GameState* GAMESTATE_ACTIVE;
     }
 }
 
+- (void)receiveTouchesMoved:(NSSet *)touches
+{
+    EACH_SUB_STATE{
+        [state receiveTouchesMoved:touches];
+    }
+}
+
 - (void)receiveTouchesEnded:(NSSet *)touches
 {
     EACH_SUB_STATE{
@@ -98,6 +105,11 @@ static GameState* GAMESTATE_ACTIVE;
 + (void)sendTouches:(NSSet *)touches
 {
     [GAMESTATE_ACTIVE receiveTouches:touches];
+}
+
++ (void)sendTouchesMoved:(NSSet *)touches
+{
+    [GAMESTATE_ACTIVE receiveTouchesMoved:touches];
 }
 
 + (void)sendTouchesEnded:(NSSet*)touches

@@ -99,6 +99,39 @@ void interruptionListenerCallback(void *inUserData, UInt32 interruptionState)
     return self;
 }
 
+- (instancetype)initWithCallback:(FMOD_RESULT F_CALLBACK(*)(FMOD_SOUND* , void*, unsigned int))pcmCallback
+{
+    self = [super init];
+    
+    FMOD_CREATESOUNDEXINFO info = {
+        .cbsize = sizeof(FMOD_CREATESOUNDEXINFO),
+        .length = length,
+        .numchannels = 1,
+        .defaultfrequency = SOUND_STREAM_BUFFER_SAMPLES,
+        .decodebuffersize = SOUND_STREAM_BUFFER_SAMPLES,
+        .format = FMOD_SOUND_FORMAT_PCM16
+    };
+    
+    if(FMOD_System_CreateSound(
+                               FMOD_SYS,
+                               data,
+                               FMOD_OPENRAW | FMOD_OPENMEMORY_POINT | flags,
+                               &info,
+                               &_sound) != FMOD_OK)
+    {
+        return nil;
+    }
+    
+    if(flags & FMOD_3D){
+        FMOD_Sound_Set3DMinMaxDistance(_sound, 0.5f * DISTANCEFACTOR, 5000.0f * DISTANCEFACTOR);
+    }
+    
+    volume = pitch = 1;
+    
+    
+    return self;
+}
+
 - (id) initWithData:(void*)data ofLength:(ALsizei)length asStereo:(BOOL)isStereo fmodFlags:(FMOD_MODE)flags
 {
     self = [super init];

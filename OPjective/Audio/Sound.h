@@ -21,6 +21,7 @@
 
 - (id) initWithData:(void*)data ofLength:(ALsizei)length asStereo:(BOOL)isStereo fmodFlags:(FMOD_MODE)flags;
 - (instancetype)initWithFile:(const char*)path fmodFlags:(FMOD_MODE)flags;
+- (instancetype)initWithCallback:(FMOD_RESULT F_CALLBACK(*)(FMOD_SOUND* , void*, unsigned int))pcmCallback;
 
 - (void) play;
 - (void) playAtLocation:(ALfloat*)location;

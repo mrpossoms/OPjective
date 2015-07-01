@@ -11,6 +11,7 @@
 @protocol Touchable <NSObject>
 
 - (void)touchStarted:(UITouch*)touch;
+- (void)touchMoved:(UITouch*)touch;
 - (void)touchEnded:(UITouch*)touch;
 - (BOOL)isTouchedBy:(UITouch*)touch;
 

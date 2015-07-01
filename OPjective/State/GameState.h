@@ -19,12 +19,14 @@
 - (void)exitToState:(GameState*)next;
 - (void)updateWithTimeElapsed:(double)dt;
 - (void)receiveTouches:(NSSet*)touches;
+- (void)receiveTouchesMoved:(NSSet*)touches;
 - (void)receiveTouchesEnded:(NSSet*)touches;
 - (void)receiveGesture:(UIGestureRecognizer*)gesture;
 - (void)receiveCustomSwipe:(GLKVector2)swipeDirection;
 
 + (void)switchToState:(GameState*)state;
 + (void)sendTouches:(NSSet*)touches;
++ (void)sendTouchesMoved:(NSSet*)touches;
 + (void)sendTouchesEnded:(NSSet*)touches;
 + (void)sendGesture:(UIGestureRecognizer*)gesture;
 + (void)sendCustomSwipe:(GLKVector2)swipeDirection;
