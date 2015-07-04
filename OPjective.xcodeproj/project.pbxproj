@@ -30,6 +30,26 @@
 		06B0441F1A44D42500C5604E /* PostEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B0441E1A44D42500C5604E /* PostEffect.m */; };
 		06C5C08B1A316B7A007ADE08 /* ObjectGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C5C08A1A316B7A007ADE08 /* ObjectGroup.m */; };
 		06C5C0911A317927007ADE08 /* RenderTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C5C0901A317927007ADE08 /* RenderTarget.m */; };
+		06CB02CC1B4840BB00D1661F /* GameState.h in Headers */ = {isa = PBXBuildFile; fileRef = 0668AB421A430487004EEF2C /* GameState.h */; };
+		06CB02CD1B4840BB00D1661F /* Graph.h in Headers */ = {isa = PBXBuildFile; fileRef = 0612C8D11A3ABACC00212C29 /* Graph.h */; };
+		06CB02CE1B4840BB00D1661F /* Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = 06467FBD19A70DD0009E628E /* Sound.h */; };
+		06CB02CF1B4840BB00D1661F /* Font.h in Headers */ = {isa = PBXBuildFile; fileRef = 061F1C161AD33285009F74AF /* Font.h */; };
+		06CB02D01B4840BB00D1661F /* ShadedMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 066FDF7A19AEBF9500C4B3C9 /* ShadedMesh.h */; };
+		06CB02D11B4840BB00D1661F /* Mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 0608106A19A6BD5A0005BC51 /* Mesh.h */; };
+		06CB02D21B4840BB00D1661F /* Shader.h in Headers */ = {isa = PBXBuildFile; fileRef = 0608106C19A6BD5A0005BC51 /* Shader.h */; };
+		06CB02D31B4840BB00D1661F /* Texture.h in Headers */ = {isa = PBXBuildFile; fileRef = 065074C419A6CCF500741471 /* Texture.h */; };
+		06CB02D41B4840BB00D1661F /* ObjectGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 06C5C0891A316B7A007ADE08 /* ObjectGroup.h */; };
+		06CB02D51B4840BB00D1661F /* RenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 06C5C08F1A317927007ADE08 /* RenderTarget.h */; };
+		06CB02D61B4840BB00D1661F /* PostEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 06B0441D1A44D42500C5604E /* PostEffect.h */; };
+		06CB02D71B4840BB00D1661F /* OrderedScene.h in Headers */ = {isa = PBXBuildFile; fileRef = 066FDF5019AEB4B700C4B3C9 /* OrderedScene.h */; };
+		06CB02D81B4840BB00D1661F /* Drawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 066FDF4A19AEADA300C4B3C9 /* Drawable.h */; };
+		06CB02D91B4840BB00D1661F /* Updateable.h in Headers */ = {isa = PBXBuildFile; fileRef = 066FDF4B19AEADA300C4B3C9 /* Updateable.h */; };
+		06CB02DA1B4840BB00D1661F /* Ranked.h in Headers */ = {isa = PBXBuildFile; fileRef = 066FDF5319AEB6BC00C4B3C9 /* Ranked.h */; };
+		06CB02DB1B4840BB00D1661F /* Perishable.h in Headers */ = {isa = PBXBuildFile; fileRef = 0600705E1A42F9360003DC0D /* Perishable.h */; };
+		06CB02DC1B4840BB00D1661F /* Touchable.h in Headers */ = {isa = PBXBuildFile; fileRef = 062FD0E51A4F3B3F00F9A61A /* Touchable.h */; };
+		06CB02DD1B4840BB00D1661F /* linearAlgebra.h in Headers */ = {isa = PBXBuildFile; fileRef = 0666B86419A8041300760006 /* linearAlgebra.h */; };
+		06CB02DE1B4840BB00D1661F /* DSP.h in Headers */ = {isa = PBXBuildFile; fileRef = 0639B2421B3336020000DCAD /* DSP.h */; };
+		06CB02DF1B4840BB00D1661F /* ReoccuringEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 066FDF4C19AEB07000C4B3C9 /* ReoccuringEvent.h */; };
 		06CE4A691B250840004105E2 /* libfmodL_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06CE4A681B250840004105E2 /* libfmodL_iphoneos.a */; };
 		06DB0CA21B25E112007E8FD3 /* libfmod_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DB0C9F1B25E112007E8FD3 /* libfmod_iphoneos.a */; };
 		06DB0CA31B25E112007E8FD3 /* libfmod_iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DB0CA01B25E112007E8FD3 /* libfmod_iphonesimulator.a */; };
@@ -301,6 +321,36 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		06CB02CA1B48408900D1661F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06CB02CC1B4840BB00D1661F /* GameState.h in Headers */,
+				06CB02CD1B4840BB00D1661F /* Graph.h in Headers */,
+				06CB02CE1B4840BB00D1661F /* Sound.h in Headers */,
+				06CB02CF1B4840BB00D1661F /* Font.h in Headers */,
+				06CB02D01B4840BB00D1661F /* ShadedMesh.h in Headers */,
+				06CB02D11B4840BB00D1661F /* Mesh.h in Headers */,
+				06CB02D21B4840BB00D1661F /* Shader.h in Headers */,
+				06CB02D31B4840BB00D1661F /* Texture.h in Headers */,
+				06CB02D41B4840BB00D1661F /* ObjectGroup.h in Headers */,
+				06CB02D51B4840BB00D1661F /* RenderTarget.h in Headers */,
+				06CB02D61B4840BB00D1661F /* PostEffect.h in Headers */,
+				06CB02D71B4840BB00D1661F /* OrderedScene.h in Headers */,
+				06CB02D81B4840BB00D1661F /* Drawable.h in Headers */,
+				06CB02D91B4840BB00D1661F /* Updateable.h in Headers */,
+				06CB02DA1B4840BB00D1661F /* Ranked.h in Headers */,
+				06CB02DB1B4840BB00D1661F /* Perishable.h in Headers */,
+				06CB02DC1B4840BB00D1661F /* Touchable.h in Headers */,
+				06CB02DD1B4840BB00D1661F /* linearAlgebra.h in Headers */,
+				06CB02DE1B4840BB00D1661F /* DSP.h in Headers */,
+				06CB02DF1B4840BB00D1661F /* ReoccuringEvent.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		06ADC21A19A55D5300E9DD50 /* OPjective */ = {
 			isa = PBXNativeTarget;
@@ -309,6 +359,7 @@
 				06ADC21719A55D5300E9DD50 /* Sources */,
 				06ADC21819A55D5300E9DD50 /* Frameworks */,
 				06ADC21919A55D5300E9DD50 /* CopyFiles */,
+				06CB02CA1B48408900D1661F /* Headers */,
 			);
 			buildRules = (
 			);
@@ -461,9 +512,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				INSTALL_PATH = /Applications;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -492,8 +545,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				INSTALL_PATH = /Applications;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

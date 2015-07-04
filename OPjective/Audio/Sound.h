@@ -14,6 +14,7 @@
 #define SOUND_STREAM_BUFFER_SAMPLES 44100
 //4096
 
+
 @interface Sound : NSObject{
     @public
     float volume, pitch;
@@ -21,14 +22,15 @@
 
 - (id) initWithData:(void*)data ofLength:(ALsizei)length asStereo:(BOOL)isStereo fmodFlags:(FMOD_MODE)flags;
 - (instancetype)initWithFile:(const char*)path fmodFlags:(FMOD_MODE)flags;
-- (instancetype)initWithCallback:(FMOD_RESULT F_CALLBACK(*)(FMOD_SOUND* , void*, unsigned int))pcmCallback;
+- (instancetype)initWithPcmCallback:(FMOD_DSP_READ_CALLBACK)pcmCallback
+                andHouseKeepingData:(void*)userData
+                          fmodFlags:(FMOD_MODE)flags;
 
 - (void) play;
 - (void) playAtLocation:(ALfloat*)location;
 - (void) stop;
 - (void) pause;
 - (void) setLocation:(ALfloat*)location;
-- (void) setLooping;
 - (BOOL) queueBuffer:(ALshort*)pcm;
 - (void) clearBuffers;
 

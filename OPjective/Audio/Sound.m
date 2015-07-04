@@ -13,6 +13,7 @@
 
 #define NUM_COLUMNS 50
 #define NUM_ROWS 25
+#define MASTER_VOLUME 15
 
 const float DISTANCEFACTOR = 50.0f;          // Units per meter.  I.e feet would = 3.28.  centimeters would = 100.
 
@@ -26,6 +27,9 @@ struct AudioSources{
 
 @property FMOD_SOUND*   sound;
 @property FMOD_CHANNEL* channel;
+@property FMOD_DSP* dsp;
+@property FMOD_CHANNELGROUP* group;
+@property char* groupName;
 
 @end
 
@@ -99,35 +103,78 @@ void interruptionListenerCallback(void *inUserData, UInt32 interruptionState)
     return self;
 }
 
-- (instancetype)initWithCallback:(FMOD_RESULT F_CALLBACK(*)(FMOD_SOUND* , void*, unsigned int))pcmCallback
+static FMOD_RESULT F_CALLBACK SILENT_REF(FMOD_SOUND* sound, void* data, unsigned int length)
+{
+    short* pcm = data;
+    
+    for(int i = (length >> 1); i--; pcm[i] = SHRT_MAX); // set each sample to 1
+    
+    return FMOD_OK;
+}
+
+- (instancetype)initWithPcmCallback:(FMOD_DSP_READ_CALLBACK)pcmCallback
+                andHouseKeepingData:(void *)userData
+                          fmodFlags:(FMOD_MODE)flags
 {
     self = [super init];
     
     FMOD_CREATESOUNDEXINFO info = {
         .cbsize = sizeof(FMOD_CREATESOUNDEXINFO),
-        .length = length,
+        .length = SOUND_SAMPLES_PER_SEC * sizeof(ALshort) * 2,
         .numchannels = 1,
-        .defaultfrequency = SOUND_STREAM_BUFFER_SAMPLES,
-        .decodebuffersize = SOUND_STREAM_BUFFER_SAMPLES,
-        .format = FMOD_SOUND_FORMAT_PCM16
+        .defaultfrequency = SOUND_SAMPLES_PER_SEC,
+        .decodebuffersize = SOUND_SAMPLES_PER_SEC,
+        .format = FMOD_SOUND_FORMAT_PCM16,
+        .pcmreadcallback = SILENT_REF,
+        .pcmsetposcallback = NULL,
     };
     
     if(FMOD_System_CreateSound(
                                FMOD_SYS,
-                               data,
-                               FMOD_OPENRAW | FMOD_OPENMEMORY_POINT | flags,
+                               NULL,
+                               FMOD_OPENUSER | flags,
                                &info,
                                &_sound) != FMOD_OK)
     {
         return nil;
     }
     
+    time_t now = time(NULL);
+    _groupName = malloc(10);
+    
+    sprintf(_groupName, "%ld", now);
+    
     if(flags & FMOD_3D){
         FMOD_Sound_Set3DMinMaxDistance(_sound, 0.5f * DISTANCEFACTOR, 5000.0f * DISTANCEFACTOR);
     }
     
-    volume = pitch = 1;
+    if(FMOD_System_CreateChannelGroup(FMOD_SYS, _groupName, &_group)){
+        return nil;
+    }
     
+    
+    FMOD_DSP_DESCRIPTION desc = {
+        .version = 0x00010000,
+        .numinputbuffers = 1,
+        .numoutputbuffers = 1,
+        .read = pcmCallback,
+        .userdata = userData,
+    };
+    
+    if(FMOD_System_CreateDSP(FMOD_SYS, &desc, &_dsp)){
+        FMOD_Sound_Release(_sound);
+        FMOD_ChannelGroup_Release(_group);
+        return nil;
+    }
+    
+    if(FMOD_ChannelGroup_AddDSP(_group, 0, _dsp)){
+        FMOD_Sound_Release(_sound);
+        FMOD_DSP_Release(_dsp);
+        FMOD_ChannelGroup_Release(_group);
+        return nil;
+    }
+    
+    volume = pitch = 1;
     
     return self;
 }
@@ -140,8 +187,8 @@ void interruptionListenerCallback(void *inUserData, UInt32 interruptionState)
         .cbsize = sizeof(FMOD_CREATESOUNDEXINFO),
         .length = length,
         .numchannels = 1,
-        .defaultfrequency = SOUND_STREAM_BUFFER_SAMPLES,
-        .decodebuffersize = SOUND_STREAM_BUFFER_SAMPLES,
+        .defaultfrequency = SOUND_SAMPLES_PER_SEC,
+        .decodebuffersize = SOUND_SAMPLES_PER_SEC,
         .format = FMOD_SOUND_FORMAT_PCM16
     };
     
@@ -164,6 +211,15 @@ void interruptionListenerCallback(void *inUserData, UInt32 interruptionState)
     return self;
 }
 
+- (void)dealloc
+{
+    free(_groupName);
+    
+    FMOD_Sound_Release(_sound);
+    if(_group) FMOD_ChannelGroup_Release(_group);
+    if(_dsp) FMOD_DSP_Release(_dsp);
+}
+
 - (void) clearBuffers
 {
 
@@ -177,8 +233,10 @@ void interruptionListenerCallback(void *inUserData, UInt32 interruptionState)
 - (void)playPaused
 {
     FMOD_System_PlaySound(FMOD_SYS, _sound, NULL, true, &_channel);
-    FMOD_Channel_SetVolume(_channel, volume);
+    FMOD_Channel_SetVolume(_channel, volume * MASTER_VOLUME);
     FMOD_Channel_SetPitch(_channel, pitch);
+
+    if(_group) FMOD_Channel_SetChannelGroup(_channel, _group);
 }
 
 - (void) play
@@ -198,6 +256,7 @@ void interruptionListenerCallback(void *inUserData, UInt32 interruptionState)
 }
 
 - (void) stop{
+    FMOD_Channel_Stop(_channel);
 }
 
 - (void) pause{

@@ -11,7 +11,17 @@
 
 #include <stdarg.h>
 
-static double DSP_mix(int num, ...)
+static inline float DSP_half(float t)
+{
+    return fabsf(cosf(t));
+}
+
+static inline float DSP_mod(float t, float fc, float fr, float fd, float fm, float fmr)
+{
+    return DSP_half(2 * M_PI * fc * t * fr + (fd/fm) * DSP_half(2 * M_PI * fm * t) * fmr);
+}
+
+static inline double DSP_mix(int num, ...)
 {
     double co = 1.0 / (float)num, sum = 0;
     
