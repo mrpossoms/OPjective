@@ -264,6 +264,33 @@ static NSMutableDictionary* compiledShaders;
     }
 }
 
+- (void) usingInt:(const GLint*)vector ofLength:(int)length withName:(const char*)name
+{
+    // find out where the uniform lives in the shader program
+    GLint loc = glGetUniformLocation(_programId, name);
+    if(loc < 0){
+        NSLog(@"Shader is missing uniform '%s'!", name);
+        return;
+    }
+    
+    switch (length) {
+        case 1:
+            glUniform1iv(loc, 1, vector);
+            break;
+        case 2:
+            glUniform2iv(loc, 1, vector);
+            break;
+        case 3:
+            glUniform3iv(loc, 1, vector);
+            break;
+        case 4:
+            glUniform4iv(loc, 1, vector);
+            break;
+        default:
+            break;
+    }
+}
+
 - (void) usingArray:(const GLvoid*)array ofLength:(int)length andType:(enum ShaderArrayType)type withName:(const char*)name
 {
     // find out where the uniform lives in the shader program

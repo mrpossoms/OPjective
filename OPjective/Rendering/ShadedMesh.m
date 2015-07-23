@@ -21,6 +21,7 @@
     self = [super init];
     
     _mesh = [[Mesh alloc] init];
+    _meshes = [NSMutableArray array];
     _attribs = [[NSMutableArray alloc] init];
     _shaders = [[NSMutableArray alloc] init];
     

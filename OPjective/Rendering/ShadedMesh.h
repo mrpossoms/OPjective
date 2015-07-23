@@ -12,6 +12,7 @@
 @interface ShadedMesh : NSObject
 
 @property (strong, nonatomic) Mesh* mesh;
+@property (strong, nonatomic) NSMutableArray* meshes;
 @property (strong, nonatomic) NSMutableArray* shaders;
 
 - (void)withExplicitStride:(unsigned int)stride;

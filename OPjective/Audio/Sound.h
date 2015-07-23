@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <OpenAL/al.h>
 #include "fmod.h"
+#include "fmod_ios.h"
 
 #define SOUND_SAMPLES_PER_SEC 44100
 #define SOUND_STREAM_BUFFER_SAMPLES 44100
@@ -31,8 +32,8 @@
 - (void) stop;
 - (void) pause;
 - (void) setLocation:(ALfloat*)location;
+- (void) setVolume:(ALfloat)volume;
 - (BOOL) queueBuffer:(ALshort*)pcm;
-- (void) clearBuffers;
 
 + (void) updateWithTimeElapsed:(double)dt;
 + (void) setListenerLocation:(ALfloat*)location withForward:(ALfloat*)forward andUp:(ALfloat*)up;

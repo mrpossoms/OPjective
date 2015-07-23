@@ -159,6 +159,13 @@ static inline void vec3_reflect(vec3 r, const vec3 v, const vec3 n)
 		r[i] = v[i] - p*n[i];
 }
 
+static inline void vec3_lerp(vec3 r, const vec3 b, const vec3 e, const float p)
+{
+    r[0] = b[0] * (1 - p) + e[0] * p;
+    r[1] = b[1] * (1 - p) + e[1] * p;
+    r[2] = b[2] * (1 - p) + e[2] * p;
+}
+
 static inline GLfloat vec3_colinear_solve_t(const vec3 v0, const vec3 v)
 {
     for(int i = 3; i--;){

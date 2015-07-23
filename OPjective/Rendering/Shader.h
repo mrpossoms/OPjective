@@ -36,6 +36,7 @@ enum ShaderArrayType{
 
 - (void) usingTexture:(const Texture *)texture withName:(const char*)name;
 - (void) usingFloat:(const GLfloat*)f ofLength:(int)length withName:(const char*)name;
+- (void) usingInt:(const GLint*)i ofLength:(int)length withName:(const char*)name;
 - (void) usingArray:(const GLvoid*)array ofLength:(int)length andType:(enum ShaderArrayType)type withName:(const char*)name;
 - (void) usingMat4x4:(const GLKMatrix4*)matrix withName:(const char*)name;
 

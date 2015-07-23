@@ -14,8 +14,10 @@
 @property (nonatomic) GLuint textureId;
 
 + (id) create2DWithWidth: (GLint)width andHeight:(GLint)height usingData:(void*)data;
++ (id) createDepthWithWidth: (GLint)width andHeight:(GLint)height usingData:(void*)data;
 
-- (void) updateWidth: (GLint)width andHeight:(GLint)height usingData:(const void*)data;
+
+- (void) updateWidth: (GLint)width andHeight:(GLint)height usingData:(const void*)data asDepthTexture:(BOOL)isDepth;
 - (void) isSmooth:(BOOL)smooth;
 - (void) shouldWrap:(BOOL)wrap;
 @end

@@ -13,9 +13,9 @@
 
 #define NUM_COLUMNS 50
 #define NUM_ROWS 25
-#define MASTER_VOLUME 15
+#define MASTER_VOLUME 3
 
-const float DISTANCEFACTOR = 50.0f;          // Units per meter.  I.e feet would = 3.28.  centimeters would = 100.
+const float DISTANCEFACTOR = 1.5f;          // Units per meter.  I.e feet would = 3.28.  centimeters would = 100.
 
 struct AudioSources{
     ALuint sources[16];
@@ -40,39 +40,25 @@ bool gSuspendState;
 
 FMOD_SYSTEM* FMOD_SYS;
 
-void interruptionListenerCallback(void *inUserData, UInt32 interruptionState)
-{
-    if (interruptionState == kAudioSessionBeginInterruption)
-    {
-        gSuspendState = true;
-    }
-    else if (interruptionState == kAudioSessionEndInterruption)
-    {
-        UInt32 sessionCategory = kAudioSessionCategory_PlayAndRecord;
-        AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(sessionCategory), &sessionCategory);
-        AudioSessionSetActive(true);
-        
-        gSuspendState = false;
-    }
-}
-
 + (void)initialize
 {
-    void* extradriverdata;
-    
     gSuspendState = false;
     gOutputBuffer = [NSMutableString stringWithCapacity:(NUM_COLUMNS * NUM_ROWS)];
     
-    AudioSessionInitialize(NULL, NULL, interruptionListenerCallback, NULL);
+    AVAudioSession* session = [AVAudioSession sharedInstance];
+    NSError* err;
+    [session setCategory:AVAudioSessionCategoryAmbient error:&err];
     
-    // Default to 'play and record' so we have recording available for examples that use it
-    UInt32 sessionCategory = kAudioSessionCategory_PlayAndRecord;
-    AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(sessionCategory), &sessionCategory);
-    AudioSessionSetActive(true);
+    void* extradriverdata;
     
     FMOD_System_Create(&FMOD_SYS);
     FMOD_System_Init(FMOD_SYS, 100, FMOD_INIT_NORMAL, extradriverdata);
 
+    
+    FMOD_OUTPUTTYPE output;
+    FMOD_System_GetOutput(FMOD_SYS, &output);
+    
+    
     assert(FMOD_System_Set3DSettings(FMOD_SYS, 1.0, DISTANCEFACTOR, 1.0) == FMOD_OK);
 }
 
@@ -95,7 +81,7 @@ void interruptionListenerCallback(void *inUserData, UInt32 interruptionState)
     
     FMOD_System_CreateSound(FMOD_SYS, fullPath, FMOD_DEFAULT | flags, 0, &_sound);
     if(flags & FMOD_3D){
-        FMOD_Sound_Set3DMinMaxDistance(_sound, 0.5f * DISTANCEFACTOR, 5000.0f * DISTANCEFACTOR);
+        FMOD_Sound_Set3DMinMaxDistance(_sound, 10.0f * DISTANCEFACTOR, 5000.0f * DISTANCEFACTOR);
     }
     
     volume = pitch = 1;
@@ -145,7 +131,7 @@ static FMOD_RESULT F_CALLBACK SILENT_REF(FMOD_SOUND* sound, void* data, unsigned
     sprintf(_groupName, "%ld", now);
     
     if(flags & FMOD_3D){
-        FMOD_Sound_Set3DMinMaxDistance(_sound, 0.5f * DISTANCEFACTOR, 5000.0f * DISTANCEFACTOR);
+        FMOD_Sound_Set3DMinMaxDistance(_sound, 10.0f * DISTANCEFACTOR, 5000.0f * DISTANCEFACTOR);
     }
     
     if(FMOD_System_CreateChannelGroup(FMOD_SYS, _groupName, &_group)){
@@ -203,7 +189,7 @@ static FMOD_RESULT F_CALLBACK SILENT_REF(FMOD_SOUND* sound, void* data, unsigned
     }
     
     if(flags & FMOD_3D){
-        FMOD_Sound_Set3DMinMaxDistance(_sound, 0.5f * DISTANCEFACTOR, 5000.0f * DISTANCEFACTOR);
+        FMOD_Sound_Set3DMinMaxDistance(_sound, 10.0f * DISTANCEFACTOR, 5000.0f * DISTANCEFACTOR);
     }
     
     volume = pitch = 1;
@@ -218,11 +204,6 @@ static FMOD_RESULT F_CALLBACK SILENT_REF(FMOD_SOUND* sound, void* data, unsigned
     FMOD_Sound_Release(_sound);
     if(_group) FMOD_ChannelGroup_Release(_group);
     if(_dsp) FMOD_DSP_Release(_dsp);
-}
-
-- (void) clearBuffers
-{
-
 }
 
 - (BOOL) queueBuffer:(ALshort *)pcm
@@ -283,6 +264,11 @@ static FMOD_RESULT F_CALLBACK SILENT_REF(FMOD_SOUND* sound, void* data, unsigned
     FMOD_VECTOR zero = {};
     FMOD_Channel_Set3DAttributes(_channel, &pos, &zero, NULL);
     FMOD_Channel_SetPaused(_channel, false);
+}
+
+- (void) setVolume:(ALfloat)vol
+{
+    FMOD_Channel_SetVolume(_channel, volume = vol);
 }
 
 @end
