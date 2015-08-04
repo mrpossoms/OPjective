@@ -95,6 +95,8 @@ static Shader* lastShader = nil;
 }
 
 - (void) updateData:(void *)data ofSize:(GLsizeiptr)size{
+    if(!size) return;
+    
     glBindBuffer(GL_ARRAY_BUFFER, _buffer);
     glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
     

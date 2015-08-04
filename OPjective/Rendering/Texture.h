@@ -12,6 +12,7 @@
 @interface Texture : NSObject
 
 @property (nonatomic) GLuint textureId;
+@property (nonatomic, readonly) GLuint width, height;
 
 + (id) create2DWithWidth: (GLint)width andHeight:(GLint)height usingData:(void*)data;
 + (id) createDepthWithWidth: (GLint)width andHeight:(GLint)height usingData:(void*)data;

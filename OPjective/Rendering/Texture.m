@@ -65,6 +65,8 @@ static Texture* currentTexture = nil;
         currentTexture = self;
     }
     
+    _width = width, _height = height;
+    
     // set the texture's data and properties
     if(isDepth){
         glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);

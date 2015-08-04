@@ -10,6 +10,8 @@
 
 @interface Shader()
 
+@property NSMutableDictionary* uniformLocations;
+
 @end
 
 @implementation Shader
@@ -190,6 +192,8 @@ static NSMutableDictionary* compiledShaders;
     // Store the program into the dictionary
     compiledShaders[[NSString stringWithFormat:@"%@%@", vertex, fragment]] = self;
     
+    _uniformLocations = [NSMutableDictionary dictionary];
+    
     return self;
 }
 
@@ -216,6 +220,22 @@ static NSMutableDictionary* compiledShaders;
 }
 
 #pragma mark - Uniform setters
+- (GLint)locationForName:(const char*)name
+{
+    NSString* nsName = [NSString stringWithUTF8String:name];
+    NSNumber* n = _uniformLocations[nsName];
+    if(n){
+        return (GLint)[n intValue];
+    }
+    else{
+        GLint loc = glGetUniformLocation(_programId, name);
+        NSNumber* n = [NSNumber numberWithInt:loc];
+        [_uniformLocations setValue:n forKey:nsName];
+        
+        return loc;
+    }
+}
+
 - (void) usingTexture:(const Texture *)texture withName:(const char*)name
 {
     if(currentShader != self) [self bind];
@@ -226,7 +246,7 @@ static NSMutableDictionary* compiledShaders;
     glBindTexture(GL_TEXTURE_2D, texture.textureId);
             
     // find out where the texture lives in the shader program
-    GLint loc = glGetUniformLocation(_programId, name);
+    GLint loc = [self locationForName:name];
     if(loc < 0){
         NSLog(@"Shader is missing uniform '%s'!", name);
         return;
@@ -236,11 +256,11 @@ static NSMutableDictionary* compiledShaders;
     glUniform1i(loc, textureCounter++);
 }
 
-
 - (void) usingFloat:(const GLfloat*)vector ofLength:(int)length withName:(const char*)name
 {
     // find out where the uniform lives in the shader program
-    GLint loc = glGetUniformLocation(_programId, name);
+    GLint loc = [self locationForName:name];
+    
     if(loc < 0){
         NSLog(@"Shader is missing uniform '%s'!", name);
         return;
@@ -267,7 +287,7 @@ static NSMutableDictionary* compiledShaders;
 - (void) usingInt:(const GLint*)vector ofLength:(int)length withName:(const char*)name
 {
     // find out where the uniform lives in the shader program
-    GLint loc = glGetUniformLocation(_programId, name);
+    GLint loc = [self locationForName:name];
     if(loc < 0){
         NSLog(@"Shader is missing uniform '%s'!", name);
         return;
@@ -294,7 +314,7 @@ static NSMutableDictionary* compiledShaders;
 - (void) usingArray:(const GLvoid*)array ofLength:(int)length andType:(enum ShaderArrayType)type withName:(const char*)name
 {
     // find out where the uniform lives in the shader program
-    GLint loc = glGetUniformLocation(_programId, name);
+    GLint loc = [self locationForName:name];
     GLfloat* data = (GLfloat*)array;
     if(loc < 0){
         NSLog(@"usingArray: Shader is missing uniform '%s'!", name);
@@ -328,7 +348,7 @@ static NSMutableDictionary* compiledShaders;
 - (void) usingMat4x4:(const GLKMatrix4*)matrix withName:(const char*)name
 {
     // find out where the uniform lives in the shader program
-    GLint loc = glGetUniformLocation(_programId, name);
+    GLint loc = [self locationForName:name];
     if(loc < 0){
         NSLog(@"usingMat4x4: Shader is missing uniform '%s'!", name);
         return;
