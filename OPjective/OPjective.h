@@ -42,6 +42,7 @@ enum MachineSpec{
 
 #define RAND_F_NORM (((rand() % 2048) / 1024.0f) - 1.0f)
 #define RAND_F ((rand() % 1024) / 1024.0f)
+#define PERCENT_CHANCE(p) (RAND_F < (p) * 0.01)
 
 static inline void vec3_rand_norm(vec3 result){
     result[0] = RAND_F_NORM;
