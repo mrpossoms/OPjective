@@ -15,7 +15,9 @@
 		061F1C191AD332EB009F74AF /* libFreetype2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 061F1C141AD320BE009F74AF /* libFreetype2.a */; };
 		0628186D19A9546A00703ACF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0628186C19A9546A00703ACF /* AVFoundation.framework */; };
 		062FD0E41A4E4FB800F9A61A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 062FD0E31A4E4FB800F9A61A /* UIKit.framework */; };
+		06309C561BBBADB700D434AF /* libfmod_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06309C551BBBADB700D434AF /* libfmod_iphoneos.a */; };
 		06467FBF19A70DD0009E628E /* Sound.m in Sources */ = {isa = PBXBuildFile; fileRef = 06467FBE19A70DD0009E628E /* Sound.m */; };
+		064865EF1BBB59E700B4BF6C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 064865EE1BBB59E700B4BF6C /* OpenGLES.framework */; };
 		065074C619A6CCF500741471 /* Texture.m in Sources */ = {isa = PBXBuildFile; fileRef = 065074C519A6CCF500741471 /* Texture.m */; };
 		0666B85A19A7DE8A00760006 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0666B85919A7DE8A00760006 /* GLKit.framework */; };
 		0666B85C19A7DEB400760006 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0666B85B19A7DEB400760006 /* OpenAL.framework */; };
@@ -50,10 +52,6 @@
 		06CB02DD1B4840BB00D1661F /* linearAlgebra.h in Headers */ = {isa = PBXBuildFile; fileRef = 0666B86419A8041300760006 /* linearAlgebra.h */; };
 		06CB02DE1B4840BB00D1661F /* DSP.h in Headers */ = {isa = PBXBuildFile; fileRef = 0639B2421B3336020000DCAD /* DSP.h */; };
 		06CB02DF1B4840BB00D1661F /* ReoccuringEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 066FDF4C19AEB07000C4B3C9 /* ReoccuringEvent.h */; };
-		06CE4A691B250840004105E2 /* libfmodL_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06CE4A681B250840004105E2 /* libfmodL_iphoneos.a */; };
-		06DB0CA21B25E112007E8FD3 /* libfmod_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DB0C9F1B25E112007E8FD3 /* libfmod_iphoneos.a */; };
-		06DB0CA31B25E112007E8FD3 /* libfmod_iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DB0CA01B25E112007E8FD3 /* libfmod_iphonesimulator.a */; };
-		06DB0CA41B25E112007E8FD3 /* libfmodL_iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DB0CA11B25E112007E8FD3 /* libfmodL_iphonesimulator.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,9 +99,11 @@
 		0628186C19A9546A00703ACF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		062FD0E31A4E4FB800F9A61A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		062FD0E51A4F3B3F00F9A61A /* Touchable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Touchable.h; path = Protocols/Touchable.h; sourceTree = "<group>"; };
+		06309C551BBBADB700D434AF /* libfmod_iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmod_iphoneos.a; path = OPjective/ThirdParty/fmod/lib/libfmod_iphoneos.a; sourceTree = "<group>"; };
 		0639B2421B3336020000DCAD /* DSP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DSP.h; path = Math/DSP.h; sourceTree = "<group>"; };
 		06467FBD19A70DD0009E628E /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sound.h; path = Audio/Sound.h; sourceTree = "<group>"; };
 		06467FBE19A70DD0009E628E /* Sound.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sound.m; path = Audio/Sound.m; sourceTree = "<group>"; };
+		064865EE1BBB59E700B4BF6C /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		065074C419A6CCF500741471 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
 		065074C519A6CCF500741471 /* Texture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Texture.m; sourceTree = "<group>"; };
 		0666B85919A7DE8A00760006 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -131,10 +131,6 @@
 		06C5C08A1A316B7A007ADE08 /* ObjectGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectGroup.m; sourceTree = "<group>"; };
 		06C5C08F1A317927007ADE08 /* RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderTarget.h; sourceTree = "<group>"; };
 		06C5C0901A317927007ADE08 /* RenderTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderTarget.m; sourceTree = "<group>"; };
-		06CE4A681B250840004105E2 /* libfmodL_iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmodL_iphoneos.a; path = OPjective/ThirdParty/fmod/lib/libfmodL_iphoneos.a; sourceTree = "<group>"; };
-		06DB0C9F1B25E112007E8FD3 /* libfmod_iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmod_iphoneos.a; path = OPjective/ThirdParty/fmod/lib/libfmod_iphoneos.a; sourceTree = "<group>"; };
-		06DB0CA01B25E112007E8FD3 /* libfmod_iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmod_iphonesimulator.a; path = OPjective/ThirdParty/fmod/lib/libfmod_iphonesimulator.a; sourceTree = "<group>"; };
-		06DB0CA11B25E112007E8FD3 /* libfmodL_iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmodL_iphonesimulator.a; path = OPjective/ThirdParty/fmod/lib/libfmodL_iphonesimulator.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,10 +138,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06DB0CA21B25E112007E8FD3 /* libfmod_iphoneos.a in Frameworks */,
-				06DB0CA31B25E112007E8FD3 /* libfmod_iphonesimulator.a in Frameworks */,
-				06DB0CA41B25E112007E8FD3 /* libfmodL_iphonesimulator.a in Frameworks */,
-				06CE4A691B250840004105E2 /* libfmodL_iphoneos.a in Frameworks */,
+				06309C561BBBADB700D434AF /* libfmod_iphoneos.a in Frameworks */,
+				064865EF1BBB59E700B4BF6C /* OpenGLES.framework in Frameworks */,
 				061F1C191AD332EB009F74AF /* libFreetype2.a in Frameworks */,
 				062FD0E41A4E4FB800F9A61A /* UIKit.framework in Frameworks */,
 				0628186D19A9546A00703ACF /* AVFoundation.framework in Frameworks */,
@@ -304,10 +298,8 @@
 		06ADC21D19A55D5300E9DD50 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				06DB0C9F1B25E112007E8FD3 /* libfmod_iphoneos.a */,
-				06DB0CA01B25E112007E8FD3 /* libfmod_iphonesimulator.a */,
-				06DB0CA11B25E112007E8FD3 /* libfmodL_iphonesimulator.a */,
-				06CE4A681B250840004105E2 /* libfmodL_iphoneos.a */,
+				06309C551BBBADB700D434AF /* libfmod_iphoneos.a */,
+				064865EE1BBB59E700B4BF6C /* OpenGLES.framework */,
 				062FD0E31A4E4FB800F9A61A /* UIKit.framework */,
 				0628186C19A9546A00703ACF /* AVFoundation.framework */,
 				0666B86019A7DF0500760006 /* AudioToolbox.framework */,

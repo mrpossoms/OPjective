@@ -11,7 +11,6 @@
 BOOL RENDERING_TO_TEXTURE = NO;
 
 @interface RenderTarget(){
-    GLint lastViewport[4];
     GLsizei rtWidth, rtHeight;
 }
 
@@ -57,8 +56,6 @@ BOOL RENDERING_TO_TEXTURE = NO;
 {
     RENDERING_TO_TEXTURE = YES;
     
-    glGetIntegerv(GL_VIEWPORT, lastViewport);
-    glViewport(0, 0, rtWidth, rtHeight);
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindFramebuffer(GL_FRAMEBUFFER, _fboId);
     GLcheckError();
@@ -67,12 +64,6 @@ BOOL RENDERING_TO_TEXTURE = NO;
 - (void)unbind
 {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glViewport(
-               lastViewport[0],
-               lastViewport[1],
-               lastViewport[2],
-               lastViewport[3]
-    );
     GLcheckError();
 
     RENDERING_TO_TEXTURE = NO;

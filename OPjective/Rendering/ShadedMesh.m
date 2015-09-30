@@ -70,9 +70,9 @@
 
 - (void) drawAs:(GLenum)drawType
 {
-    GL_CHECK_ERR
-    [self.mesh bindWithShader:[self.shaders firstObject]];
-    GL_CHECK_ERR
+//    GL_CHECK_ERR
+//    [self.mesh bindWithShader:[self.shaders firstObject]];
+//    GL_CHECK_ERR
     [self.mesh drawAs:drawType];
 }
 
