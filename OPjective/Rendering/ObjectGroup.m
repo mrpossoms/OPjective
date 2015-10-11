@@ -89,6 +89,9 @@
 - (void)batchDraw
 {}
 
+- (void)batchFinish
+{}
+
 - (void)drawWithViewProjection:(const GLKMatrix4 *)viewProjection
 {
     for(int i = 0; i < _drawableObjects.count; ++i){

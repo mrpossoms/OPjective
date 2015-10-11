@@ -52,6 +52,14 @@ static GameState* GAMESTATE_ACTIVE;
     }
 }
 
+- (void)batchFinish
+{
+    EACH_SUB_STATE{
+        [state batchFinish];
+    }
+}
+
+
 - (void)receiveTouches:(NSSet*)touches
 {
     EACH_SUB_STATE{

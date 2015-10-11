@@ -169,4 +169,7 @@
 - (void)batchDraw
 {}
 
+- (void)batchFinish
+{}
+
 @end

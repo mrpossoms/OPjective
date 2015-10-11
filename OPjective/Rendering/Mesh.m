@@ -7,10 +7,11 @@
 //
 
 #import "Mesh.h"
+#import <OpenGLES/ES2/glext.h>
 
 @interface Mesh()
 
-@property (nonatomic) GLuint buffer;
+@property (nonatomic) GLuint buffer, vao;
 @property (nonatomic) GLuint indexBuffer;
 @property (nonatomic) struct vertexAttribute* attributes;
 @property (nonatomic) GLuint attributeCount;
@@ -36,6 +37,7 @@ static Shader* lastShader = nil;
     _boundOnce = NO;
     
     // generate buffers allocate space for the attribute counts
+    glGenVertexArraysOES(1, &_vao);
     glGenBuffers(1, &_buffer);
     
     return self;
@@ -94,57 +96,23 @@ static Shader* lastShader = nil;
     _explicitStride = stride;
 }
 
-- (void) updateData:(void *)data ofSize:(GLsizeiptr)size{
+- (void) updateData:(void *)data ofSize:(GLsizeiptr)size withAccessHint:(GLenum)access{
     if(!size) return;
     
-    glBindBuffer(GL_ARRAY_BUFFER, _buffer);
-    glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     
-    GL_CHECK_ERR
-    
-    _vertices = (GLuint)size / [self stride];
-    
-    GL_CHECK_ERR
-}
-
-- (void) updateData:(void*)data ofSize:(GLsizeiptr)dsize andIndicies:(GLuint*)indices ofSize:(GLsizeiptr)isize
-{
-    if(!_usingIndexBuffer){
-        glGenBuffers(1, &_indexBuffer);
-        _usingIndexBuffer = YES;
-    }
-    
-    glBindBuffer(GL_ARRAY_BUFFER, _buffer);
-    glBufferData(GL_ARRAY_BUFFER, dsize, data, GL_DYNAMIC_DRAW);
-    
-    GL_CHECK_ERR
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, isize, indices, GL_DYNAMIC_DRAW);
-    
-    GL_CHECK_ERR
-    
-    _vertices = (GLuint)isize / sizeof(GLuint);
-    
-    GL_CHECK_ERR
-}
-
-- (void) bindWithShader:(Shader *)shader{
-    [shader bind];
-    lastShader = shader;
-    
+    glBindVertexArrayOES(_vao);
     glBindBuffer(GL_ARRAY_BUFFER, _buffer);
     
-    if(_usingIndexBuffer){
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-    }
+    GL_CHECK_ERR
     
+    glBufferData(GL_ARRAY_BUFFER, size, data, access);
     GL_CHECK_ERR
     
     long offset = 0;
     unsigned int stride = [self stride];
     for(int i = 0; i < _attributeCount; ++i){
-        GLint loc = glGetAttribLocation(shader.programId, _attributes[i].name);
+        GLint loc = i;//glGetAttribLocation(shader.programId, _attributes[i].name);
         
         GL_CHECK_ERR
         
@@ -154,12 +122,61 @@ static Shader* lastShader = nil;
             NSAssert(NO, msg);
         }
 #endif
-            
+        
+        assert(loc <= GL_MAX_VERTEX_ATTRIBS);
+
+        glEnableVertexAttribArray(loc);
+        GL_CHECK_ERR
+        
+        glVertexAttribPointer(
+                              loc,
+                              _attributes[i].elements,
+                              _attributes[i].dataType,
+                              GL_FALSE,
+                              stride,
+                              (void*)offset
+                              );
+        offset += _attributes[i].elementSize * _attributes[i].elements;
+        GL_CHECK_ERR
+        
+    }
+    
+    _vertices = (GLuint)size / [self stride];
+    
+    GL_CHECK_ERR
+    
+    if(!_boundOnce) _boundOnce = YES;
+    glBindVertexArrayOES(0);
+}
+
+- (void) updateData:(void *)data ofSize:(GLsizeiptr)size{
+    [self updateData:data ofSize:size withAccessHint:GL_DYNAMIC_DRAW];
+}
+
+- (void) updateData:(void*)data ofSize:(GLsizeiptr)dsize andIndicies:(GLuint*)indices ofSize:(GLsizeiptr)isize
+{
+    if(!_usingIndexBuffer){
+        glGenBuffers(1, &_indexBuffer);
+        _usingIndexBuffer = YES;
+    }
+
+    long offset = 0;
+    unsigned int stride = [self stride];
+    
+    
+    glBindVertexArrayOES(_vao);
+    GL_CHECK_ERR
+    
+    glBindBuffer(GL_ARRAY_BUFFER, _buffer);
+    glBufferData(GL_ARRAY_BUFFER, dsize, data, GL_DYNAMIC_DRAW);
+    GL_CHECK_ERR
+    
+    for(int i = 0; i < _attributeCount; ++i){
+        GLint loc = i;//glGetAttribLocation(shader.programId, _attributes[i].name);
+
         assert(loc <= GL_MAX_VERTEX_ATTRIBS);
         
-        if(!_boundOnce){
-            glEnableVertexAttribArray(loc);
-        }
+        glEnableVertexAttribArray(loc);
         
         GL_CHECK_ERR
         glVertexAttribPointer(
@@ -169,19 +186,43 @@ static Shader* lastShader = nil;
                               GL_FALSE,
                               stride,
                               (void*)offset
-        );
+                              );
         offset += _attributes[i].elementSize * _attributes[i].elements;
         GL_CHECK_ERR
     }
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, isize, indices, GL_DYNAMIC_DRAW);
+    GL_CHECK_ERR
     
-    if(!_boundOnce) _boundOnce = YES;
+    glBindVertexArrayOES(0);
     
+    _vertices = (GLuint)isize / sizeof(GLuint);
+    
+    for(unsigned long i = isize / sizeof(GLint); i--;){
+        assert(indices[i] < _vertices);
+    }
+    
+    GL_CHECK_ERR
+}
+
+- (void)finalize
+{
+    
+
+    
+}
+
+- (void) bindWithShader:(Shader *)shader{
+    [shader bind];
+    lastShader = shader;
 }
 
 - (void) drawAs:(GLenum)drawType withStart:(GLsizei)offset andLength:(GLsizei)len
 {
     if(!_vertices) return;
-    
+
+    glBindVertexArrayOES(_vao);
     GL_CHECK_ERR
     
     if(_usingIndexBuffer){
@@ -191,12 +232,15 @@ static Shader* lastShader = nil;
         glDrawArrays(drawType, offset, len);
     }
     lastShader.drawn = YES;
+    
+    glBindVertexArrayOES(0);
     GL_CHECK_ERR
 }
 
 - (void) drawAs:(GLenum)type{
     if(!_vertices) return;
-    
+
+    glBindVertexArrayOES(_vao);
     GL_CHECK_ERR
     
     if(_usingIndexBuffer){
@@ -206,6 +250,8 @@ static Shader* lastShader = nil;
         glDrawArrays(type, 0, _vertices);
     }
     lastShader.drawn = YES;
+    
+    glBindVertexArrayOES(0);
     GL_CHECK_ERR
 }
 

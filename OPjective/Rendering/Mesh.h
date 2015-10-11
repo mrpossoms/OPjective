@@ -27,7 +27,9 @@ struct vertexAttribute{
 - (void) withExplicitStride:(unsigned int)stride;
 - (GLsizei)stride;
 - (void) updateData:(void*)data ofSize:(GLsizeiptr)size;
+- (void) updateData:(void *)data ofSize:(GLsizeiptr)size withAccessHint:(GLenum)access;
 - (void) updateData:(void*)data ofSize:(GLsizeiptr)dsize andIndicies:(GLuint*)indices ofSize:(GLsizeiptr)isize;
+- (void) finalize;
 - (void) bindWithShader:(Shader *)shader;
 - (void) drawAs:(GLenum)drawType withStart:(GLsizei)offset andLength:(GLsizei)len;
 - (void) drawAs:(GLenum)type;

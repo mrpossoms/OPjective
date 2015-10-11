@@ -55,6 +55,8 @@
     [self.shaders addObject:shader];
     [shader bind];
     
+    [self.mesh finalize];
+    
     GL_CHECK_ERR
     
     return 0;
