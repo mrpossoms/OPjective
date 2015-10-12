@@ -99,8 +99,6 @@ static Shader* lastShader = nil;
 - (void) updateData:(void *)data ofSize:(GLsizeiptr)size withAccessHint:(GLenum)access{
     if(!size) return;
     
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    
     glBindVertexArrayOES(_vao);
     glBindBuffer(GL_ARRAY_BUFFER, _buffer);
     
@@ -108,9 +106,10 @@ static Shader* lastShader = nil;
     
     glBufferData(GL_ARRAY_BUFFER, size, data, access);
     GL_CHECK_ERR
-    
+
     long offset = 0;
     unsigned int stride = [self stride];
+    if(!_boundOnce)
     for(int i = 0; i < _attributeCount; ++i){
         GLint loc = i;//glGetAttribLocation(shader.programId, _attributes[i].name);
         
@@ -144,9 +143,8 @@ static Shader* lastShader = nil;
     _vertices = (GLuint)size / [self stride];
     
     GL_CHECK_ERR
-    
-    if(!_boundOnce) _boundOnce = YES;
     glBindVertexArrayOES(0);
+    _boundOnce = YES;
 }
 
 - (void) updateData:(void *)data ofSize:(GLsizeiptr)size{
